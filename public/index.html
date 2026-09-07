@@ -3,143 +3,128 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>نظام مسار الطلبات - رصرص للتوكيلات التجارية</title>
+<title>أوامر بيع وشراء - رصرص للتوكيلات التجارية</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<!-- Supabase JS Client -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
-  :root{
-    --ink:#1c2530;
-    --ink-soft:#3d4a5c;
-    --paper:#f0f2f5;
-    --panel:#ffffff;
-    --line:#dde2e8;
-    --amber:#c08a2e;
-    --amber-bg:#faf1de;
-    --teal:#2b7a6c;
-    --teal-bg:#e4f2ee;
-    --slate:#5b6b81;
-    --slate-bg:#eaeef3;
-    --red:#b23b3b;
+  :root {
+    --brand-blue: #0f2c59;
+    --brand-gold: #c59b27;
+    --paper: #f4f6f9;
+    --panel: #ffffff;
+    --line: #dce1e7;
+    --ink: #1e293b;
+    --slate: #64748b;
+    --slate-bg: #e2e8f0;
+    --teal: #0d9488;
+    --teal-bg: #ccfbf1;
+    --red: #ef4444;
   }
-  *{box-sizing:border-box;}
-  body{
-    margin:0;
-    font-family:'Cairo',sans-serif;
-    background:var(--paper);
-    color:var(--ink);
-    -webkit-font-smoothing:antialiased;
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Cairo', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
   }
-  .app{max-width:760px;margin:0 auto;padding:14px 14px 80px;}
+  .app { max-width: 820px; margin: 0 auto; padding: 16px 16px 80px; }
   
-  /* Login Screen Styles */
+  /* Login Screen */
   .login-card {
     background: var(--panel);
     border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 28px;
-    max-width: 380px;
-    margin: 50px auto 0;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.06);
+    border-radius: 20px;
+    padding: 32px;
+    max-width: 400px;
+    margin: 40px auto 0;
+    box-shadow: 0 15px 35px rgba(15,44,89,0.08);
     text-align: center;
   }
-  .login-card h2 { margin: 0 0 4px; font-size: 20px; font-weight: 800; }
-  .login-card p { font-size: 12px; color: var(--slate); margin-bottom: 20px; }
+  .login-logo {
+    width: 64px; height: 64px; background: var(--brand-blue); border-radius: 18px;
+    display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;
+    box-shadow: 0 8px 20px rgba(15,44,89,0.2);
+  }
+  .login-logo svg { width: 36px; height: 36px; fill: var(--brand-gold); }
+  .login-card h2 { margin: 0 0 4px; font-size: 22px; font-weight: 800; color: var(--brand-blue); }
+  .login-card p { font-size: 13px; color: var(--slate); margin-bottom: 24px; }
 
-  /* App Dashboard Styles */
-  .header{display:flex;align-items:center;justify-content:space-between;padding:10px 2px 16px;}
-  .brand{display:flex;align-items:center;gap:10px;}
-  .brand-mark{width:36px;height:36px;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-  .brand-mark svg{width:20px;height:20px;}
-  .brand-text h1{font-size:16px;margin:0;font-weight:800;}
-  .brand-text p{font-size:11px;margin:1px 0 0;color:var(--slate);}
-  .user-badge{font-size:12px;font-weight:700;background:var(--slate-bg);padding:6px 12px;border-radius:20px;}
-  .logout-btn{background:none;border:none;color:var(--red);font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-inline-start:8px;}
+  /* Navigation & Header */
+  .header { display: flex; align-items: center; justify-content: space-between; padding: 8px 2px 18px; }
+  .brand { display: flex; align-items: center; gap: 12px; }
+  .brand-logo {
+    width: 44px; height: 44px; border-radius: 12px; background: var(--brand-blue);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .brand-logo svg { width: 26px; height: 26px; fill: var(--brand-gold); }
+  .brand-text h1 { font-size: 18px; margin: 0; font-weight: 800; color: var(--brand-blue); }
+  .brand-text p { font-size: 12px; margin: 1px 0 0; color: var(--slate); font-weight: 600; }
+  .user-badge { font-size: 12px; font-weight: 700; background: #e0e7ff; color: var(--brand-blue); padding: 6px 14px; border-radius: 20px; }
+  .logout-btn { background: none; border: none; color: var(--red); font-family: inherit; font-size: 12px; font-weight: 700; cursor: pointer; margin-inline-start: 10px; }
 
-  .tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:14px;border-bottom:1px solid var(--line);}
-  .tab{
-    flex:0 0 auto;background:none;border:none;font-family:inherit;font-size:13px;font-weight:600;
-    color:var(--slate);padding:8px 4px;cursor:pointer;white-space:nowrap;position:relative;
+  .tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 16px; border-bottom: 2px solid var(--line); }
+  .tab {
+    flex: 0 0 auto; background: none; border: none; font-family: inherit; font-size: 13.5px; font-weight: 600;
+    color: var(--slate); padding: 8px 6px; cursor: pointer; white-space: nowrap; position: relative;
   }
-  .tab.active{color:var(--ink);font-weight:800;}
-  .tab.active::after{content:'';position:absolute;bottom:-11px;left:0;right:0;height:3px;background:var(--ink);border-radius:2px;}
-  .tab .badge{background:var(--amber);color:#fff;font-size:10px;padding:1px 6px;border-radius:20px;margin-inline-start:5px;font-weight:700;}
+  .tab.active { color: var(--brand-blue); font-weight: 800; }
+  .tab.active::after { content: ''; position: absolute; bottom: -12px; left: 0; right: 0; height: 3px; background: var(--brand-blue); border-radius: 3px; }
+  .tab .badge { background: var(--brand-gold); color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 20px; margin-inline-start: 4px; }
+
+  /* General Cards & Forms */
+  .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 18px; margin-bottom: 14px; box-shadow: 0 2px 6px rgba(0,0,0,0.02); }
+  .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 14px; }
+  .stat-card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px 10px; text-align: center; }
+  .stat-card b { display: block; font-size: 20px; font-weight: 800; color: var(--brand-blue); }
+  .stat-card span { font-size: 11px; color: var(--slate); font-weight: 600; }
+
+  .order-item { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; margin-bottom: 10px; cursor: pointer; transition: transform .1s; }
+  .order-item:hover { transform: translateY(-1px); border-color: var(--brand-blue); }
+  .order-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; }
+  .order-id { font-size: 12px; color: var(--slate); font-weight: 700; }
+  .order-name { font-size: 15px; font-weight: 800; margin-top: 2px; }
+  .order-meta { font-size: 12px; color: var(--slate); margin-top: 4px; }
   
-  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;}
-  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 10px;text-align:center;}
-  .stat b{display:block;font-size:20px;font-weight:800;}
-  .stat span{font-size:11px;color:var(--slate);}
-  h2.section-title{font-size:14px;font-weight:700;margin:18px 0 8px;color:var(--ink-soft);}
-  .order-item{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:9px;cursor:pointer;}
-  .order-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
-  .order-id{font-size:12px;color:var(--slate);font-weight:600;}
-  .order-name{font-size:15px;font-weight:700;margin-top:2px;}
-  .order-meta{font-size:12px;color:var(--slate);margin-top:4px;}
-  .pill{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;}
-  .pill.stage-sales_created{background:var(--slate-bg);color:var(--slate);}
-  .pill.stage-logistics_review{background:var(--amber-bg);color:var(--amber);}
-  .pill.stage-accounts_approval{background:var(--amber-bg);color:var(--amber);}
-  .pill.stage-warehouse_release{background:var(--teal-bg);color:var(--teal);}
-  .pill.stage-with_driver{background:var(--teal-bg);color:var(--teal);}
-  .pill.stage-delivered{background:var(--ink);color:#fff;}
-  .empty{text-align:center;padding:40px 16px;color:var(--slate);}
+  .pill { font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; white-space: nowrap; }
+  .pill.stage-sales_created { background: var(--slate-bg); color: var(--slate); }
+  .pill.stage-logistics_review { background: #fef3c7; color: #b45309; }
+  .pill.stage-accounts_approval { background: #fef3c7; color: #b45309; }
+  .pill.stage-warehouse_release { background: var(--teal-bg); color: var(--teal); }
+  .pill.stage-with_driver { background: var(--teal-bg); color: var(--teal); }
+  .pill.stage-delivered { background: var(--brand-blue); color: #fff; }
+
+  label { display: block; font-size: 12.5px; font-weight: 700; color: var(--ink); margin: 12px 0 5px; }
+  label:first-child { margin-top: 0; }
+  input[type=text], input[type=password], input[type=tel], input[type=number], select {
+    width: 100%; padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px;
+    font-family: inherit; font-size: 14px; background: #fcfdfe; color: var(--ink);
+  }
+  .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .seg { display: flex; gap: 6px; flex-wrap: wrap; }
+  .seg-btn {
+    flex: 1; min-width: 65px; padding: 9px 6px; border-radius: 10px; border: 1px solid var(--line);
+    background: #f8fafc; font-family: inherit; font-size: 12px; font-weight: 700; color: var(--slate); cursor: pointer; text-align: center;
+  }
+  .seg-btn.active { background: var(--brand-blue); color: #fff; border-color: var(--brand-blue); }
   
-  label{display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin:12px 0 5px;}
-  label:first-child{margin-top:0;}
-  input[type=text], input[type=password], input[type=tel], input[type=number], select{
-    width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;
-    font-family:inherit;font-size:14px;background:#fbfbfc;color:var(--ink);
-  }
-  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-  .seg{display:flex;gap:6px;flex-wrap:wrap;}
-  .seg-btn{
-    flex:1;min-width:65px;padding:9px 6px;border-radius:9px;border:1px solid var(--line);
-    background:#fbfbfc;font-family:inherit;font-size:12px;font-weight:700;
-    color:var(--ink-soft);cursor:pointer;text-align:center;
-  }
-  .seg-btn.active{background:var(--ink);color:#fff;border-color:var(--ink);}
-  .item-row{display:grid;grid-template-columns:1fr 55px 75px 28px;gap:6px;margin-bottom:6px;align-items:center;}
-  .item-row input{padding:8px 9px;font-size:13px;}
-  .rm-btn{width:28px;height:28px;border-radius:7px;border:1px solid var(--line);background:#fff;color:var(--red);font-size:16px;cursor:pointer;}
-  .add-item-btn{background:none;border:1px dashed var(--line);border-radius:9px;width:100%;padding:9px;font-family:inherit;font-size:12.5px;color:var(--slate);cursor:pointer;font-weight:700;margin-top:4px;}
-  .total-line{display:flex;justify-content:space-between;padding:10px 2px;font-size:13.5px;border-top:1px solid var(--line);margin-top:10px;}
-  .btn-primary{
-    width:100%;padding:13px;border-radius:11px;border:none;background:var(--ink);color:#fff;
-    font-family:inherit;font-size:14.5px;font-weight:700;cursor:pointer;margin-top:16px;
-  }
-  .btn-secondary{
-    width:100%;padding:11px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--ink);
-    font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;margin-top:8px;
-  }
-  .back-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;cursor:pointer;color:var(--slate);font-size:13px;font-weight:700;}
-  .stepper{display:flex;margin:16px 0 20px;}
-  .step{flex:1;text-align:center;position:relative;}
-  .step .dot{width:22px;height:22px;border-radius:50%;background:var(--slate-bg);color:var(--slate);
-    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;margin:0 auto 6px;}
-  .step.done .dot{background:var(--teal);color:#fff;}
-  .step.current .dot{background:var(--ink);color:#fff;}
-  .step .lbl{font-size:9.5px;color:var(--slate);font-weight:700;}
-  .step::before{content:'';position:absolute;top:11px;right:50%;width:100%;height:2px;background:var(--slate-bg);z-index:-1;}
-  .step:first-child::before{display:none;}
-  .step.done::before{background:var(--teal);}
-  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
-  .kv{background:var(--slate-bg);border-radius:10px;padding:9px 11px;}
-  .kv span{display:block;font-size:10.5px;color:var(--slate);font-weight:700;}
-  .kv b{font-size:13px;}
-  .history-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);}
-  .history-dot{width:8px;height:8px;border-radius:50%;background:var(--ink);margin-top:5px;}
-  .action-box{background:var(--amber-bg);border:1px solid #eddab3;border-radius:12px;padding:14px;margin-top:14px;}
-  .toast{
-    position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
-    background:var(--ink);color:#fff;padding:11px 20px;border-radius:30px;font-size:13px;font-weight:600;
-    box-shadow:0 8px 20px rgba(0,0,0,.2);z-index:100;opacity:0;transition:opacity .25s;pointer-events:none;
-  }
-  .toast.show{opacity:1;}
-  .type-toggle{display:flex;background:var(--slate-bg);border-radius:11px;padding:3px;margin-bottom:16px;}
-  .type-toggle button{flex:1;padding:9px;border:none;background:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;color:var(--slate);cursor:pointer;}
-  .type-toggle button.active{background:#fff;color:var(--ink);}
+  .item-row { display: grid; grid-template-columns: 1fr 55px 75px 28px; gap: 6px; margin-bottom: 6px; align-items: center; }
+  .item-row input { padding: 8px 9px; font-size: 13px; }
+  .rm-btn { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--line); background: #fff; color: var(--red); font-size: 16px; cursor: pointer; }
+  .add-item-btn { background: none; border: 1px dashed var(--line); border-radius: 10px; width: 100%; padding: 10px; font-family: inherit; font-size: 13px; color: var(--slate); cursor: pointer; font-weight: 700; margin-top: 6px; }
+  .total-line { display: flex; justify-content: space-between; padding: 12px 2px 2px; font-size: 14px; border-top: 1px solid var(--line); margin-top: 12px; }
+  
+  .btn-primary { width: 100%; padding: 13px; border-radius: 11px; border: none; background: var(--brand-blue); color: #fff; font-family: inherit; font-size: 14.5px; font-weight: 700; cursor: pointer; margin-top: 16px; box-shadow: 0 4px 12px rgba(15,44,89,0.15); }
+  .btn-secondary { width: 100%; padding: 11px; border-radius: 11px; border: 1px solid var(--line); background: #fff; color: var(--ink); font-family: inherit; font-size: 13.5px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+  
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: var(--brand-blue); color: #fff; padding: 11px 22px; border-radius: 30px; font-size: 13px; font-weight: 700; box-shadow: 0 8px 25px rgba(0,0,0,0.2); z-index: 100; opacity: 0; transition: opacity .25s; pointer-events: none; }
+  .toast.show { opacity: 1; }
+
+  /* Tables & Reports */
+  .report-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 10px; }
+  .report-table th, .report-table td { border: 1px solid var(--line); padding: 8px; text-align: center; }
+  .report-table th { background: var(--slate-bg); font-weight: 700; }
 
   @media print {
     body * { visibility: hidden; }
@@ -154,7 +139,7 @@
 <div id="printArea"></div>
 
 <script>
-// ---------- إعدادات Supabase ----------
+// ---------- 1. الإعدادات وقاعدة البيانات الدائمة ----------
 const SUPABASE_URL = "https://YOUR_SUPABASE_URL.supabase.co"; 
 const SUPABASE_KEY = "YOUR_SUPABASE_ANON_KEY"; 
 
@@ -163,13 +148,14 @@ if (SUPABASE_URL && SUPABASE_KEY && window.supabase) {
   supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 }
 
-// حسابات الدخول المعتمدة كلمة السر (1234)
-const USERS = {
-  "sales":     { pass: "1234", label: "د. أحمد (المبيعات)", role: "sales", stage: null },
-  "logistics": { pass: "1234", label: "قسم النقل",          role: "logistics", stage: "logistics_review" },
-  "accounts":  { pass: "1234", label: "قسم الحسابات",       role: "accounts", stage: "accounts_approval" },
-  "warehouse": { pass: "1234", label: "إدارة المخازن",      role: "warehouse", stage: "warehouse_release" },
-  "driver":    { pass: "1234", label: "قسم التوصيل والسائق", role: "driver", stage: "with_driver" }
+// قائمة اليوزرات المبدئية (يمكن للـ Admin تعديلها وتكثيرها)
+let USERS = {
+  "admin":     { pass: "1234", name: "المدير العام (Admin)", role: "admin", stage: null },
+  "sales":     { pass: "1234", name: "د. أحمد (المبيعات)", role: "sales", stage: null },
+  "logistics": { pass: "1234", name: "قسم النقل",          role: "logistics", stage: "logistics_review" },
+  "accounts":  { pass: "1234", name: "قسم الحسابات",       role: "accounts", stage: "accounts_approval" },
+  "warehouse": { pass: "1234", name: "إدارة المخازن",      role: "warehouse", stage: "warehouse_release" },
+  "driver":    { pass: "1234", name: "قسم التوصيل",        role: "driver", stage: "with_driver" }
 };
 
 const STAGES = [
@@ -181,9 +167,7 @@ const STAGES = [
   { key:'delivered',          label:'تم التسليم', short:'تم' },
 ];
 
-const PAY_METHODS = ['نقدي','شيك','تحويل بنكي','آجل'];
-
-let DATA = { orders: [], customers: [], suppliers: [] };
+let DATA = { orders: [], customers: [], suppliers: [], usersConfig: USERS };
 let LOADED = false;
 let currentUser = null;
 
@@ -195,163 +179,67 @@ let state = {
   custSearch: '',
 };
 
-async function loadData(){
-  if(supabaseClient){
-    try{
+async function loadData() {
+  if (supabaseClient) {
+    try {
       let { data: dbData } = await supabaseClient.from('app_data').select('*').eq('id', 1).single();
-      if(dbData && dbData.content) DATA = dbData.content;
-    }catch(e){ console.error(e); }
+      if (dbData && dbData.content) {
+        DATA = dbData.content;
+        if(DATA.usersConfig) USERS = DATA.usersConfig;
+      }
+    } catch(e) { console.error(e); }
   } else {
-    const local = localStorage.getItem('RASRAS_PERMANENT_DATA');
-    if(local) {
-      try { DATA = JSON.parse(local); } catch(e){}
+    const local = localStorage.getItem('RASRAS_BUY_SELL_DATA');
+    if (local) {
+      try { 
+        DATA = JSON.parse(local); 
+        if(DATA.usersConfig) USERS = DATA.usersConfig;
+      } catch(e){}
     }
   }
   LOADED = true;
   render();
 }
 
-async function saveData(){
-  if(supabaseClient){
-    try{
+async function saveData() {
+  DATA.usersConfig = USERS;
+  if (supabaseClient) {
+    try {
       await supabaseClient.from('app_data').upsert({ id: 1, content: DATA });
-    }catch(e){ showToast('تعذر الحفظ في قاعدة البيانات السحابية'); }
+    } catch(e) { showToast('تعذر الحفظ السحابي'); }
   }
-  localStorage.setItem('RASRAS_PERMANENT_DATA', JSON.stringify(DATA));
+  localStorage.setItem('RASRAS_BUY_SELL_DATA', JSON.stringify(DATA));
 }
 
 function uid(prefix){ return prefix + '-' + Math.floor(10000 + Math.random()*89999); }
 function todayISO(){ return new Date().toISOString(); }
-function fmtDate(iso){
-  if(!iso) return '—';
-  return new Date(iso).toLocaleDateString('ar-EG', { year:'numeric', month:'short', day:'numeric' });
-}
+function fmtDate(iso){ return iso ? new Date(iso).toLocaleDateString('ar-EG', { year:'numeric', month:'short', day:'numeric' }) : '—'; }
 function fmtMoney(n){ return Number(n||0).toLocaleString('ar-EG') + ' ج.م'; }
 
-function showToast(msg){
+function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'), 2200);
+  setTimeout(() => t.classList.remove('show'), 2200);
 }
 
-function newDraft(type){
-  return {
-    id: uid(type === 'sale' ? 'SO' : 'PO'),
-    type,
-    partyName:'', phone:'', address:'',
-    taxInvoice:false,
-    paymentMethod:'نقدي',
-    items:[{name:'', qty:1, price:0}],
-    shippingCost:null,
-    finalTotal:null,
-    stage:'sales_created',
-    driverName:null,
-    createdBy: currentUser ? currentUser.label : 'المبيعات',
-    createdAt: todayISO(),
-    history:[],
-  };
-}
-
-function itemsTotal(order){
+function itemsTotal(order) {
   return (order.items||[]).reduce((s,i)=> s + (Number(i.qty)||0) * (Number(i.price)||0), 0);
 }
 
-function submitNewOrder(){
-  const d = state.draft;
-  if(!d.partyName.trim()){ showToast('من فضلك أدخل الاسم'); return; }
-  if(!d.phone.trim()){ showToast('من فضلك أدخل رقم التليفون'); return; }
-  const cleanItems = d.items.filter(i=>i.name.trim());
-  if(cleanItems.length===0){ showToast('أضف صنف واحد على الأقل'); return; }
-  
-  d.items = cleanItems;
-  d.history.push({ stage:'sales_created', by:d.createdBy, note:'تم إنشاء الأمر بمعرفة ' + d.createdBy, at: todayISO() });
-  d.stage = 'logistics_review';
-  d.history.push({ stage:'logistics_review', by:'النظام', note:'تم تحويل الأمر إلى قسم النقل', at: todayISO() });
-
-  DATA.orders.unshift(d);
-
-  const list = d.type === 'sale' ? DATA.customers : DATA.suppliers;
-  let party = list.find(c => c.name.trim() === d.partyName.trim() && c.phone.trim() === d.phone.trim());
-  if(!party){
-    party = { name:d.partyName.trim(), phone:d.phone.trim(), address:d.address.trim(), orderIds:[] };
-    list.push(party);
-  }
-  if(!party.orderIds) party.orderIds = [];
-  party.orderIds.push(d.id);
-
-  saveData();
-  showToast('تم إنشاء الأمر بنجاح وتحويله للنقل');
-  state.view = 'detail';
-  state.selectedOrderId = d.id;
-  state.draft = null;
-  render();
+function newDraft(type) {
+  return {
+    id: uid(type === 'sale' ? 'SO' : 'PO'),
+    type, partyName:'', phone:'', address:'', taxInvoice:false, paymentMethod:'نقدي',
+    items:[{name:'', qty:1, price:0}], shippingCost:null, finalTotal:null, stage:'sales_created',
+    driverName:null, createdBy: currentUser ? currentUser.name : 'المبيعات', createdAt: todayISO(), history:[]
+  };
 }
 
-function logisticsSubmit(order, cost){
-  order.shippingCost = Number(cost) || 0;
-  order.stage = 'accounts_approval';
-  order.history.push({ stage:'logistics_review', by:'النقل', note:'تم تحديد تكلفة الشحن بمبلغ ' + fmtMoney(cost), at: todayISO() });
-  order.history.push({ stage:'accounts_approval', by:'النظام', note:'تم تحويل الأمر للحسابات', at: todayISO() });
-  saveData();
-  showToast('تم الاعتماد والتحويل للحسابات');
-  render();
-}
-
-function accountsApprove(order, finalTotal, note){
-  order.finalTotal = Number(finalTotal) || (itemsTotal(order) + (order.shippingCost||0));
-  order.stage = 'warehouse_release';
-  order.history.push({ stage:'accounts_approval', by:'الحسابات', note:'تم اعتماد السعر النهائي ' + fmtMoney(order.finalTotal) + (note? ' — '+note : ''), at: todayISO() });
-  order.history.push({ stage:'warehouse_release', by:'النظام', note:'تم تحويل الأمر للمخازن', at: todayISO() });
-  saveData();
-  showToast('تم اعتماد الحسابات والتحويل للمخازن');
-  render();
-}
-
-function warehouseRelease(order, driverName){
-  order.driverName = driverName.trim() || 'غير محدد';
-  order.stage = 'with_driver';
-  order.history.push({ stage:'warehouse_release', by:'المخازن', note:'إذن صرف: البضاعة مع السائق ' + order.driverName, at: todayISO() });
-  saveData();
-  showToast('تم إصدار إذن الصرف للسائق');
-  render();
-}
-
-function markDelivered(order){
-  order.stage = 'delivered';
-  order.history.push({ stage:'delivered', by:'السائق', note:'تم التسليم بنجاح واصدار السداد', at: todayISO() });
-  saveData();
-  showToast('تم إنهاء وتسليم الطلب');
-  render();
-}
-
-function stageIndex(stage){ return STAGES.findIndex(s=>s.key===stage); }
-
-function printOrder(o){
-  const total = o.finalTotal || (itemsTotal(o) + (o.shippingCost||0));
-  document.getElementById('printArea').innerHTML = `
-    <div style="text-align:center;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:15px;">
-      <h2>رصرص للتوكيلات التجارية</h2>
-      <h3>${o.type==='sale'?'فاتورة أمر بيع':'إذن أمر شراء'}</h3>
-      <p>رقم الأمر: <b>${o.id}</b> | التاريخ: ${fmtDate(o.createdAt)}</p>
-    </div>
-    <p><b>الاسم:</b> ${o.partyName} | <b>التليفون:</b> ${o.phone}</p>
-    <p><b>العنوان:</b> ${o.address||'—'} | <b>ضريبية:</b> ${o.taxInvoice?'نعم':'لا'} | <b>التحصيل:</b> ${o.paymentMethod}</p>
-    <table style="width:100%;border-collapse:collapse;margin:15px 0;" border="1" cellpadding="8">
-      <thead><tr style="background:#f0f0f0;"><th>الصنف</th><th>الكمية</th><th>السعر</th><th>الإجمالي</th></tr></thead>
-      <tbody>
-        ${o.items.map(it=>`<tr><td>${it.name}</td><td align="center">${it.qty}</td><td align="center">${fmtMoney(it.price)}</td><td align="center">${fmtMoney(it.qty*it.price)}</td></tr>`).join('')}
-      </tbody>
-    </table>
-    <h3>إجمالي النهائي: ${fmtMoney(total)}</h3>
-  `;
-  window.print();
-}
-
-// ---------- الواجهات الرسمية ----------
-function render(){
+// ---------- 2. الواجهات الرئيسية ----------
+function render() {
   const app = document.getElementById('app');
-  if(!LOADED){ app.innerHTML = `<div class="empty"><p>جارِ تحميل النظام...</p></div>`; return; }
+  if(!LOADED){ app.innerHTML = `<div style="text-align:center;padding:40px;">جارِ تحميل النظام...</div>`; return; }
   
   if(!currentUser){
     app.innerHTML = loginHTML();
@@ -363,18 +251,17 @@ function render(){
   bindAppEvents();
 }
 
-function loginHTML(){
+function loginHTML() {
   return `
   <div class="login-card">
+    <div class="login-logo">
+      <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+    </div>
     <h2>رصرص للتوكيلات التجارية</h2>
-    <p>تسجيل الدخول - نظام مسار الطلبات</p>
-    <label>اختيار القسم / المستخدم</label>
+    <p>برنامج أوامر بيع وشراء</p>
+    <label>اسم المستخدم</label>
     <select id="loginUser">
-      <option value="sales">المبيعات (sales)</option>
-      <option value="logistics">قسم النقل (logistics)</option>
-      <option value="accounts">قسم الحسابات (accounts)</option>
-      <option value="warehouse">إدارة المخازن (warehouse)</option>
-      <option value="driver">قسم التوصيل (driver)</option>
+      ${Object.keys(USERS).map(u => `<option value="${u}">${USERS[u].name} (${u})</option>`).join('')}
     </select>
     <label>كلمة السر</label>
     <input type="password" id="loginPass" placeholder="••••">
@@ -382,217 +269,358 @@ function loginHTML(){
   </div>`;
 }
 
-function headerHTML(){
+function headerHTML() {
   return `
   <div class="header">
     <div class="brand">
-      <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 17V9l8-5 8 5v8l-8 5-8-5Z" stroke="#fff" stroke-width="1.6"/><path d="M4 9l8 5 8-5" stroke="#fff" stroke-width="1.6"/></svg></div>
+      <div class="brand-logo">
+        <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 10h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>
+      </div>
       <div class="brand-text">
-        <h1>مسار الطلبات</h1>
+        <h1>أوامر بيع وشراء</h1>
         <p>رصرص للتوكيلات التجارية</p>
       </div>
     </div>
     <div>
-      <span class="user-badge">${currentUser.label}</span>
+      <span class="user-badge">${currentUser.name}</span>
       <button class="logout-btn" id="logoutBtn">خروج</button>
     </div>
   </div>`;
 }
 
-function pendingCount(roleStage){
-  return roleStage ? DATA.orders.filter(o=>o.stage===roleStage).length : 0;
-}
-
-function tabsHTML(){
-  const tabs = [
-    {k:'dashboard', label:'الرئيسية'},
-    {k:'new_sale', label:'أمر بيع / شراء'},
-    {k:'approvals', label:'قائمة عملي', badge: pendingCount(currentUser.stage)},
-    {k:'reports', label:'التقارير المالية'},
-    {k:'customers', label:'العملاء والموردين'},
-  ];
-  return `<div class="tabs">
-    ${tabs.map(t=>`<button class="tab ${state.view===t.k || (t.k==='new_sale' && ['new_sale','new_purchase'].includes(state.view)) ? 'active':''}" data-tab="${t.k}">${t.label}${t.badge?`<span class="badge">${t.badge}</span>`:''}</button>`).join('')}
+function tabsHTML() {
+  const pending = currentUser.stage ? DATA.orders.filter(o=>o.stage===currentUser.stage).length : 0;
+  return `
+  <div class="tabs">
+    <button class="tab ${state.view==='dashboard'?'active':''}" data-v="dashboard">الرئيسية</button>
+    <button class="tab ${['new_sale','new_purchase'].includes(state.view)?'active':''}" data-v="new_sale">+ أمر جديد</button>
+    <button class="tab ${state.view==='approvals'?'active':''}" data-v="approvals">قائمة الاعتماد ${pending?`<span class="badge">${pending}</span>`:''}</button>
+    <button class="tab ${state.view==='reports'?'active':''}" data-v="reports">التقارير الشاملة</button>
+    <button class="tab ${state.view==='customers'?'active':''}" data-v="customers">العملاء والموردين</button>
+    ${currentUser.role==='admin' ? `<button class="tab ${state.view==='users'?'active':''}" data-v="users">إدارة المستخدمين</button>` : ''}
   </div>`;
 }
 
-function viewHTML(){
+function viewHTML() {
   if(state.view === 'dashboard') return dashboardHTML();
-  if(state.view === 'new_sale' || state.view === 'new_purchase') return newOrderHTML();
+  if(['new_sale','new_purchase'].includes(state.view)) return newOrderHTML();
   if(state.view === 'approvals') return approvalsHTML();
   if(state.view === 'reports') return reportsHTML();
   if(state.view === 'customers') return customersHTML();
+  if(state.view === 'users') return usersManagementHTML();
   if(state.view === 'detail') return detailHTML();
   return '';
 }
 
-function dashboardHTML(){
+function dashboardHTML() {
   const active = DATA.orders.filter(o=>o.stage!=='delivered').length;
   const delivered = DATA.orders.filter(o=>o.stage==='delivered').length;
-
   return `
-  <div class="stat-row">
-    <div class="stat"><b>${DATA.orders.length}</b><span>إجمالي الأوامر</span></div>
-    <div class="stat"><b>${active}</b><span>قيد التنفيذ</span></div>
-    <div class="stat"><b>${delivered}</b><span>تم التسليم</span></div>
+  <div class="stat-grid">
+    <div class="stat-card"><b>${DATA.orders.length}</b><span>إجمالي الأوامر</span></div>
+    <div class="stat-card"><b>${active}</b><span>قيد التنفيذ</span></div>
+    <div class="stat-card"><b>${delivered}</b><span>المكتملة</span></div>
   </div>
-  <h2 class="section-title">أحدث الأوامر الحالية</h2>
-  ${DATA.orders.length===0 ? `<div class="empty"><p>لا توجد أوامر بعد.</p></div>` : DATA.orders.slice(0,10).map(orderItemHTML).join('')}
+  <h3>أحدث أوامر البيع والشراء</h3>
+  ${DATA.orders.length===0 ? `<p style="text-align:center;color:var(--slate);">لا توجد أوامر بعد.</p>` : DATA.orders.slice(0,10).map(orderItemHTML).join('')}
   `;
 }
 
-function orderItemHTML(o){
-  const stage = STAGES[stageIndex(o.stage)];
+function orderItemHTML(o) {
+  const st = STAGES.find(s=>s.key===o.stage) || STAGES[0];
   const total = o.finalTotal || (itemsTotal(o) + (o.shippingCost||0));
   return `
-  <div class="order-item" data-open="${o.id}">
+  <div class="order-item" onclick="openOrder('${o.id}')">
     <div class="order-top">
       <div>
         <div class="order-id">${o.id} · ${o.type==='sale'?'أمر بيع':'أمر شراء'}</div>
         <div class="order-name">${o.partyName}</div>
-        <div class="order-meta">${fmtDate(o.createdAt)} · ${o.paymentMethod} · ${fmtMoney(total)}</div>
+        <div class="order-meta">${fmtDate(o.createdAt)} · ${o.paymentMethod} · <b>${fmtMoney(total)}</b></div>
       </div>
-      <span class="pill stage-${o.stage}">${stage.label}</span>
+      <span class="pill stage-${o.stage}">${st.label}</span>
     </div>
   </div>`;
 }
 
-function newOrderHTML(){
+function newOrderHTML() {
   if(!state.draft || state.draft.type !== state.orderType){
     state.draft = newDraft(state.orderType);
   }
   const d = state.draft;
   return `
-  <div class="type-toggle">
-    <button data-otype="sale" class="${state.orderType==='sale'?'active':''}">أمر بيع جديد</button>
-    <button data-otype="purchase" class="${state.orderType==='purchase'?'active':''}">أمر شراء جديد</button>
+  <div class="seg" style="margin-bottom:14px;">
+    <button class="seg-btn ${state.orderType==='sale'?'active':''}" id="btnTypeSale">أمر بيع جديد</button>
+    <button class="seg-btn ${state.orderType==='purchase'?'active':''}" id="btnTypePurchase">أمر شراء جديد</button>
   </div>
   <div class="card">
-    <label>الاسم</label>
-    <input type="text" id="f_name" value="${d.partyName}" placeholder="اسم العميل أو المورد">
+    <label>اسم العميل / المورد</label>
+    <input type="text" id="f_name" value="${d.partyName}">
     <div class="row2">
       <div>
         <label>التليفون</label>
-        <input type="tel" id="f_phone" value="${d.phone}" placeholder="01xxxxxxxxx">
+        <input type="tel" id="f_phone" value="${d.phone}">
       </div>
       <div>
         <label>فاتورة ضريبية؟</label>
-        <div class="seg">
-          <button type="button" class="seg-btn ${d.taxInvoice?'active':''}" data-tax="1">نعم</button>
-          <button type="button" class="seg-btn ${!d.taxInvoice?'active':''}" data-tax="0">لا</button>
-        </div>
+        <select id="f_tax">
+          <option value="0" ${!d.taxInvoice?'selected':''}>لا</option>
+          <option value="1" ${d.taxInvoice?'selected':''}>نعم</option>
+        </select>
       </div>
     </div>
     <label>العنوان</label>
-    <input type="text" id="f_address" value="${d.address}" placeholder="العنوان بالكامل">
+    <input type="text" id="f_address" value="${d.address}">
     <label>طريقة التحصيل / الدفع</label>
-    <div class="seg">
-      ${PAY_METHODS.map(m=>`<button type="button" class="seg-btn ${d.paymentMethod===m?'active':''}" data-pay="${m}">${m}</button>`).join('')}
-    </div>
+    <select id="f_pay">
+      <option value="نقدي" ${d.paymentMethod==='نقدي'?'selected':''}>نقدي</option>
+      <option value="شيك" ${d.paymentMethod==='شيك'?'selected':''}>شيك</option>
+      <option value="تحويل بنكي" ${d.paymentMethod==='تحويل بنكي'?'selected':''}>تحويل بنكي</option>
+      <option value="آجل" ${d.paymentMethod==='آجل'?'selected':''}>آجل</option>
+    </select>
   </div>
   <div class="card">
     <label>الأصناف والأسعار</label>
     <div id="itemsWrap">
       ${d.items.map((it,idx)=>`
         <div class="item-row" data-idx="${idx}">
-          <input type="text" placeholder="اسم الصنف" data-field="name" value="${it.name}">
-          <input type="number" placeholder="كمية" min="1" data-field="qty" value="${it.qty}">
-          <input type="number" placeholder="سعر" min="0" data-field="price" value="${it.price}">
-          <button type="button" class="rm-btn" data-rm="${idx}">×</button>
+          <input type="text" placeholder="الصنف" class="it-name" value="${it.name}">
+          <input type="number" placeholder="كمية" class="it-qty" value="${it.qty}">
+          <input type="number" placeholder="سعر" class="it-price" value="${it.price}">
+          <button class="rm-btn" onclick="rmItem(${idx})">×</button>
         </div>`).join('')}
     </div>
-    <button type="button" class="add-item-btn" id="addItemBtn">+ إضافة صنف</button>
-    <div class="total-line"><span>المجموع (قبل الشحن)</span><b>${fmtMoney(itemsTotal(d))}</b></div>
+    <button class="add-item-btn" onclick="addItem()">+ إضافة صنف آخر</button>
+    <div class="total-line"><span>المجموع المبدئي</span><b>${fmtMoney(itemsTotal(d))}</b></div>
   </div>
-  <button class="btn-primary" id="submitOrderBtn">حفظ وإرسال للنقل</button>
+  <button class="btn-primary" onclick="submitOrder()">حفظ وتحويل للنقل</button>`;
+}
+
+function approvalsHTML() {
+  if(!currentUser.stage && currentUser.role!=='admin') return `<div class="card"><p>حسابك غير مرتبط بمرحلة اعتماد محددة.</p></div>`;
+  const list = currentUser.role==='admin' ? DATA.orders.filter(o=>o.stage!=='delivered') : DATA.orders.filter(o=>o.stage===currentUser.stage);
+  return `
+  <h3>أوامر تنتظر الاعتماد (${list.length})</h3>
+  ${list.length===0 ? `<p style="text-align:center;color:var(--slate);">لا توجد أوامر معلقة حالياً.</p>` : list.map(orderItemHTML).join('')}
   `;
 }
 
-function approvalsHTML(){
-  if(!currentUser.stage) return `<div class="card"><p>أنت في دور المبيعات. يمكنك استخدام زر "أمر بيع / شراء" لعمل أمر جديد.</p></div>`;
-  const list = DATA.orders.filter(o=>o.stage===currentUser.stage);
-  return `
-  <h2 class="section-title">طلبات تنتظر اعتماد: ${currentUser.label} (${list.length})</h2>
-  ${list.length===0 ? `<div class="empty"><p>لا توجد أوامر معلقة حالياً.</p></div>` : list.map(orderItemHTML).join('')}
-  `;
-}
+function reportsHTML() {
+  const sales = DATA.orders.filter(o=>o.type==='sale');
+  const purchases = DATA.orders.filter(o=>o.type==='purchase');
+  
+  const totalSales = sales.reduce((s,o)=> s + (Number(o.finalTotal)||(itemsTotal(o)+(o.shippingCost||0))), 0);
+  const totalPurchases = purchases.reduce((s,o)=> s + (Number(o.finalTotal)||(itemsTotal(o)+(o.shippingCost||0))), 0);
 
-function reportsHTML(){
-  const deliveredSales = DATA.orders.filter(o=>o.stage==='delivered' && o.type==='sale');
-  const totalMoney = deliveredSales.reduce((sum, o)=> sum + (Number(o.finalTotal)||(itemsTotal(o)+(o.shippingCost||0))), 0);
   return `
+  <div class="stat-grid">
+    <div class="stat-card"><b>${fmtMoney(totalSales)}</b><span>إجمالي البيع</span></div>
+    <div class="stat-card"><b>${fmtMoney(totalPurchases)}</b><span>إجمالي الشراء</span></div>
+    <div class="stat-card"><b>${DATA.orders.filter(o=>o.stage==='delivered').length}</b><span>أوامر مسلمة</span></div>
+  </div>
   <div class="card">
-    <h2 class="section-title" style="margin-top:0;">تقارير المبيعات والأداء</h2>
-    <p>إجمالي الأوامر المكتملة والمحصلة: <b>${fmtMoney(totalMoney)}</b></p>
-    <p>عدد الأوامر المكتملة: <b>${deliveredSales.length} أمر</b></p>
-    <button class="btn-secondary" onclick="window.print()">🖨️ طباعة ملخص التقرير</button>
+    <h3>تقرير الأوامر الشامل</h3>
+    <table class="report-table">
+      <thead>
+        <tr><th>رقم الأمر</th><th>النوع</th><th>العميل/المورد</th><th>البيان</th><th>الإجمالي</th><th>الحالة</th></tr>
+      </thead>
+      <tbody>
+        ${DATA.orders.map(o=>`
+          <tr>
+            <td>${o.id}</td>
+            <td>${o.type==='sale'?'بيع':'شراء'}</td>
+            <td>${o.partyName}</td>
+            <td>${o.paymentMethod}</td>
+            <td>${fmtMoney(o.finalTotal||itemsTotal(o))}</td>
+            <td>${(STAGES.find(s=>s.key===o.stage)||{}).label||'—'}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+    <button class="btn-secondary" onclick="window.print()" style="margin-top:14px;">🖨️ طباعة التقرير الشامل</button>
   </div>`;
 }
 
-function customersHTML(){
-  const allParties = [...(DATA.customers||[]).map(c=>({...c, kind:'عميل'})), ...(DATA.suppliers||[]).map(s=>({...s, kind:'مورد'}))];
-  const q = state.custSearch.trim();
-  const filtered = q ? allParties.filter(p=> p.name.includes(q) || p.phone.includes(q)) : allParties;
+function customersHTML() {
+  const parties = [...(DATA.customers||[]).map(c=>({...c, t:'عميل'})), ...(DATA.suppliers||[]).map(s=>({...s, t:'مورد'}))];
   return `
-  <input type="text" id="custSearch" placeholder="ابحث باسم العميل أو المورد" value="${state.custSearch}" style="margin-bottom:14px;">
-  ${filtered.map(p=>`
-    <div class="card">
-      <div class="order-name">${p.name} (${p.kind})</div>
-      <div class="order-meta">تليفون: ${p.phone}</div>
-      <div class="order-meta">العنوان: ${p.address||'—'}</div>
-    </div>
-  `).join('')}
-  `;
+  <div class="card">
+    <h3>سجل العملاء والموردين</h3>
+    ${parties.length===0? '<p>لا يوجد عملاء مسجلين</p>' : parties.map(p=>`
+      <div style="border-bottom:1px solid var(--line);padding:8px 0;">
+        <b>${p.name}</b> (${p.t}) — تليفون: ${p.phone}
+      </div>
+    `).join('')}
+  </div>`;
 }
 
-function detailHTML(){
+// ---------- 3. شاشة إدارة المستخدمين (المدير فقط) ----------
+function usersManagementHTML() {
+  return `
+  <div class="card">
+    <h3>إضافة / تعديل مستخدم بالنظام</h3>
+    <label>اليوزرنيم (Username)</label>
+    <input type="text" id="u_key" placeholder="مثال: sales2">
+    <label>اسم الشخص / القسم</label>
+    <input type="text" id="u_name" placeholder="مثال: د. محمد (المبيعات)">
+    <label>كلمة السر</label>
+    <input type="password" id="u_pass" placeholder="••••">
+    <label>الدور / القسم الصلاحية</label>
+    <select id="u_role">
+      <option value="sales">المبيعات (إنشاء طلبات)</option>
+      <option value="logistics">قسم النقل (تحديد الشحن)</option>
+      <option value="accounts">الحسابات (اعتماد الأسعار)</option>
+      <option value="warehouse">المخازن (إذن الصرف)</option>
+      <option value="driver">السائق (التسليم النهائي)</option>
+      <option value="admin">المدير العام (شامل التحكم)</option>
+    </select>
+    <button class="btn-primary" onclick="saveUser()">حفظ / تحديث المستخدم</button>
+  </div>
+
+  <div class="card">
+    <h3>قائمة المستخدمين الحالية</h3>
+    <table class="report-table">
+      <thead>
+        <tr><th>اسم المستخدم</th><th>الاسم والجهة</th><th>كلمة السر</th><th>التحكم</th></tr>
+      </thead>
+      <tbody>
+        ${Object.keys(USERS).map(k=>`
+          <tr>
+            <td><b>${k}</b></td>
+            <td>${USERS[k].name}</td>
+            <td>${USERS[k].pass}</td>
+            <td>${k==='admin'?'الرئيسي':`<button onclick="deleteUser('${k}')" style="color:red;border:none;background:none;cursor:pointer;font-weight:700;">حذف</button>`}</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+  </div>`;
+}
+
+function saveUser() {
+  const k = document.getElementById('u_key').value.trim();
+  const name = document.getElementById('u_name').value.trim();
+  const pass = document.getElementById('u_pass').value.trim();
+  const role = document.getElementById('u_role').value;
+  
+  if(!k || !name || !pass){ showToast('من فضلك أكمل البيانات'); return; }
+
+  let stage = null;
+  if(role==='logistics') stage='logistics_review';
+  if(role==='accounts') stage='accounts_approval';
+  if(role==='warehouse') stage='warehouse_release';
+  if(role==='driver') stage='with_driver';
+
+  USERS[k] = { pass, name, role, stage };
+  saveData();
+  showToast('تم حفظ المستخدم بنجاح');
+  render();
+}
+
+function deleteUser(k) {
+  if(confirm('هل أنت تأكد من حذف هذا المستخدم؟')){
+    delete USERS[k];
+    saveData();
+    showToast('تم حذف المستخدم');
+    render();
+  }
+}
+
+// ---------- 4. تفاصيل الطلب والتحكم فيه ----------
+function detailHTML() {
   const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
   if(!o) return '';
-  const idx = stageIndex(o.stage);
   const total = o.finalTotal || (itemsTotal(o) + (o.shippingCost||0));
 
-  let actionHTML = '';
-  if(currentUser.stage === o.stage){
-    if(o.stage === 'logistics_review'){
-      actionHTML = `<div class="action-box"><h3>قسم النقل</h3><label>تكلفة الشحن (ج.م)</label><input type="number" id="shipCostInput"><button class="btn-primary" id="logisticsBtn">اعتماد الشحن وتحويل للحسابات</button></div>`;
-    } else if(o.stage === 'accounts_approval'){
-      actionHTML = `<div class="action-box"><h3>الحسابات</h3><label>الإجمالي النهائي</label><input type="number" id="finalTotalInput" value="${itemsTotal(o)+(o.shippingCost||0)}"><button class="btn-primary" id="accountsBtn">موافقة الحسابات (Approved)</button></div>`;
-    } else if(o.stage === 'warehouse_release'){
-      actionHTML = `<div class="action-box"><h3>المخازن</h3><label>اسم السائق</label><input type="text" id="driverInput"><button class="btn-primary" id="warehouseBtn">إصدار إذن صرف البضاعة</button></div>`;
-    } else if(o.stage === 'with_driver'){
-      actionHTML = `<div class="action-box"><button class="btn-primary" id="deliveredBtn">تأكيد استلام العميل والسداد</button></div>`;
-    }
-  }
-
   return `
-  <div class="back-row" id="backBtn">→ رجوع</div>
+  <button class="btn-secondary" onclick="state.view='dashboard';render();" style="margin-bottom:12px;">← رجوع للرئيسية</button>
   <div class="card">
     <div class="order-top">
       <div><b>${o.id}</b> · ${o.partyName}</div>
-      <span class="pill stage-${o.stage}">${STAGES[idx].label}</span>
+      <span class="pill stage-${o.stage}">${(STAGES.find(s=>s.key===o.stage)||{}).label}</span>
     </div>
-    <div class="stepper">
-      ${STAGES.map((s,i)=>`<div class="step ${i<idx?'done':''} ${i===idx?'current':''}"><div class="dot">${i<idx?'✓':i+1}</div><div class="lbl">${s.short}</div></div>`).join('')}
-    </div>
-    <div class="detail-grid">
-      <div class="kv"><span>التليفون</span><b>${o.phone}</b></div>
-      <div class="kv"><span>نوع الفاتورة</span><b>${o.taxInvoice?'ضريبية':'عادية'}</b></div>
-      <div class="kv"><span>التحصيل</span><b>${o.paymentMethod}</b></div>
-      <div class="kv"><span>الشحن</span><b>${fmtMoney(o.shippingCost)}</b></div>
-    </div>
+    <hr style="border:none;border-top:1px solid var(--line);margin:12px 0;">
+    <p>التليفون: <b>${o.phone}</b> | العنوان: <b>${o.address||'—'}</b></p>
+    <p>طريقة التحصيل: <b>${o.paymentMethod}</b> | ضريبية: <b>${o.taxInvoice?'نعم':'لا'}</b></p>
+    
+    <h4>الأصناف:</h4>
+    <ul>
+      ${o.items.map(i=>`<li>${i.name} - الكمية: ${i.qty} - السعر: ${fmtMoney(i.price)}</li>`).join('')}
+    </ul>
+    
+    <div class="total-line"><span>تكلفة الشحن</span><b>${fmtMoney(o.shippingCost)}</b></div>
     <div class="total-line"><span>الإجمالي النهائي</span><b>${fmtMoney(total)}</b></div>
-    <button class="btn-secondary" id="printBtn">🖨️ طباعة الفاتورة / إذن الصرف</button>
+    <button class="btn-secondary" onclick="printSingleOrder('${o.id}')">🖨️ طباعة الفاتورة</button>
   </div>
-  ${actionHTML}
-  <h2 class="section-title">سجل الاعتمادات</h2>
-  <div class="card">
-    ${(o.history||[]).map(h=>`<div class="history-item"><div class="history-dot"></div><div><p>${h.note}</p><small>${h.by} · ${fmtDate(h.at)}</small></div></div>`).join('')}
-  </div>
+  ${actionBoxHTML(o)}
   `;
 }
 
-// ---------- الربط بالأحداث ----------
-function bindLoginEvents(){
+function actionBoxHTML(o) {
+  if(currentUser.role==='admin' || currentUser.stage === o.stage){
+    if(o.stage === 'logistics_review'){
+      return `<div class="card"><h3>قسم النقل</h3><label>تكلفة الشحن (ج.م)</label><input type="number" id="shipInput"><button class="btn-primary" onclick="approveLogistics('${o.id}')">اعتماد الشحن</button></div>`;
+    }
+    if(o.stage === 'accounts_approval'){
+      return `<div class="card"><h3>الحسابات</h3><label>الإجمالي النهائي</label><input type="number" id="totalInput" value="${itemsTotal(o)+(o.shippingCost||0)}"><button class="btn-primary" onclick="approveAccounts('${o.id}')">اعتماد السعر والحسابات</button></div>`;
+    }
+    if(o.stage === 'warehouse_release'){
+      return `<div class="card"><h3>المخازن</h3><label>اسم السائق</label><input type="text" id="driverInput"><button class="btn-primary" onclick="approveWarehouse('${o.id}')">اصدار إذن الصرف</button></div>`;
+    }
+    if(o.stage === 'with_driver'){
+      return `<div class="card"><button class="btn-primary" onclick="approveDelivery('${o.id}')">تأكيد التسليم المكتمل</button></div>`;
+    }
+  }
+  return '';
+}
+
+function approveLogistics(id){
+  const o = DATA.orders.find(x=>x.id===id);
+  o.shippingCost = Number(document.getElementById('shipInput').value)||0;
+  o.stage = 'accounts_approval';
+  saveData(); showToast('تم الاعتماد وتحويله للحسابات'); render();
+}
+function approveAccounts(id){
+  const o = DATA.orders.find(x=>x.id===id);
+  o.finalTotal = Number(document.getElementById('totalInput').value);
+  o.stage = 'warehouse_release';
+  saveData(); showToast('تم الاعتماد وتحويله للمخازن'); render();
+}
+function approveWarehouse(id){
+  const o = DATA.orders.find(x=>x.id===id);
+  o.driverName = document.getElementById('driverInput').value;
+  o.stage = 'with_driver';
+  saveData(); showToast('تم إصدار الإذن للسائق'); render();
+}
+function approveDelivery(id){
+  const o = DATA.orders.find(x=>x.id===id);
+  o.stage = 'delivered';
+  saveData(); showToast('تم تسليم الطلب بنجاح'); render();
+}
+
+function printSingleOrder(id){
+  const o = DATA.orders.find(x=>x.id===id);
+  const total = o.finalTotal || (itemsTotal(o) + (o.shippingCost||0));
+  document.getElementById('printArea').innerHTML = `
+    <div style="text-align:center;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:15px;">
+      <h2>رصرص للتوكيلات التجارية</h2>
+      <h3>${o.type==='sale'?'فاتورة أمر بيع':'إذن أمر شراء'}</h3>
+      <p>رقم الأمر: <b>${o.id}</b> | التاريخ: ${fmtDate(o.createdAt)}</p>
+    </div>
+    <p><b>الاسم:</b> ${o.partyName} | <b>التليفون:</b> ${o.phone}</p>
+    <p><b>العنوان:</b> ${o.address||'—'} | <b>طريقة الدفع:</b> ${o.paymentMethod}</p>
+    <table class="report-table">
+      <thead><tr><th>الصنف</th><th>الكمية</th><th>السعر</th><th>الإجمالي</th></tr></thead>
+      <tbody>
+        ${o.items.map(it=>`<tr><td>${it.name}</td><td>${it.qty}</td><td>${fmtMoney(it.price)}</td><td>${fmtMoney(it.qty*it.price)}</td></tr>`).join('')}
+      </tbody>
+    </table>
+    <h3 style="text-align:left;margin-top:15px;">الإجمالي النهائي: ${fmtMoney(total)}</h3>
+  `;
+  window.print();
+}
+
+// ---------- 5. أحداث الادخال والمزامنة ----------
+function bindLoginEvents() {
   document.getElementById('loginBtn').onclick = () => {
     const uKey = document.getElementById('loginUser').value;
     const pass = document.getElementById('loginPass').value;
@@ -605,99 +633,69 @@ function bindLoginEvents(){
   };
 }
 
-function bindAppEvents(){
+function bindAppEvents() {
   const logoutBtn = document.getElementById('logoutBtn');
-  if(logoutBtn) logoutBtn.onclick = ()=>{ currentUser = null; render(); };
+  if(logoutBtn) logoutBtn.onclick = () => { currentUser = null; render(); };
 
-  document.querySelectorAll('.tab').forEach(el=>{
-    el.onclick = ()=>{
-      const t = el.dataset.tab;
-      if(t==='new_sale'){ state.view='new_sale'; state.orderType = state.orderType || 'sale'; }
-      else state.view = t;
-      render();
-    };
+  document.querySelectorAll('.tab').forEach(el => {
+    el.onclick = () => { state.view = el.dataset.v; render(); };
   });
 
-  document.querySelectorAll('[data-otype]').forEach(el=>{
-    el.onclick = ()=>{ state.orderType = el.dataset.otype; state.draft = null; state.view='new_sale'; render(); };
-  });
+  const btnSale = document.getElementById('btnTypeSale');
+  if(btnSale) btnSale.onclick = () => { state.orderType = 'sale'; state.draft = null; render(); };
 
-  document.querySelectorAll('[data-open]').forEach(el=>{
-    el.onclick = ()=>{ state.selectedOrderId = el.dataset.open; state.view='detail'; render(); };
-  });
+  const btnPur = document.getElementById('btnTypePurchase');
+  if(btnPur) btnPur.onclick = () => { state.orderType = 'purchase'; state.draft = null; render(); };
+}
 
-  const backBtn = document.getElementById('backBtn');
-  if(backBtn) backBtn.onclick = ()=>{ state.view='dashboard'; render(); };
+function addItem() {
+  state.draft.items.push({name:'', qty:1, price:0});
+  render();
+}
 
-  const fname = document.getElementById('f_name');
-  if(fname){
-    fname.oninput = ()=>{ state.draft.partyName = fname.value; };
-    document.getElementById('f_phone').oninput = (e)=>{ state.draft.phone = e.target.value; };
-    document.getElementById('f_address').oninput = (e)=>{ state.draft.address = e.target.value; };
-    document.querySelectorAll('[data-tax]').forEach(el=>{
-      el.onclick = ()=>{ state.draft.taxInvoice = el.dataset.tax==='1'; render(); };
-    });
-    document.querySelectorAll('[data-pay]').forEach(el=>{
-      el.onclick = ()=>{ state.draft.paymentMethod = el.dataset.pay; render(); };
-    });
-    document.querySelectorAll('.item-row').forEach(row=>{
-      const idx = Number(row.dataset.idx);
-      row.querySelectorAll('input').forEach(inp=>{
-        inp.oninput = ()=>{
-          const field = inp.dataset.field;
-          state.draft.items[idx][field] = field==='name' ? inp.value : Number(inp.value)||0;
-        };
-      });
-    });
-    document.querySelectorAll('[data-rm]').forEach(el=>{
-      el.onclick = ()=>{
-        const idx = Number(el.dataset.rm);
-        if(state.draft.items.length>1) state.draft.items.splice(idx,1);
-        render();
-      };
-    });
-    document.getElementById('addItemBtn').onclick = ()=>{
-      state.draft.items.push({name:'',qty:1,price:0});
-      render();
-    };
-    document.getElementById('submitOrderBtn').onclick = submitNewOrder;
+function rmItem(idx) {
+  if(state.draft.items.length > 1) {
+    state.draft.items.splice(idx, 1);
+    render();
   }
+}
 
-  const cs = document.getElementById('custSearch');
-  if(cs) cs.oninput = ()=>{ state.custSearch = cs.value; render(); };
+function openOrder(id) {
+  state.selectedOrderId = id;
+  state.view = 'detail';
+  render();
+}
 
-  const printBtn = document.getElementById('printBtn');
-  if(printBtn) printBtn.onclick = ()=>{
-    const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
-    if(o) printOrder(o);
-  };
+function submitOrder() {
+  const name = document.getElementById('f_name').value.trim();
+  const phone = document.getElementById('f_phone').value.trim();
+  if(!name || !phone){ showToast('أدخل الاسم والتليفون'); return; }
 
-  const logisticsBtn = document.getElementById('logisticsBtn');
-  if(logisticsBtn) logisticsBtn.onclick = ()=>{
-    const val = document.getElementById('shipCostInput').value;
-    const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
-    logisticsSubmit(o, val);
-  };
+  const items = [];
+  document.querySelectorAll('.item-row').forEach(row => {
+    const n = row.querySelector('.it-name').value.trim();
+    const q = Number(row.querySelector('.it-qty').value)||1;
+    const p = Number(row.querySelector('.it-price').value)||0;
+    if(n) items.push({name:n, qty:q, price:p});
+  });
 
-  const accountsBtn = document.getElementById('accountsBtn');
-  if(accountsBtn) accountsBtn.onclick = ()=>{
-    const total = document.getElementById('finalTotalInput').value;
-    const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
-    accountsApprove(o, total);
-  };
+  if(items.length===0){ showToast('أدخل صنف واحد على الأقل'); return; }
 
-  const warehouseBtn = document.getElementById('warehouseBtn');
-  if(warehouseBtn) warehouseBtn.onclick = ()=>{
-    const driver = document.getElementById('driverInput').value;
-    const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
-    warehouseRelease(o, driver);
-  };
+  const d = state.draft;
+  d.partyName = name;
+  d.phone = phone;
+  d.address = document.getElementById('f_address').value;
+  d.taxInvoice = document.getElementById('f_tax').value === '1';
+  d.paymentMethod = document.getElementById('f_pay').value;
+  d.items = items;
+  d.stage = 'logistics_review';
 
-  const deliveredBtn = document.getElementById('deliveredBtn');
-  if(deliveredBtn) deliveredBtn.onclick = ()=>{
-    const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
-    markDelivered(o);
-  };
+  DATA.orders.unshift(d);
+  saveData();
+  showToast('تم حفظ الأمر وإرساله للقسم التالي');
+  state.view = 'dashboard';
+  state.draft = null;
+  render();
 }
 
 loadData();
