@@ -2,7 +2,7 @@
   "name": "order-flow-system",
   "version": "1.0.0",
   "description": "نظام سحابي لمتابعة أوامر البيع والشراء عبر مراحل الاعتماد",
-  "main": "server.js",
+  "main": "index.js",
   "engines": {
     "node": ">=18.0.0"
   },
