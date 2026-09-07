@@ -4,25 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>RASRAS ERP | نظام إدارة الشركة</title>
+<title>RASRAS ERP | نظام إدارة الأعمال</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root{
-    --green:#0b9f55;
-    --green-dark:#087943;
-    --green-light:#eaf8f0;
-    --black:#111827;
-    --gray:#6b7280;
-    --bg:#f5f7f9;
-    --white:#ffffff;
-    --border:#e5e7eb;
-    --red:#dc2626;
-    --orange:#f59e0b;
-    --blue:#2563eb;
-    --shadow:0 10px 35px rgba(15,23,42,.07);
+    --primary:#08a957;
+    --primary-dark:#078844;
+    --primary-light:#e9fff3;
+
+    --bg:#f5f7f8;
+    --card:#ffffff;
+    --text:#17221c;
+    --muted:#7a8780;
+    --border:#e7ece9;
+
+    --success:#10b981;
+    --warning:#f59e0b;
+    --danger:#ef4444;
+    --info:#3b82f6;
+
+    --sidebar:260px;
+    --radius:18px;
+    --shadow:0 8px 30px rgba(20,45,32,.07);
 }
 
 *{
@@ -34,114 +41,123 @@
 body{
     font-family:"Cairo",sans-serif;
     background:var(--bg);
-    color:var(--black);
+    color:var(--text);
+    min-height:100vh;
+}
+
+button,
+input,
+select{
+    font-family:inherit;
+}
+
+button{
+    cursor:pointer;
+}
+
+.app{
+    display:flex;
+    min-height:100vh;
 }
 
 /* ================= SIDEBAR ================= */
 
 .sidebar{
-    position:fixed;
-    right:0;
-    top:0;
-    width:270px;
-    height:100vh;
+    width:var(--sidebar);
     background:#fff;
     border-left:1px solid var(--border);
-    z-index:1000;
+    position:fixed;
+    top:0;
+    bottom:0;
+    right:0;
+    z-index:100;
     display:flex;
     flex-direction:column;
+    transition:.3s;
 }
 
 .brand{
-    height:100px;
+    padding:22px 20px;
     display:flex;
     align-items:center;
-    justify-content:center;
+    gap:12px;
     border-bottom:1px solid var(--border);
-    padding:12px;
 }
 
 .brand img{
-    width:82px;
-    height:82px;
+    width:55px;
+    height:55px;
     object-fit:contain;
-}
-
-.brand-text{
-    margin-right:10px;
+    border-radius:14px;
 }
 
 .brand-text strong{
     display:block;
-    font-size:20px;
+    font-size:18px;
     font-weight:900;
+    letter-spacing:.5px;
 }
 
 .brand-text span{
-    color:var(--green);
+    color:var(--primary);
     font-size:11px;
     font-weight:700;
 }
 
 .menu{
-    padding:20px 14px;
-    overflow:auto;
+    padding:20px 12px;
+    overflow-y:auto;
+    flex:1;
 }
 
 .menu-title{
-    color:#9ca3af;
     font-size:11px;
+    color:#a0aaa4;
     font-weight:800;
-    padding:8px 14px;
-    margin-top:8px;
+    padding:10px 14px 7px;
 }
 
 .menu-item{
-    width:100%;
-    border:0;
-    background:none;
     display:flex;
     align-items:center;
-    gap:13px;
+    gap:12px;
     padding:13px 15px;
-    margin:3px 0;
-    border-radius:12px;
-    cursor:pointer;
-    font-family:inherit;
+    margin-bottom:5px;
+    border-radius:13px;
+    color:#68756e;
     font-size:14px;
-    font-weight:600;
-    color:#4b5563;
-    text-align:right;
+    font-weight:700;
     transition:.2s;
+    text-decoration:none;
 }
 
 .menu-item:hover{
-    background:var(--green-light);
-    color:var(--green-dark);
+    background:#f1faf5;
+    color:var(--primary);
 }
 
 .menu-item.active{
-    background:var(--green);
+    background:linear-gradient(135deg,#08a957,#07964d);
     color:white;
-    box-shadow:0 7px 18px rgba(11,159,85,.25);
+    box-shadow:0 8px 20px rgba(8,169,87,.22);
 }
 
 .menu-icon{
-    width:22px;
+    width:23px;
     text-align:center;
-    font-size:18px;
+    font-size:17px;
 }
 
 .sidebar-bottom{
-    margin-top:auto;
     padding:15px;
     border-top:1px solid var(--border);
 }
 
-.user-box{
-    background:#f8fafc;
+.user-card{
+    background:#f7faf8;
+    border:1px solid var(--border);
+    padding:11px;
     border-radius:14px;
-    padding:12px;
     display:flex;
     align-items:center;
     gap:10px;
@@ -150,49 +166,43 @@ body{
 .avatar{
     width:40px;
     height:40px;
-    background:var(--green);
+    background:linear-gradient(135deg,#08a957,#006f38);
     color:white;
-    border-radius:50%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-weight:800;
+    display:grid;
+    place-items:center;
+    border-radius:12px;
+    font-weight:900;
 }
 
-.user-info{
-    flex:1;
-}
-
-.user-info strong{
+.user-card strong{
     display:block;
     font-size:12px;
 }
 
-.user-info span{
-    color:#9ca3af;
+.user-card span{
+    color:var(--muted);
     font-size:10px;
 }
 
 /* ================= MAIN ================= */
 
 .main{
-    margin-right:270px;
+    margin-right:var(--sidebar);
+    width:calc(100% - var(--sidebar));
     min-height:100vh;
 }
 
-/* ================= HEADER ================= */
-
-.header{
-    height:75px;
-    background:#fff;
+.topbar{
+    height:78px;
+    background:white;
     border-bottom:1px solid var(--border);
     display:flex;
     align-items:center;
-    padding:0 30px;
     justify-content:space-between;
+    padding:0 30px;
     position:sticky;
     top:0;
-    z-index:900;
+    z-index:50;
 }
 
 .page-title h1{
@@ -201,179 +211,206 @@ body{
 }
 
 .page-title p{
-    color:#9ca3af;
+    color:var(--muted);
     font-size:11px;
+    margin-top:1px;
 }
 
-.header-actions{
+.top-actions{
     display:flex;
     align-items:center;
-    gap:12px;
-}
-
-.search{
-    width:230px;
-    background:#f8fafc;
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:9px 13px;
-    font-family:inherit;
-    outline:none;
+    gap:10px;
 }
 
 .icon-btn{
-    width:40px;
-    height:40px;
+    width:42px;
+    height:42px;
+    border-radius:12px;
     border:1px solid var(--border);
-    background:white;
-    border-radius:10px;
-    cursor:pointer;
-    font-size:17px;
+    background:#fff;
+    font-size:18px;
+    position:relative;
 }
 
 .icon-btn:hover{
-    background:var(--green-light);
+    border-color:#cdebd9;
+    background:#f5fff9;
+}
+
+.notification-dot{
+    position:absolute;
+    top:7px;
+    left:7px;
+    width:7px;
+    height:7px;
+    background:#ef4444;
+    border:2px solid white;
+    border-radius:50%;
+}
+
+.mobile-menu{
+    display:none;
 }
 
 /* ================= CONTENT ================= */
 
 .content{
     padding:28px;
+    max-width:1600px;
+    margin:auto;
 }
 
 .welcome{
-    background:linear-gradient(135deg,#087943,#0b9f55);
+    background:
+        radial-gradient(circle at 90% 30%,rgba(255,255,255,.16),transparent 25%),
+        linear-gradient(135deg,#078844,#08a957);
     color:white;
-    border-radius:20px;
-    padding:25px 30px;
+    border-radius:24px;
+    padding:27px 30px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    margin-bottom:25px;
+    margin-bottom:24px;
+    box-shadow:0 15px 40px rgba(8,169,87,.16);
     overflow:hidden;
     position:relative;
 }
 
 .welcome:after{
     content:"";
-    position:absolute;
-    width:260px;
-    height:260px;
-    border:35px solid rgba(255,255,255,.07);
+    width:230px;
+    height:230px;
+    border:35px solid rgba(255,255,255,.06);
     border-radius:50%;
-    left:-80px;
-    top:-100px;
+    position:absolute;
+    left:-50px;
+    top:-80px;
 }
 
 .welcome h2{
     font-size:23px;
     font-weight:900;
+    position:relative;
+    z-index:1;
 }
 
 .welcome p{
+    opacity:.86;
     font-size:12px;
-    opacity:.85;
     margin-top:5px;
+    position:relative;
+    z-index:1;
 }
 
 .date-box{
-    position:relative;
-    z-index:2;
-    background:rgba(255,255,255,.13);
-    border:1px solid rgba(255,255,255,.2);
-    padding:10px 18px;
-    border-radius:12px;
+    background:rgba(255,255,255,.12);
+    border:1px solid rgba(255,255,255,.18);
+    padding:10px 16px;
+    border-radius:14px;
     font-size:12px;
+    position:relative;
+    z-index:1;
 }
 
-/* ================= CARDS ================= */
+/* ================= STATS ================= */
 
-.cards{
+.stats{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:17px;
-    margin-bottom:25px;
+    gap:16px;
+    margin-bottom:24px;
+}
+
+.stat-card{
+    background:white;
+    border:1px solid var(--border);
+    border-radius:18px;
+    padding:20px;
+    box-shadow:var(--shadow);
+    transition:.2s;
+}
+
+.stat-card:hover{
+    transform:translateY(-2px);
+    box-shadow:0 14px 35px rgba(20,45,32,.1);
+}
+
+.stat-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.stat-icon{
+    width:48px;
+    height:48px;
+    display:grid;
+    place-items:center;
+    border-radius:14px;
+    font-size:21px;
+}
+
+.green{
+    background:#e8fff2;
+    color:#08a957;
+}
+
+.blue{
+    background:#edf5ff;
+    color:#3b82f6;
+}
+
+.orange{
+    background:#fff7e8;
+    color:#f59e0b;
+}
+
+.red{
+    background:#fff0f0;
+    color:#ef4444;
+}
+
+.stat-label{
+    font-size:12px;
+    color:var(--muted);
+    font-weight:700;
+}
+
+.stat-number{
+    font-size:26px;
+    font-weight:900;
+    margin-top:10px;
+}
+
+.stat-footer{
+    display:flex;
+    justify-content:space-between;
+    margin-top:8px;
+    font-size:10px;
+}
+
+.up{
+    color:#08a957;
+    font-weight:800;
+}
+
+/* ================= GRID ================= */
+
+.grid{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:20px;
 }
 
 .card{
     background:white;
     border:1px solid var(--border);
-    border-radius:17px;
-    padding:20px;
-    box-shadow:var(--shadow);
-}
-
-.card-top{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.card-icon{
-    width:45px;
-    height:45px;
-    border-radius:12px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:20px;
-}
-
-.green{
-    background:#e9f8f0;
-    color:var(--green);
-}
-
-.blue{
-    background:#eff6ff;
-    color:var(--blue);
-}
-
-.orange{
-    background:#fff7ed;
-    color:var(--orange);
-}
-
-.red{
-    background:#fef2f2;
-    color:var(--red);
-}
-
-.card-label{
-    color:#6b7280;
-    font-size:11px;
-    margin-top:15px;
-}
-
-.card-value{
-    font-size:25px;
-    font-weight:900;
-    margin-top:3px;
-}
-
-.card-change{
-    margin-top:7px;
-    font-size:10px;
-    color:var(--green);
-}
-
-/* ================= GRID ================= */
-
-.dashboard-grid{
-    display:grid;
-    grid-template-columns:1.5fr 1fr;
-    gap:20px;
-}
-
-.panel{
-    background:white;
-    border:1px solid var(--border);
-    border-radius:17px;
+    border-radius:18px;
     box-shadow:var(--shadow);
     overflow:hidden;
 }
 
-.panel-header{
+.card-header{
     padding:18px 20px;
     display:flex;
     align-items:center;
@@ -381,232 +418,385 @@ body{
     border-bottom:1px solid var(--border);
 }
 
-.panel-header h3{
+.card-title{
     font-size:15px;
     font-weight:900;
 }
 
-.panel-header button{
-    border:0;
-    background:var(--green-light);
-    color:var(--green-dark);
-    padding:7px 12px;
-    border-radius:8px;
-    font-family:inherit;
+.card-subtitle{
     font-size:10px;
-    font-weight:700;
+    color:var(--muted);
+    margin-top:2px;
+}
+
+.view-all{
+    color:var(--primary);
+    font-size:11px;
+    font-weight:800;
     cursor:pointer;
 }
 
 /* ================= TABLE ================= */
 
-.table-container{
-    overflow:auto;
+.table-wrapper{
+    overflow-x:auto;
 }
 
 table{
     width:100%;
     border-collapse:collapse;
+    min-width:700px;
 }
 
 th{
-    background:#f8fafc;
-    color:#6b7280;
+    background:#fafcfb;
+    color:#849089;
     font-size:10px;
     font-weight:800;
-    padding:13px 15px;
+    padding:12px 16px;
     text-align:right;
+    white-space:nowrap;
 }
 
 td{
-    padding:14px 15px;
-    border-top:1px solid #f0f2f4;
+    padding:14px 16px;
+    border-top:1px solid #f0f3f1;
     font-size:11px;
+    font-weight:600;
+    white-space:nowrap;
 }
 
-.status{
-    display:inline-flex;
-    padding:5px 9px;
-    border-radius:20px;
-    font-size:9px;
-    font-weight:800;
+.order-number{
+    color:var(--primary);
+    font-weight:900;
 }
 
-.status.pending{
-    background:#fff7ed;
-    color:#c2410c;
-}
-
-.status.approved{
-    background:#ecfdf5;
-    color:#047857;
-}
-
-.status.review{
-    background:#eff6ff;
-    color:#1d4ed8;
-}
-
-/* ================= ACTIVITY ================= */
-
-.activity{
-    padding:5px 20px 15px;
-}
-
-.activity-item{
+.customer{
     display:flex;
-    gap:12px;
-    padding:13px 0;
-    border-bottom:1px solid #f0f2f4;
-}
-
-.activity-icon{
-    width:34px;
-    height:34px;
-    border-radius:10px;
-    display:flex;
-    justify-content:center;
     align-items:center;
-    background:var(--green-light);
-    color:var(--green);
-    flex-shrink:0;
+    gap:8px;
 }
 
-.activity-text{
-    flex:1;
+.customer-avatar{
+    width:30px;
+    height:30px;
+    border-radius:9px;
+    background:#e9f9f0;
+    color:#07944a;
+    display:grid;
+    place-items:center;
+    font-weight:900;
+    font-size:10px;
 }
 
-.activity-text strong{
-    font-size:11px;
-    display:block;
-}
-
-.activity-text span{
-    display:block;
-    color:#9ca3af;
+.badge{
+    padding:5px 9px;
+    border-radius:8px;
     font-size:9px;
-    margin-top:3px;
+    font-weight:900;
+    display:inline-block;
 }
 
-/* ================= QUICK ACTIONS ================= */
+.badge.success{
+    background:#e7fff2;
+    color:#079653;
+}
+
+.badge.warning{
+    background:#fff6df;
+    color:#c47a00;
+}
+
+.badge.info{
+    background:#edf5ff;
+    color:#2773ce;
+}
+
+.badge.danger{
+    background:#fff0f0;
+    color:#dc3333;
+}
+
+/* ================= QUICK ================= */
 
 .quick-actions{
-    margin-top:20px;
+    padding:18px;
     display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:15px;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
 }
 
 .quick{
-    background:white;
     border:1px solid var(--border);
-    border-radius:14px;
-    padding:17px;
-    cursor:pointer;
-    transition:.2s;
+    background:white;
+    border-radius:13px;
+    padding:14px;
     text-align:right;
+    transition:.2s;
 }
 
 .quick:hover{
-    transform:translateY(-3px);
-    border-color:#a7dfc2;
-    box-shadow:var(--shadow);
+    border-color:#bde9ce;
+    background:#f7fff9;
 }
 
 .quick-icon{
-    font-size:21px;
+    width:35px;
+    height:35px;
+    display:grid;
+    place-items:center;
+    border-radius:10px;
+    background:#eafff2;
+    color:var(--primary);
     margin-bottom:8px;
 }
 
 .quick strong{
     display:block;
-    font-size:12px;
+    font-size:11px;
 }
 
 .quick span{
+    color:var(--muted);
     font-size:9px;
-    color:#9ca3af;
+}
+
+/* ================= APPROVAL ================= */
+
+.approvals{
+    padding:18px;
+}
+
+.approval{
+    display:flex;
+    align-items:center;
+    gap:11px;
+    padding:11px 0;
+    border-bottom:1px solid #f0f3f1;
+}
+
+.approval:last-child{
+    border-bottom:0;
+}
+
+.approval-icon{
+    width:38px;
+    height:38px;
+    border-radius:11px;
+    display:grid;
+    place-items:center;
+    background:#f5f7f6;
+}
+
+.approval-info{
+    flex:1;
+}
+
+.approval-info strong{
+    font-size:10px;
+    display:block;
+}
+
+.approval-info span{
+    font-size:9px;
+    color:var(--muted);
+}
+
+.approval-count{
+    min-width:25px;
+    height:25px;
+    padding:0 7px;
+    border-radius:8px;
+    background:#fff4df;
+    color:#c37a00;
+    display:grid;
+    place-items:center;
+    font-size:10px;
+    font-weight:900;
+}
+
+/* ================= BUTTON ================= */
+
+.btn{
+    border:0;
+    border-radius:11px;
+    padding:11px 17px;
+    font-size:11px;
+    font-weight:800;
+    transition:.2s;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,#08a957,#078d47);
+    color:white;
+    box-shadow:0 7px 18px rgba(8,169,87,.18);
+}
+
+.btn-primary:hover{
+    transform:translateY(-1px);
+}
+
+.btn-light{
+    background:#f4f7f5;
+    color:#59665f;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    position:fixed;
+    inset:0;
+    background:rgba(8,25,16,.48);
+    backdrop-filter:blur(5px);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:500;
+    padding:20px;
+}
+
+.modal.show{
+    display:flex;
+}
+
+.modal-box{
+    width:min(720px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:white;
+    border-radius:22px;
+    box-shadow:0 25px 80px rgba(0,0,0,.2);
+}
+
+.modal-header{
+    padding:20px 23px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    border-bottom:1px solid var(--border);
+}
+
+.modal-header h3{
+    font-size:17px;
+    font-weight:900;
+}
+
+.close{
+    width:36px;
+    height:36px;
+    border:0;
+    background:#f5f7f6;
+    border-radius:10px;
+    font-size:18px;
+}
+
+.form{
+    padding:22px;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+}
+
+.field{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+}
+
+.field.full{
+    grid-column:1/-1;
+}
+
+.field label{
+    font-size:10px;
+    font-weight:800;
+    color:#68756e;
+}
+
+.field input,
+.field select{
+    border:1px solid #dfe7e2;
+    background:#fbfdfc;
+    padding:12px;
+    border-radius:11px;
+    outline:none;
+    font-size:11px;
+}
+
+.field input:focus,
+.field select:focus{
+    border-color:#55c887;
+    background:white;
+    box-shadow:0 0 0 3px rgba(8,169,87,.08);
+}
+
+.total-box{
+    grid-column:1/-1;
+    background:#effbf4;
+    border:1px solid #d5f1e1;
+    border-radius:14px;
+    padding:15px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.total-box span{
+    font-size:11px;
+    color:#597065;
+    font-weight:700;
+}
+
+.total-box strong{
+    font-size:22px;
+    color:#078b47;
+}
+
+.modal-footer{
+    padding:16px 22px;
+    border-top:1px solid var(--border);
+    display:flex;
+    justify-content:flex-start;
+    gap:8px;
 }
 
 /* ================= RESPONSIVE ================= */
 
 @media(max-width:1100px){
-
-    .sidebar{
-        width:230px;
-    }
-
-    .main{
-        margin-right:230px;
-    }
-
-    .cards{
+    .stats{
         grid-template-columns:repeat(2,1fr);
     }
 
-    .dashboard-grid{
+    .grid{
         grid-template-columns:1fr;
     }
 }
 
-@media(max-width:750px){
+@media(max-width:800px){
 
     .sidebar{
-        width:70px;
+        transform:translateX(100%);
     }
 
-    .brand-text,
-    .menu-item span:not(.menu-icon),
-    .menu-title,
-    .user-info{
-        display:none;
-    }
-
-    .brand{
-        padding:5px;
-    }
-
-    .brand img{
-        width:52px;
-        height:52px;
-    }
-
-    .menu-item{
-        justify-content:center;
-        padding:14px 5px;
-    }
-
-    .sidebar-bottom{
-        padding:8px;
-    }
-
-    .user-box{
-        justify-content:center;
+    .sidebar.open{
+        transform:translateX(0);
     }
 
     .main{
-        margin-right:70px;
+        margin-right:0;
+        width:100%;
     }
 
-    .header{
+    .mobile-menu{
+        display:grid;
+    }
+
+    .topbar{
         padding:0 15px;
     }
 
-    .search{
-        display:none;
-    }
-
     .content{
-        padding:15px;
-    }
-
-    .cards{
-        grid-template-columns:1fr 1fr;
-        gap:10px;
-    }
-
-    .quick-actions{
-        grid-template-columns:1fr 1fr;
+        padding:16px;
     }
 
     .welcome{
@@ -614,22 +804,47 @@ td{
     }
 
     .welcome h2{
-        font-size:17px;
+        font-size:18px;
     }
 
     .date-box{
         display:none;
     }
+
+    .stats{
+        grid-template-columns:1fr 1fr;
+        gap:10px;
+    }
+
+    .stat-card{
+        padding:14px;
+    }
+
+    .stat-number{
+        font-size:21px;
+    }
 }
 
-@media(max-width:480px){
+@media(max-width:500px){
 
-    .cards{
+    .stats{
         grid-template-columns:1fr;
     }
 
-    .quick-actions{
+    .form{
         grid-template-columns:1fr;
+    }
+
+    .field.full{
+        grid-column:auto;
+    }
+
+    .total-box{
+        grid-column:auto;
+    }
+
+    .top-actions .icon-btn{
+        display:none;
     }
 }
 </style>
@@ -637,110 +852,106 @@ td{
 
 <body>
 
+<div class="app">
+
 <!-- ================= SIDEBAR ================= -->
 
-<aside class="sidebar">
+<aside class="sidebar" id="sidebar">
 
     <div class="brand">
-
-        <img src="assets/rasras-logo.jpg" alt="RASRAS">
+        <img
+            src="https://i.ibb.co/6R22M5n/rasras-logo.jpg"
+            alt="RASRAS"
+        >
 
         <div class="brand-text">
-            <strong>RASRAS</strong>
+            <strong>RASRAS ERP</strong>
             <span>PLASTIC RAW MATERIALS</span>
         </div>
-
     </div>
 
-    <nav class="menu">
+    <div class="menu">
 
         <div class="menu-title">الرئيسية</div>
 
-        <button class="menu-item active">
+        <a class="menu-item active">
             <span class="menu-icon">⌂</span>
-            <span>لوحة التحكم</span>
-        </button>
+            لوحة التحكم
+        </a>
 
         <div class="menu-title">المبيعات</div>
 
-        <button class="menu-item">
-            <span class="menu-icon">🧾</span>
-            <span>أوامر البيع</span>
-        </button>
+        <a class="menu-item" onclick="openOrderModal()">
+            <span class="menu-icon">＋</span>
+            أمر بيع جديد
+        </a>
 
-        <button class="menu-item">
-            <span class="menu-icon">👥</span>
-            <span>العملاء</span>
-        </button>
+        <a class="menu-item">
+            <span class="menu-icon">▤</span>
+            أوامر البيع
+        </a>
 
-        <button class="menu-item">
-            <span class="menu-icon">💰</span>
-            <span>الفواتير</span>
-        </button>
-
-        <div class="menu-title">المشتريات</div>
-
-        <button class="menu-item">
-            <span class="menu-icon">📦</span>
-            <span>أوامر الشراء</span>
-        </button>
-
-        <button class="menu-item">
-            <span class="menu-icon">🏢</span>
-            <span>الموردين</span>
-        </button>
+        <a class="menu-item">
+            <span class="menu-icon">▣</span>
+            العملاء
+        </a>
 
         <div class="menu-title">المخازن</div>
 
-        <button class="menu-item">
-            <span class="menu-icon">🏭</span>
-            <span>المخازن</span>
-        </button>
+        <a class="menu-item">
+            <span class="menu-icon">▥</span>
+            المخازن
+        </a>
 
-        <button class="menu-item">
-            <span class="menu-icon">📊</span>
-            <span>الأصناف والمخزون</span>
-        </button>
+        <a class="menu-item">
+            <span class="menu-icon">◫</span>
+            الأصناف
+        </a>
+
+        <a class="menu-item">
+            <span class="menu-icon">◉</span>
+            حركة المخزون
+        </a>
 
         <div class="menu-title">الحسابات</div>
 
-        <button class="menu-item">
-            <span class="menu-icon">💳</span>
-            <span>الحسابات</span>
-        </button>
+        <a class="menu-item">
+            <span class="menu-icon">▤</span>
+            الفواتير
+        </a>
 
-        <button class="menu-item">
-            <span class="menu-icon">📈</span>
-            <span>التقارير المالية</span>
-        </button>
+        <a class="menu-item">
+            <span class="menu-icon">₤</span>
+            الحسابات
+        </a>
+
+        <a class="menu-item">
+            <span class="menu-icon">✓</span>
+            الاعتمادات
+        </a>
 
         <div class="menu-title">الإدارة</div>
 
-        <button class="menu-item">
-            <span class="menu-icon">👤</span>
-            <span>المستخدمون والصلاحيات</span>
-        </button>
+        <a class="menu-item">
+            <span class="menu-icon">◌</span>
+            المستخدمين والصلاحيات
+        </a>
 
-        <button class="menu-item">
-            <span class="menu-icon">⚙️</span>
-            <span>الإعدادات</span>
-        </button>
+        <a class="menu-item">
+            <span class="menu-icon">⚙</span>
+            إعدادات النظام
+        </a>
 
-    </nav>
+    </div>
 
     <div class="sidebar-bottom">
-
-        <div class="user-box">
-
+        <div class="user-card">
             <div class="avatar">م</div>
-
-            <div class="user-info">
+            <div>
                 <strong>مدير النظام</strong>
-                <span>Administrator</span>
+                <span>صلاحية كاملة</span>
             </div>
-
         </div>
-
     </div>
 
 </aside>
@@ -750,24 +961,41 @@ td{
 
 <main class="main">
 
-    <header class="header">
+    <header class="topbar">
 
-        <div class="page-title">
-            <h1>لوحة التحكم</h1>
-            <p>نظرة عامة على أعمال RASRAS</p>
+        <div style="display:flex;align-items:center;gap:12px">
+
+            <button
+                class="icon-btn mobile-menu"
+                onclick="toggleSidebar()"
+            >
+                ☰
+            </button>
+
+            <div class="page-title">
+                <h1>لوحة التحكم</h1>
+                <p>نظرة عامة على عمليات الشركة</p>
+            </div>
+
         </div>
 
-        <div class="header-actions">
+        <div class="top-actions">
 
-            <input
-                class="search"
-                type="search"
-                placeholder="ابحث في النظام..."
+            <button class="icon-btn">
+                🔍
+            </button>
+
+            <button class="icon-btn">
+                🔔
+                <span class="notification-dot"></span>
+            </button>
+
+            <button
+                class="btn btn-primary"
+                onclick="openOrderModal()"
             >
-
-            <button class="icon-btn">🔔</button>
-
-            <button class="icon-btn">⚙️</button>
+                ＋ أمر بيع
+            </button>
 
         </div>
 
@@ -776,103 +1004,170 @@ td{
 
     <section class="content">
 
-        <!-- Welcome -->
+        <!-- WELCOME -->
 
         <div class="welcome">
 
             <div>
-                <h2>مرحباً بك في RASRAS ERP 👋</h2>
+                <h2>أهلاً بك في RASRAS ERP 👋</h2>
                 <p>
-                    نظام إدارة متكامل لمتابعة المبيعات والمشتريات والمخازن والحسابات.
+                    إدارة المبيعات والمخازن والحسابات من مكان واحد.
                 </p>
             </div>
 
             <div class="date-box">
-                الأحد، 7 سبتمبر 2026
+                اليوم: <span id="today"></span>
             </div>
 
         </div>
 
 
-        <!-- Statistics -->
+        <!-- STATS -->
 
-        <div class="cards">
+        <div class="stats">
 
-            <div class="card">
+            <div class="stat-card">
 
-                <div class="card-top">
-                    <div class="card-icon green">🧾</div>
-                    <span>اليوم</span>
+                <div class="stat-top">
+
+                    <div>
+                        <div class="stat-label">
+                            إجمالي المبيعات
+                        </div>
+
+                        <div class="stat-number">
+                            2,845,600
+                        </div>
+                    </div>
+
+                    <div class="stat-icon green">
+                        ₤
+                    </div>
+
                 </div>
 
-                <div class="card-label">أوامر البيع</div>
-                <div class="card-value">24</div>
-                <div class="card-change">↑ 12% عن أمس</div>
-
-            </div>
-
-
-            <div class="card">
-
-                <div class="card-top">
-                    <div class="card-icon blue">💰</div>
+                <div class="stat-footer">
+                    <span class="up">↑ 12.8%</span>
                     <span>هذا الشهر</span>
                 </div>
 
-                <div class="card-label">إجمالي المبيعات</div>
-                <div class="card-value">2.84M</div>
-                <div class="card-change">↑ 8.4% هذا الشهر</div>
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-top">
+
+                    <div>
+                        <div class="stat-label">
+                            أوامر البيع
+                        </div>
+
+                        <div class="stat-number">
+                            148
+                        </div>
+                    </div>
+
+                    <div class="stat-icon blue">
+                        ▤
+                    </div>
+
+                </div>
+
+                <div class="stat-footer">
+                    <span class="up">↑ 8.4%</span>
+                    <span>هذا الشهر</span>
+                </div>
 
             </div>
 
 
-            <div class="card">
+            <div class="stat-card">
 
-                <div class="card-top">
-                    <div class="card-icon orange">📦</div>
-                    <span>المخازن</span>
+                <div class="stat-top">
+
+                    <div>
+                        <div class="stat-label">
+                            قيمة المخزون
+                        </div>
+
+                        <div class="stat-number">
+                            8.42M
+                        </div>
+                    </div>
+
+                    <div class="stat-icon orange">
+                        ▥
+                    </div>
+
                 </div>
 
-                <div class="card-label">قيمة المخزون</div>
-                <div class="card-value">7.21M</div>
-                <div class="card-change">42 صنف متاح</div>
+                <div class="stat-footer">
+                    <span class="up">↑ 4.2%</span>
+                    <span>إجمالي المخازن</span>
+                </div>
 
             </div>
 
 
-            <div class="card">
+            <div class="stat-card">
 
-                <div class="card-top">
-                    <div class="card-icon red">⏳</div>
-                    <span>تحتاج متابعة</span>
+                <div class="stat-top">
+
+                    <div>
+                        <div class="stat-label">
+                            أوامر تحتاج اعتماد
+                        </div>
+
+                        <div class="stat-number">
+                            17
+                        </div>
+                    </div>
+
+                    <div class="stat-icon red">
+                        !
+                    </div>
+
                 </div>
 
-                <div class="card-label">أوامر بانتظار الاعتماد</div>
-                <div class="card-value">8</div>
-                <div class="card-change">3 أوامر عاجلة</div>
+                <div class="stat-footer">
+                    <span style="color:#ef4444;font-weight:800">
+                        تحتاج متابعة
+                    </span>
+                    <span>الآن</span>
+                </div>
 
             </div>
 
         </div>
 
 
-        <!-- Main dashboard -->
+        <!-- CONTENT GRID -->
 
-        <div class="dashboard-grid">
+        <div class="grid">
 
-            <!-- Orders -->
+            <div class="card">
 
-            <div class="panel">
+                <div class="card-header">
 
-                <div class="panel-header">
+                    <div>
+                        <div class="card-title">
+                            آخر أوامر البيع
+                        </div>
 
-                    <h3>آخر أوامر البيع</h3>
+                        <div class="card-subtitle">
+                            أحدث العمليات المسجلة بالنظام
+                        </div>
+                    </div>
 
-                    <button>عرض الكل</button>
+                    <span class="view-all">
+                        عرض الكل ←
+                    </span>
 
                 </div>
 
-                <div class="table-container">
+
+                <div class="table-wrapper">
 
                     <table>
 
@@ -884,58 +1179,128 @@ td{
                                 <th>المخزن</th>
                                 <th>القيمة</th>
                                 <th>الحالة</th>
+                                <th>التاريخ</th>
                             </tr>
 
                         </thead>
 
-                        <tbody>
+                        <tbody id="ordersTable">
 
                             <tr>
-                                <td><strong>#SO-1024</strong></td>
-                                <td>شركة النور</td>
-                                <td>مخزن 1</td>
-                                <td>185,400 ج.م</td>
                                 <td>
-                                    <span class="status approved">
-                                        معتمد
+                                    <span class="order-number">
+                                        SO-2026-0148
                                     </span>
                                 </td>
+
+                                <td>
+                                    <div class="customer">
+                                        <div class="customer-avatar">م</div>
+                                        شركة المتحدة
+                                    </div>
+                                </td>
+
+                                <td>مخزن العاشر</td>
+
+                                <td>485,000 ج.م</td>
+
+                                <td>
+                                    <span class="badge success">
+                                        مكتمل
+                                    </span>
+                                </td>
+
+                                <td>07/09/2026</td>
                             </tr>
 
+
                             <tr>
-                                <td><strong>#SO-1023</strong></td>
-                                <td>شركة الأمل</td>
+
+                                <td>
+                                    <span class="order-number">
+                                        SO-2026-0147
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="customer">
+                                        <div class="customer-avatar">أ</div>
+                                        الأهرام للتجارة
+                                    </div>
+                                </td>
+
+                                <td>المخزن الرئيسي</td>
+
+                                <td>328,500 ج.م</td>
+
+                                <td>
+                                    <span class="badge warning">
+                                        بانتظار الحسابات
+                                    </span>
+                                </td>
+
+                                <td>07/09/2026</td>
+
+                            </tr>
+
+
+                            <tr>
+
+                                <td>
+                                    <span class="order-number">
+                                        SO-2026-0146
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <div class="customer">
+                                        <div class="customer-avatar">الن</div>
+                                        النيل للتجارة
+                                    </div>
+                                </td>
+
                                 <td>مخزن 2</td>
-                                <td>92,750 ج.م</td>
+
+                                <td>715,000 ج.م</td>
+
                                 <td>
-                                    <span class="status review">
-                                        مراجعة الحسابات
+                                    <span class="badge info">
+                                        بانتظار المخزن
                                     </span>
                                 </td>
+
+                                <td>06/09/2026</td>
+
                             </tr>
 
-                            <tr>
-                                <td><strong>#SO-1022</strong></td>
-                                <td>مصنع المستقبل</td>
-                                <td>مخزن 1</td>
-                                <td>318,200 ج.م</td>
-                                <td>
-                                    <span class="status pending">
-                                        بانتظار الاعتماد
-                                    </span>
-                                </td>
-                            </tr>
 
                             <tr>
-                                <td><strong>#SO-1021</strong></td>
-                                <td>شركة المتحدة</td>
-                                <td>مخزن 3</td>
-                                <td>147,900 ج.م</td>
+
                                 <td>
-                                    <span class="status approved">
-                                        معتمد
+                                    <span class="order-number">
+                                        SO-2026-0145
                                     </span>
                                 </td>
+
+                                <td>
+                                    <div class="customer">
+                                        <div class="customer-avatar">ر</div>
+                                        رويال بلاست
+                                    </div>
+                                </td>
+
+                                <td>مخزن العاشر</td>
+
+                                <td>196,250 ج.م</td>
+
+                                <td>
+                                    <span class="badge success">
+                                        مكتمل
+                                    </span>
+                                </td>
+
+                                <td>06/09/2026</td>
+
                             </tr>
 
                         </tbody>
@@ -947,110 +1312,128 @@ td{
             </div>
 
 
-            <!-- Activity -->
+            <!-- RIGHT -->
 
-            <div class="panel">
+            <div style="display:flex;flex-direction:column;gap:20px">
 
-                <div class="panel-header">
+                <div class="card">
 
-                    <h3>آخر النشاطات</h3>
+                    <div class="card-header">
 
-                    <button>عرض الكل</button>
+                        <div>
+                            <div class="card-title">
+                                إجراءات سريعة
+                            </div>
 
-                </div>
-
-                <div class="activity">
-
-                    <div class="activity-item">
-
-                        <div class="activity-icon">✓</div>
-
-                        <div class="activity-text">
-                            <strong>تم اعتماد أمر بيع #SO-1024</strong>
-                            <span>منذ 15 دقيقة · مدير الحسابات</span>
+                            <div class="card-subtitle">
+                                اختصارات النظام
+                            </div>
                         </div>
 
                     </div>
 
+                    <div class="quick-actions">
 
-                    <div class="activity-item">
+                        <button
+                            class="quick"
+                            onclick="openOrderModal()"
+                        >
+                            <div class="quick-icon">＋</div>
+                            <strong>أمر بيع جديد</strong>
+                            <span>إنشاء طلب بيع</span>
+                        </button>
 
-                        <div class="activity-icon">📦</div>
+                        <button class="quick">
+                            <div class="quick-icon">▣</div>
+                            <strong>عميل جديد</strong>
+                            <span>إضافة عميل</span>
+                        </button>
 
-                        <div class="activity-text">
-                            <strong>تم صرف 25 طن من خامة SABIC</strong>
-                            <span>منذ 32 دقيقة · مخزن 1</span>
-                        </div>
+                        <button class="quick">
+                            <div class="quick-icon">▥</div>
+                            <strong>حركة مخزن</strong>
+                            <span>صرف أو إضافة</span>
+                        </button>
 
-                    </div>
-
-
-                    <div class="activity-item">
-
-                        <div class="activity-icon">💰</div>
-
-                        <div class="activity-text">
-                            <strong>تم تسجيل فاتورة جديدة</strong>
-                            <span>منذ ساعة · الحسابات</span>
-                        </div>
-
-                    </div>
-
-
-                    <div class="activity-item">
-
-                        <div class="activity-icon">👤</div>
-
-                        <div class="activity-text">
-                            <strong>تم إنشاء عميل جديد</strong>
-                            <span>منذ ساعتين · المبيعات</span>
-                        </div>
+                        <button class="quick">
+                            <div class="quick-icon">▤</div>
+                            <strong>فاتورة جديدة</strong>
+                            <span>إنشاء فاتورة</span>
+                        </button>
 
                     </div>
 
                 </div>
 
-            </div>
 
-        </div>
+                <div class="card">
+
+                    <div class="card-header">
+
+                        <div>
+                            <div class="card-title">
+                                الاعتمادات
+                            </div>
+
+                            <div class="card-subtitle">
+                                العمليات التي تحتاج مراجعة
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="approvals">
+
+                        <div class="approval">
+
+                            <div class="approval-icon">₤</div>
+
+                            <div class="approval-info">
+                                <strong>اعتماد الحسابات</strong>
+                                <span>أوامر البيع</span>
+                            </div>
+
+                            <div class="approval-count">
+                                8
+                            </div>
+
+                        </div>
 
 
-        <!-- Quick Actions -->
+                        <div class="approval">
 
-        <div class="quick-actions">
+                            <div class="approval-icon">▥</div>
 
-            <div class="quick">
+                            <div class="approval-info">
+                                <strong>اعتماد المخزن</strong>
+                                <span>طلبات صرف</span>
+                            </div>
 
-                <div class="quick-icon">➕</div>
-                <strong>أمر بيع جديد</strong>
-                <span>إنشاء أمر بيع</span>
+                            <div class="approval-count">
+                                5
+                            </div>
 
-            </div>
-
-
-            <div class="quick">
-
-                <div class="quick-icon">🛒</div>
-                <strong>أمر شراء جديد</strong>
-                <span>تسجيل عملية شراء</span>
-
-            </div>
+                        </div>
 
 
-            <div class="quick">
+                        <div class="approval">
 
-                <div class="quick-icon">📦</div>
-                <strong>إضافة صنف</strong>
-                <span>إضافة خامة جديدة</span>
+                            <div class="approval-icon">✓</div>
 
-            </div>
+                            <div class="approval-info">
+                                <strong>اعتماد الإدارة</strong>
+                                <span>طلبات نهائية</span>
+                            </div>
 
+                            <div class="approval-count">
+                                4
+                            </div>
 
-            <div class="quick">
+                        </div>
 
-                <div class="quick-icon">📊</div>
-                <strong>التقارير</strong>
-                <span>عرض تقارير النظام</span>
+                    </div>
+
+                </div>
 
             </div>
 
@@ -1060,24 +1443,390 @@ td{
 
 </main>
 
+</div>
+
+
+<!-- ================= MODAL ================= -->
+
+<div class="modal" id="orderModal">
+
+    <div class="modal-box">
+
+        <div class="modal-header">
+
+            <div>
+                <h3>إنشاء أمر بيع جديد</h3>
+            </div>
+
+            <button
+                class="close"
+                onclick="closeOrderModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="form">
+
+            <div class="field">
+
+                <label>اسم العميل</label>
+
+                <input
+                    id="customer"
+                    type="text"
+                    placeholder="اكتب اسم العميل"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>المخزن</label>
+
+                <select id="warehouse">
+
+                    <option>المخزن الرئيسي</option>
+                    <option>مخزن العاشر</option>
+                    <option>مخزن 2</option>
+                    <option>مخزن 3</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>الصنف</label>
+
+                <select id="product">
+
+                    <option>PP خام</option>
+                    <option>PE خام</option>
+                    <option>HDPE</option>
+                    <option>LDPE</option>
+                    <option>PET</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field">
+
+                <label>الكمية</label>
+
+                <input
+                    id="quantity"
+                    type="number"
+                    value="1"
+                    min="1"
+                    oninput="calculateTotal()"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>سعر الوحدة</label>
+
+                <input
+                    id="price"
+                    type="number"
+                    value="0"
+                    min="0"
+                    oninput="calculateTotal()"
+                >
+
+            </div>
+
+
+            <div class="field">
+
+                <label>طريقة الدفع</label>
+
+                <select id="payment">
+
+                    <option>نقدي</option>
+                    <option>تحويل بنكي</option>
+                    <option>شيك</option>
+                    <option>آجل</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="field full">
+
+                <label>نوع الفاتورة</label>
+
+                <select id="invoice">
+
+                    <option>فاتورة ضريبية</option>
+                    <option>فاتورة عادية</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="total-box">
+
+                <span>
+                    إجمالي أمر البيع
+                </span>
+
+                <strong id="total">
+                    0.00 ج.م
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="modal-footer">
+
+            <button
+                class="btn btn-primary"
+                onclick="saveOrder()"
+            >
+                حفظ أمر البيع
+            </button>
+
+            <button
+                class="btn btn-light"
+                onclick="closeOrderModal()"
+            >
+                إلغاء
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
 
 <script>
 
-const menuItems = document.querySelectorAll(".menu-item");
+/* ================= DATABASE ================= */
 
-menuItems.forEach(item => {
+const DB_KEY = "RASRAS_ERP_DATABASE_V3";
 
-    item.addEventListener("click", () => {
+let database = JSON.parse(
+    localStorage.getItem(DB_KEY) || "{}"
+);
 
-        menuItems.forEach(x => x.classList.remove("active"));
+if(!database.orders){
+    database.orders = [];
+}
 
-        item.classList.add("active");
+if(!database.customers){
+    database.customers = [];
+}
 
+if(!database.products){
+    database.products = [];
+}
+
+if(!database.warehouses){
+    database.warehouses = [];
+}
+
+localStorage.setItem(
+    DB_KEY,
+    JSON.stringify(database)
+);
+
+
+/* ================= DATE ================= */
+
+document.getElementById("today").textContent =
+    new Date().toLocaleDateString("ar-EG",{
+        weekday:"long",
+        year:"numeric",
+        month:"long",
+        day:"numeric"
     });
 
-});
+
+/* ================= SIDEBAR ================= */
+
+function toggleSidebar(){
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+/* ================= MODAL ================= */
+
+function openOrderModal(){
+
+    document
+        .getElementById("orderModal")
+        .classList.add("show");
+
+}
+
+function closeOrderModal(){
+
+    document
+        .getElementById("orderModal")
+        .classList.remove("show");
+
+}
+
+
+/* ================= CALCULATE ================= */
+
+function calculateTotal(){
+
+    const quantity =
+        Number(document.getElementById("quantity").value) || 0;
+
+    const price =
+        Number(document.getElementById("price").value) || 0;
+
+    const total = quantity * price;
+
+    document.getElementById("total").textContent =
+        total.toLocaleString("ar-EG",{
+            minimumFractionDigits:2
+        }) + " ج.م";
+
+}
+
+
+/* ================= SAVE ORDER ================= */
+
+function saveOrder(){
+
+    const customer =
+        document.getElementById("customer").value.trim();
+
+    const warehouse =
+        document.getElementById("warehouse").value;
+
+    const product =
+        document.getElementById("product").value;
+
+    const quantity =
+        Number(document.getElementById("quantity").value) || 0;
+
+    const price =
+        Number(document.getElementById("price").value) || 0;
+
+    const payment =
+        document.getElementById("payment").value;
+
+    const invoice =
+        document.getElementById("invoice").value;
+
+    if(!customer){
+
+        alert("من فضلك اكتب اسم العميل");
+
+        return;
+    }
+
+    if(quantity <= 0){
+
+        alert("من فضلك أدخل كمية صحيحة");
+
+        return;
+    }
+
+    if(price <= 0){
+
+        alert("من فضلك أدخل سعر الوحدة");
+
+        return;
+    }
+
+    const order = {
+
+        id:
+            "SO-" +
+            new Date().getFullYear() +
+            "-" +
+            String(database.orders.length + 149)
+                .padStart(4,"0"),
+
+        customer,
+
+        warehouse,
+
+        product,
+
+        quantity,
+
+        price,
+
+        total:quantity * price,
+
+        payment,
+
+        invoice,
+
+        status:"بانتظار الحسابات",
+
+        createdAt:new Date().toISOString()
+
+    };
+
+
+    database.orders.unshift(order);
+
+    localStorage.setItem(
+        DB_KEY,
+        JSON.stringify(database)
+    );
+
+
+    alert(
+        "تم إنشاء أمر البيع بنجاح\n" +
+        order.id
+    );
+
+
+    closeOrderModal();
+
+    document.getElementById("customer").value = "";
+
+    document.getElementById("quantity").value = 1;
+
+    document.getElementById("price").value = 0;
+
+    calculateTotal();
+
+}
+
+
+/* ================= CLOSE MODAL ================= */
+
+document
+    .getElementById("orderModal")
+    .addEventListener("click",function(e){
+
+        if(e.target === this){
+
+            closeOrderModal();
+
+        }
+
+    });
 
 </script>
 
 </body>
-</html>
+            </html>
