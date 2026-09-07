@@ -3,102 +3,58 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#087443">
-<title>RASRAS PLASTIC | نظام إدارة أوامر البيع والشراء</title>
+<title>RASRAS ERP | نظام إدارة أوامر البيع</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 :root{
-  --green:#087443;
-  --green-2:#0b9254;
-  --green-dark:#04512f;
-  --green-soft:#eaf8f0;
-  --green-border:#bfe8cf;
-
-  --navy:#10251c;
+  --green:#0b8f4d;
+  --green-dark:#056b39;
+  --green-light:#eaf8f0;
+  --green-soft:#f3fbf6;
+  --navy:#10231b;
   --ink:#17221d;
   --muted:#718078;
-
-  --bg:#f3f7f5;
-  --card:#ffffff;
-  --line:#e2ebe6;
-
-  --orange:#d97706;
-  --orange-soft:#fff7e8;
-
-  --blue:#087ca5;
-  --blue-soft:#e9f7fc;
-
-  --pink:#be185d;
-  --pink-soft:#fdf0f6;
-
-  --yellow:#a16207;
-  --yellow-soft:#fffbea;
-
-  --red:#dc2626;
-  --red-soft:#fff0f0;
-
-  --shadow:0 8px 30px rgba(16,37,28,.06);
-  --shadow-lg:0 18px 55px rgba(16,37,28,.10);
+  --bg:#f4f7f5;
+  --white:#fff;
+  --line:#e1e9e4;
+  --danger:#dc3545;
+  --warning:#d98b00;
+  --blue:#1479c9;
+  --purple:#7654c5;
+  --shadow:0 8px 30px rgba(20,50,35,.07);
+  --shadow2:0 15px 45px rgba(20,50,35,.12);
 }
 
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
-html{
-  scroll-behavior:smooth;
+html,body{
+  margin:0;
+  padding:0;
+  min-height:100%;
 }
 
 body{
-  margin:0;
   font-family:'Cairo',sans-serif;
   background:
-    radial-gradient(circle at top right,rgba(8,116,67,.07),transparent 30%),
+    radial-gradient(circle at 10% 0%,rgba(11,143,77,.07),transparent 28%),
     var(--bg);
   color:var(--ink);
   -webkit-font-smoothing:antialiased;
 }
 
-button,input,select{
+button,input,select,textarea{
   font-family:inherit;
 }
 
-button{
-  -webkit-tap-highlight-color:transparent;
-}
+button{cursor:pointer}
 
 .app{
-  width:min(1180px,100%);
+  max-width:1180px;
   margin:auto;
-  padding:20px 18px 90px;
-}
-
-/* =========================
-   LOGO
-========================= */
-
-.app-logo{
-  width:58px;
-  height:58px;
-  object-fit:contain;
-  border-radius:16px;
-  background:#fff;
-  padding:5px;
-  box-shadow:0 5px 18px rgba(0,0,0,.08);
-}
-
-.login-logo-img{
-  width:105px;
-  height:105px;
-  object-fit:contain;
-  border-radius:25px;
-  padding:8px;
-  background:#fff;
-  box-shadow:0 15px 35px rgba(8,116,67,.14);
+  padding:18px 18px 80px;
 }
 
 /* =========================
@@ -106,53 +62,49 @@ button{
 ========================= */
 
 .login-screen{
-  min-height:calc(100vh - 40px);
+  min-height:100vh;
   display:flex;
   align-items:center;
   justify-content:center;
+  padding:25px;
 }
 
 .login-card{
-  width:min(450px,100%);
-  background:rgba(255,255,255,.96);
+  width:100%;
+  max-width:460px;
+  background:#fff;
   border:1px solid var(--line);
   border-radius:30px;
-  padding:40px 30px 30px;
-  box-shadow:var(--shadow-lg);
+  padding:38px 32px;
+  box-shadow:var(--shadow2);
   text-align:center;
-  position:relative;
-  overflow:hidden;
 }
 
-.login-card:before{
-  content:"";
-  position:absolute;
-  top:0;
-  right:0;
-  left:0;
-  height:6px;
-  background:linear-gradient(90deg,var(--green-dark),var(--green-2));
+.login-logo{
+  width:110px;
+  height:110px;
+  object-fit:contain;
+  margin-bottom:8px;
 }
 
-.login-card h2{
-  margin:8px 0 3px;
-  color:var(--navy);
-  font-size:25px;
+.login-card h1{
+  margin:4px 0 0;
+  font-size:26px;
   font-weight:900;
-  letter-spacing:.2px;
+  color:var(--navy);
 }
 
-.login-card .login-subtitle{
-  margin:0 0 28px;
+.login-card .subtitle{
+  margin:4px 0 28px;
   color:var(--green);
   font-size:13px;
   font-weight:800;
 }
 
 .login-footer{
-  margin-top:20px;
-  font-size:11px;
   color:var(--muted);
+  font-size:11px;
+  margin-top:20px;
 }
 
 /* =========================
@@ -160,13 +112,16 @@ button{
 ========================= */
 
 .header{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:14px 18px;
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   gap:15px;
-  padding:5px 0 20px;
-  border-bottom:1px solid var(--line);
-  margin-bottom:18px;
+  box-shadow:var(--shadow);
+  margin-bottom:15px;
 }
 
 .brand{
@@ -175,50 +130,55 @@ button{
   gap:13px;
 }
 
-.brand-text h1{
+.brand-logo{
+  width:58px;
+  height:58px;
+  object-fit:contain;
+  border-radius:14px;
+}
+
+.brand h1{
   margin:0;
-  font-size:22px;
-  line-height:1.2;
+  font-size:21px;
   font-weight:900;
   color:var(--navy);
 }
 
-.brand-text p{
-  margin:4px 0 0;
+.brand p{
+  margin:0;
+  font-size:11px;
   color:var(--green);
-  font-size:12px;
   font-weight:800;
 }
 
-.header-actions{
+.user-area{
   display:flex;
   align-items:center;
-  gap:7px;
+  gap:8px;
 }
 
 .user-badge{
-  background:var(--green-soft);
+  background:var(--green-light);
+  border:1px solid #c9ecd8;
   color:var(--green-dark);
-  border:1px solid var(--green-border);
-  padding:7px 13px;
   border-radius:30px;
+  padding:7px 13px;
   font-size:12px;
   font-weight:800;
 }
 
 .logout-btn{
-  border:1px solid #ffd0d0;
-  background:#fff;
-  color:var(--red);
-  padding:7px 12px;
-  border-radius:10px;
+  background:#fff1f2;
+  color:var(--danger);
+  border:1px solid #ffd5da;
+  border-radius:12px;
+  padding:8px 13px;
   font-size:12px;
   font-weight:800;
-  cursor:pointer;
 }
 
 /* =========================
-   NAVIGATION
+   NAV
 ========================= */
 
 .tabs{
@@ -226,52 +186,44 @@ button{
   gap:8px;
   overflow-x:auto;
   padding:2px 1px 10px;
-  margin-bottom:20px;
-  scrollbar-width:none;
-}
-
-.tabs::-webkit-scrollbar{
-  display:none;
+  margin-bottom:8px;
 }
 
 .tab{
   flex:0 0 auto;
-  display:flex;
-  align-items:center;
-  gap:4px;
-  border:1px solid var(--line);
   background:#fff;
+  border:1px solid var(--line);
   color:var(--muted);
-  padding:11px 17px;
   border-radius:13px;
-  font-size:13px;
+  padding:10px 15px;
+  font-size:12px;
   font-weight:800;
-  cursor:pointer;
   transition:.2s;
-  box-shadow:0 2px 5px rgba(0,0,0,.02);
 }
 
 .tab:hover{
-  border-color:var(--green-border);
+  border-color:#b8dcca;
   color:var(--green);
-  transform:translateY(-1px);
 }
 
 .tab.active{
+  background:var(--green);
   color:#fff;
-  background:linear-gradient(135deg,var(--green-dark),var(--green-2));
-  border-color:transparent;
-  box-shadow:0 7px 18px rgba(8,116,67,.22);
+  border-color:var(--green);
+  box-shadow:0 5px 15px rgba(11,143,77,.2);
 }
 
-.tab .badge{
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   min-width:20px;
-  text-align:center;
+  height:20px;
+  border-radius:20px;
   background:#ef4444;
   color:#fff;
-  padding:1px 5px;
-  border-radius:20px;
   font-size:10px;
+  margin-right:4px;
 }
 
 /* =========================
@@ -279,126 +231,230 @@ button{
 ========================= */
 
 .card{
-  background:var(--card);
+  background:#fff;
   border:1px solid var(--line);
   border-radius:20px;
-  padding:22px;
-  margin-bottom:17px;
+  padding:21px;
+  margin-bottom:15px;
   box-shadow:var(--shadow);
 }
 
 .card-title{
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   gap:10px;
-  margin-bottom:18px;
+  margin-bottom:16px;
 }
 
+.card-title h2,
 .card-title h3{
   margin:0;
-  font-size:17px;
-  font-weight:900;
   color:var(--navy);
+  font-weight:900;
 }
+
+.card-title h2{font-size:18px}
+.card-title h3{font-size:15px}
 
 .card-title p{
   margin:3px 0 0;
-  font-size:11px;
   color:var(--muted);
+  font-size:11px;
 }
 
 /* =========================
-   DASHBOARD
+   STATS
 ========================= */
-
-.dashboard-head{
-  display:flex;
-  align-items:flex-end;
-  justify-content:space-between;
-  gap:15px;
-  margin:5px 0 17px;
-}
-
-.dashboard-head h2{
-  margin:0;
-  font-size:23px;
-  font-weight:900;
-  color:var(--navy);
-}
-
-.dashboard-head p{
-  margin:3px 0 0;
-  font-size:12px;
-  color:var(--muted);
-}
 
 .stat-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:13px;
-  margin-bottom:18px;
+  gap:12px;
+  margin-bottom:15px;
 }
 
-.stat-card{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:19px;
-  padding:18px;
+.stat{
   position:relative;
   overflow:hidden;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:17px;
   box-shadow:var(--shadow);
 }
 
-.stat-card:after{
+.stat:after{
   content:"";
   position:absolute;
-  width:75px;
-  height:75px;
+  left:-20px;
+  bottom:-25px;
+  width:80px;
+  height:80px;
+  background:var(--green-light);
   border-radius:50%;
-  left:-22px;
-  bottom:-28px;
-  background:var(--green-soft);
 }
 
 .stat-icon{
-  width:40px;
-  height:40px;
-  border-radius:12px;
+  width:37px;
+  height:37px;
+  border-radius:11px;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:var(--green-soft);
+  background:var(--green-light);
   color:var(--green);
-  font-size:19px;
+  font-size:18px;
   margin-bottom:10px;
 }
 
-.stat-card b{
+.stat b{
   display:block;
-  color:var(--navy);
   font-size:24px;
-  line-height:1.2;
   font-weight:900;
+  color:var(--navy);
 }
 
-.stat-card span{
+.stat span{
+  font-size:11px;
   color:var(--muted);
-  font-size:11.5px;
   font-weight:700;
 }
 
-.dashboard-section-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin:4px 0 12px;
+/* =========================
+   FORMS
+========================= */
+
+label{
+  display:block;
+  margin:14px 0 6px;
+  font-size:12px;
+  font-weight:800;
+  color:var(--navy);
 }
 
-.dashboard-section-title h3{
-  margin:0;
-  font-size:17px;
+label:first-child{
+  margin-top:0;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:#fbfdfc;
+  color:var(--ink);
+  outline:none;
+  padding:11px 13px;
+  font-size:13px;
+  transition:.2s;
+}
+
+textarea{
+  resize:vertical;
+  min-height:90px;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:var(--green);
+  box-shadow:0 0 0 3px rgba(11,143,77,.08);
+  background:#fff;
+}
+
+.row2{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.row3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-primary,
+.btn-secondary,
+.btn-danger,
+.btn-warning,
+.btn-blue{
+  border-radius:12px;
+  padding:12px 16px;
+  border:none;
+  font-size:13px;
+  font-weight:800;
+  transition:.2s;
+}
+
+.btn-primary{
+  width:100%;
+  margin-top:15px;
+  background:var(--green);
+  color:#fff;
+  box-shadow:0 5px 16px rgba(11,143,77,.2);
+}
+
+.btn-primary:hover{
+  background:var(--green-dark);
+  transform:translateY(-1px);
+}
+
+.btn-secondary{
+  background:#fff;
+  border:1px solid var(--line);
+  color:var(--ink);
+}
+
+.btn-danger{
+  background:#fff1f2;
+  color:var(--danger);
+  border:1px solid #ffd5da;
+}
+
+.btn-warning{
+  background:#fff7df;
+  color:#a56800;
+  border:1px solid #f5dda1;
+}
+
+.btn-blue{
+  background:#edf7ff;
+  color:#0966aa;
+  border:1px solid #cfe9fc;
+}
+
+/* =========================
+   SEGMENT
+========================= */
+
+.seg{
+  display:flex;
+  gap:8px;
+  margin-bottom:15px;
+}
+
+.seg-btn{
+  flex:1;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:13px;
+  padding:12px;
+  font-size:13px;
   font-weight:900;
+  color:var(--muted);
+}
+
+.seg-btn.active{
+  background:var(--navy);
+  border-color:var(--navy);
+  color:#fff;
 }
 
 /* =========================
@@ -409,17 +465,16 @@ button{
   background:#fff;
   border:1px solid var(--line);
   border-radius:17px;
-  padding:17px;
-  margin-bottom:10px;
+  padding:16px;
+  margin-bottom:9px;
   cursor:pointer;
   transition:.2s;
-  box-shadow:0 2px 8px rgba(0,0,0,.025);
 }
 
 .order-item:hover{
-  transform:translateY(-2px);
-  border-color:var(--green-border);
-  box-shadow:0 9px 22px rgba(8,116,67,.08);
+  border-color:#b9ddca;
+  box-shadow:0 6px 20px rgba(0,0,0,.06);
+  transform:translateY(-1px);
 }
 
 .order-top{
@@ -430,21 +485,21 @@ button{
 }
 
 .order-id{
-  color:var(--muted);
   font-size:11px;
+  color:var(--muted);
   font-weight:800;
 }
 
 .order-name{
-  color:var(--navy);
-  font-size:16px;
+  font-size:15px;
   font-weight:900;
+  color:var(--navy);
   margin-top:3px;
 }
 
 .order-meta{
   color:var(--muted);
-  font-size:11.5px;
+  font-size:11px;
   margin-top:5px;
 }
 
@@ -452,149 +507,71 @@ button{
   color:var(--green-dark);
 }
 
-.order-type{
-  display:inline-block;
-  padding:3px 8px;
-  border-radius:7px;
-  margin-inline-start:5px;
-  font-size:10px;
-  font-weight:800;
-}
-
-.order-type.sale{
-  background:var(--green-soft);
-  color:var(--green-dark);
-}
-
-.order-type.purchase{
-  background:#f1f5f9;
-  color:#475569;
-}
-
-/* =========================
-   STATUS
-========================= */
-
 .pill{
-  font-size:10.5px;
-  font-weight:900;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   padding:6px 11px;
-  border-radius:20px;
+  border-radius:30px;
   white-space:nowrap;
+  font-size:10px;
+  font-weight:900;
 }
 
-.pill.stage-sales_created{
+.stage-sales_created{
   background:#f1f5f9;
   color:#64748b;
 }
 
-.pill.stage-logistics_review{
-  background:var(--orange-soft);
-  color:var(--orange);
+.stage-manager_approval{
+  background:#f3e8ff;
+  color:#7e22ce;
 }
 
-.pill.stage-accounts_approval{
-  background:var(--blue-soft);
-  color:var(--blue);
+.stage-logistics_review{
+  background:#fff7df;
+  color:#a56800;
 }
 
-.pill.stage-warehouse_release{
-  background:var(--pink-soft);
-  color:var(--pink);
+.stage-accounts_approval{
+  background:#e8f5ff;
+  color:#0966aa;
 }
 
-.pill.stage-with_driver{
-  background:var(--yellow-soft);
-  color:var(--yellow);
+.stage-warehouse_release{
+  background:#fff0f6;
+  color:#be185d;
 }
 
-.pill.stage-delivered{
-  background:var(--green-soft);
+.stage-with_driver{
+  background:#fff9db;
+  color:#9a6900;
+}
+
+.stage-delivered{
+  background:var(--green-light);
   color:var(--green-dark);
 }
 
-/* =========================
-   FORM
-========================= */
-
-label{
-  display:block;
-  color:var(--navy);
-  font-size:12.5px;
-  font-weight:800;
-  margin:15px 0 6px;
+.stage-tax_pending{
+  background:#fff1f2;
+  color:#c02638;
 }
 
-label:first-child{
-  margin-top:0;
-}
-
-input[type=text],
-input[type=password],
-input[type=tel],
-input[type=number],
-select{
-  width:100%;
-  padding:12px 14px;
-  background:#fbfdfc;
-  border:1px solid var(--line);
-  border-radius:12px;
-  outline:none;
-  color:var(--ink);
-  font-size:13px;
-  transition:.2s;
-}
-
-input:focus,
-select:focus{
-  background:#fff;
-  border-color:var(--green);
-  box-shadow:0 0 0 3px rgba(8,116,67,.08);
-}
-
-.row2{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:13px;
-}
-
-.seg{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-  margin-bottom:17px;
-}
-
-.seg-btn{
-  padding:13px;
-  border-radius:13px;
-  border:1px solid var(--line);
-  background:#fff;
-  color:var(--muted);
-  font-size:13px;
-  font-weight:900;
-  cursor:pointer;
-}
-
-.seg-btn.active{
-  background:var(--navy);
-  color:#fff;
-  border-color:var(--navy);
+.stage-completed{
+  background:var(--green-light);
+  color:var(--green-dark);
 }
 
 /* =========================
    ITEMS
 ========================= */
 
-.items-head{
+.item-header{
   display:grid;
-  grid-template-columns:1fr 70px 100px 34px;
+  grid-template-columns:1fr 100px 110px 38px;
   gap:8px;
-  margin-bottom:6px;
-  padding:0 2px;
-}
-
-.items-head span{
+  padding:0 2px 6px;
   color:var(--muted);
   font-size:10px;
   font-weight:800;
@@ -602,380 +579,214 @@ select:focus{
 
 .item-row{
   display:grid;
-  grid-template-columns:1fr 70px 100px 34px;
+  grid-template-columns:1fr 100px 110px 38px;
   gap:8px;
-  margin-bottom:8px;
   align-items:center;
+  margin-bottom:8px;
 }
 
 .item-row input{
-  padding:10px;
-  font-size:12px;
+  padding:9px 10px;
 }
 
 .rm-btn{
-  width:34px;
-  height:34px;
-  border-radius:10px;
-  border:1px solid #ffd1d1;
-  background:#fff;
-  color:var(--red);
-  font-size:18px;
-  cursor:pointer;
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  border:1px solid #ffd5da;
+  background:#fff1f2;
+  color:var(--danger);
+  font-size:19px;
+  font-weight:700;
 }
 
-.add-item-btn{
+.add-item{
   width:100%;
-  padding:12px;
-  border:1px dashed var(--green-border);
-  border-radius:12px;
-  background:var(--green-soft);
-  color:var(--green-dark);
-  font-size:12.5px;
-  font-weight:900;
-  cursor:pointer;
+  padding:11px;
   margin-top:5px;
+  border:1px dashed #b9dcca;
+  background:var(--green-soft);
+  color:var(--green);
+  border-radius:12px;
+  font-size:12px;
+  font-weight:900;
 }
 
 .total-box{
-  margin-top:16px;
-  padding:16px;
-  border-radius:14px;
-  background:linear-gradient(135deg,#f0faf4,#f8fcfa);
-  border:1px solid var(--green-border);
+  margin-top:15px;
+  padding-top:14px;
+  border-top:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
 }
 
-.total-line{
+.total-box span{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:800;
+}
+
+.total-box b{
+  color:var(--green-dark);
+  font-size:20px;
+}
+
+/* =========================
+   ALERT
+========================= */
+
+.alert{
+  border-radius:15px;
+  padding:13px 15px;
+  margin-bottom:14px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.alert-green{
+  background:var(--green-light);
+  color:var(--green-dark);
+  border:1px solid #c9ecd8;
+}
+
+.alert-yellow{
+  background:#fff8e5;
+  color:#9a6900;
+  border:1px solid #f2dda7;
+}
+
+.alert-red{
+  background:#fff1f2;
+  color:#b42333;
+  border:1px solid #ffd1d7;
+}
+
+.alert-blue{
+  background:#eef7ff;
+  color:#0966aa;
+  border:1px solid #cde7fa;
+}
+
+/* =========================
+   APPROVAL FLOW
+========================= */
+
+.flow{
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  font-size:13px;
-  color:var(--muted);
-  padding:4px 0;
-}
-
-.total-line strong{
-  color:var(--navy);
-  font-size:15px;
-}
-
-.total-final{
-  margin-top:8px;
-  padding-top:11px;
-  border-top:1px solid var(--green-border);
-}
-
-.total-final span{
-  color:var(--green-dark);
-  font-weight:900;
-}
-
-.total-final b{
-  color:var(--green-dark);
-  font-size:21px;
-}
-
-/* =========================
-   BUTTONS
-========================= */
-
-.btn-primary{
-  width:100%;
-  padding:14px;
-  border:0;
-  border-radius:13px;
-  background:linear-gradient(135deg,var(--green-dark),var(--green-2));
-  color:#fff;
-  font-size:14px;
-  font-weight:900;
-  cursor:pointer;
-  margin-top:16px;
-  box-shadow:0 7px 18px rgba(8,116,67,.22);
-  transition:.2s;
-}
-
-.btn-primary:hover{
-  transform:translateY(-1px);
-  box-shadow:0 10px 22px rgba(8,116,67,.28);
-}
-
-.btn-secondary{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid var(--line);
-  background:#fff;
-  color:var(--ink);
-  font-size:13px;
-  font-weight:800;
-  cursor:pointer;
-  margin-top:8px;
-}
-
-.btn-danger{
-  width:100%;
-  padding:12px;
-  border-radius:12px;
-  border:1px solid #ffd1d1;
-  background:var(--red-soft);
-  color:var(--red);
-  font-size:13px;
-  font-weight:800;
-  cursor:pointer;
-  margin-top:8px;
-}
-
-/* =========================
-   REPORTS
-========================= */
-
-.report-summary{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:12px;
-  margin-bottom:18px;
-}
-
-.report-kpi{
-  border:1px solid var(--line);
-  background:#fff;
-  border-radius:17px;
-  padding:17px;
-  box-shadow:var(--shadow);
-}
-
-.report-kpi small{
-  display:block;
-  color:var(--muted);
-  font-size:11px;
-  font-weight:700;
+  overflow:auto;
+  padding:5px 0 15px;
   margin-bottom:5px;
 }
 
-.report-kpi strong{
-  display:block;
-  color:var(--navy);
-  font-size:19px;
-  font-weight:900;
+.flow-step{
+  min-width:125px;
+  text-align:center;
+  position:relative;
 }
 
-.report-card{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:20px;
-  overflow:hidden;
-  box-shadow:var(--shadow);
+.flow-step:not(:last-child):after{
+  content:"";
+  position:absolute;
+  top:18px;
+  right:-50%;
+  width:100%;
+  height:2px;
+  background:var(--line);
+  z-index:0;
 }
 
-.report-header{
-  padding:19px 20px;
-  border-bottom:1px solid var(--line);
+.flow-dot{
+  position:relative;
+  z-index:1;
+  margin:auto;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  background:#eef2f0;
+  color:var(--muted);
   display:flex;
   align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.report-header h3{
-  margin:0;
-  font-size:17px;
+  justify-content:center;
+  font-size:13px;
   font-weight:900;
+  border:3px solid #fff;
 }
 
-.report-header span{
-  color:var(--muted);
-  font-size:11px;
+.flow-step.active .flow-dot,
+.flow-step.done .flow-dot{
+  background:var(--green);
+  color:#fff;
 }
+
+.flow-label{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:9px;
+  font-weight:800;
+}
+
+.flow-step.active .flow-label,
+.flow-step.done .flow-label{
+  color:var(--green-dark);
+}
+
+/* =========================
+   TABLES
+========================= */
 
 .table-wrap{
-  width:100%;
-  overflow-x:auto;
+  overflow:auto;
 }
 
 .report-table{
   width:100%;
+  border-collapse:separate;
+  border-spacing:0;
   min-width:700px;
-  border-collapse:collapse;
-  font-size:12px;
+  font-size:11px;
+}
+
+.report-table th{
+  background:#f5f8f6;
+  color:var(--navy);
+  font-weight:900;
 }
 
 .report-table th,
 .report-table td{
-  padding:12px 10px;
-  text-align:center;
   border-bottom:1px solid var(--line);
-}
-
-.report-table th{
-  background:#f5f9f7;
-  color:var(--navy);
-  font-size:11px;
-  font-weight:900;
-  white-space:nowrap;
-}
-
-.report-table td{
-  color:#435249;
+  padding:11px 9px;
+  text-align:center;
 }
 
 .report-table tbody tr:hover{
   background:#fbfdfc;
 }
 
-.report-table tbody tr:last-child td{
-  border-bottom:0;
-}
-
-.amount{
-  color:var(--green-dark);
-  font-weight:900;
-  white-space:nowrap;
-}
-
 /* =========================
-   DETAILS
+   DRIVER MESSAGE
 ========================= */
 
-.detail-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding-bottom:15px;
-  border-bottom:1px solid var(--line);
-}
-
-.detail-id{
-  color:var(--muted);
-  font-size:11px;
-  font-weight:800;
-}
-
-.detail-name{
-  margin-top:3px;
-  color:var(--navy);
-  font-size:20px;
-  font-weight:900;
-}
-
-.info-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  margin-top:16px;
-}
-
-.info-box{
-  padding:12px;
-  border-radius:12px;
-  background:#f7faf8;
-  border:1px solid var(--line);
-}
-
-.info-box span{
-  display:block;
-  color:var(--muted);
-  font-size:10px;
-  font-weight:700;
-  margin-bottom:2px;
-}
-
-.info-box b{
-  color:var(--navy);
+.driver-message{
+  background:#f5faf7;
+  border:1px solid #cfe8d8;
+  border-radius:17px;
+  padding:16px;
+  white-space:pre-line;
   font-size:12px;
+  line-height:2;
 }
 
-.stage-flow{
+.message-actions{
   display:flex;
-  gap:5px;
-  margin:20px 0 5px;
-  overflow-x:auto;
-  padding-bottom:4px;
-}
-
-.stage-step{
-  flex:1;
-  min-width:110px;
-  text-align:center;
-}
-
-.stage-line{
-  height:5px;
-  border-radius:10px;
-  background:#e8eeeb;
-  margin-bottom:7px;
-}
-
-.stage-step.done .stage-line,
-.stage-step.current .stage-line{
-  background:var(--green);
-}
-
-.stage-step span{
-  color:var(--muted);
-  font-size:9.5px;
-  font-weight:800;
-}
-
-.stage-step.current span{
-  color:var(--green-dark);
-}
-
-/* =========================
-   USERS / PARTIES
-========================= */
-
-.section-label{
-  display:flex;
-  align-items:center;
   gap:8px;
-  margin-bottom:15px;
+  margin-top:12px;
 }
 
-.section-label:before{
-  content:"";
-  width:5px;
-  height:22px;
-  border-radius:8px;
-  background:var(--green);
-}
-
-.section-label h3{
-  margin:0;
-  color:var(--navy);
-  font-size:17px;
-  font-weight:900;
-}
-
-/* =========================
-   TOAST
-========================= */
-
-.toast{
-  position:fixed;
-  right:50%;
-  bottom:25px;
-  transform:translateX(50%) translateY(10px);
-  min-width:240px;
-  max-width:calc(100% - 30px);
-  background:var(--navy);
-  color:#fff;
-  padding:13px 20px;
-  border-radius:30px;
-  text-align:center;
-  font-size:12.5px;
-  font-weight:800;
-  box-shadow:0 12px 35px rgba(0,0,0,.2);
-  z-index:9999;
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-}
-
-.toast.show{
-  opacity:1;
-  transform:translateX(50%) translateY(0);
+.message-actions button{
+  flex:1;
 }
 
 /* =========================
@@ -989,21 +800,41 @@ select:focus{
 }
 
 .empty-icon{
-  width:55px;
-  height:55px;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  border-radius:50%;
-  margin:0 auto 10px;
-  background:var(--green-soft);
-  font-size:23px;
+  font-size:35px;
+  margin-bottom:8px;
 }
 
 .empty b{
   display:block;
   color:var(--navy);
-  margin-bottom:3px;
+  font-size:14px;
+}
+
+/* =========================
+   TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  right:50%;
+  bottom:25px;
+  transform:translateX(50%) translateY(20px);
+  background:var(--navy);
+  color:#fff;
+  border-radius:30px;
+  padding:11px 21px;
+  font-size:12px;
+  font-weight:800;
+  opacity:0;
+  pointer-events:none;
+  transition:.25s;
+  z-index:9999;
+  box-shadow:var(--shadow2);
+}
+
+.toast.show{
+  opacity:1;
+  transform:translateX(50%) translateY(0);
 }
 
 /* =========================
@@ -1015,115 +846,47 @@ select:focus{
 }
 
 @media print{
-
-  body{
-    background:#fff !important;
-  }
-
   body *{
-    visibility:hidden !important;
+    visibility:hidden!important;
   }
 
   #printArea,
   #printArea *{
-    visibility:visible !important;
+    visibility:visible!important;
   }
 
   #printArea{
-    display:block !important;
+    display:block!important;
     position:absolute;
     right:0;
     top:0;
     width:100%;
-    padding:20px;
-    color:#111 !important;
+    padding:25px;
     background:#fff;
   }
 
-  .print-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    border-bottom:3px solid #087443;
-    padding-bottom:12px;
-    margin-bottom:18px;
-  }
-
-  .print-logo{
-    width:85px;
-    height:85px;
-    object-fit:contain;
-  }
-
-  .print-company{
+  .print-header{
     text-align:center;
-    flex:1;
+    border-bottom:2px solid #111;
+    padding-bottom:15px;
+    margin-bottom:20px;
   }
 
-  .print-company h1{
-    margin:0;
-    font-size:24px;
-    font-weight:900;
-  }
-
-  .print-company p{
-    margin:3px 0;
-    font-size:11px;
-  }
-
-  .print-title{
-    text-align:center;
-    margin:15px 0;
-    font-size:20px;
-    font-weight:900;
-  }
-
-  .print-info{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-bottom:15px;
-  }
-
-  .print-info div{
-    border:1px solid #ddd;
-    padding:8px;
-    font-size:11px;
+  .print-header img{
+    height:65px;
   }
 
   .print-table{
     width:100%;
     border-collapse:collapse;
-    font-size:11px;
+    margin-top:20px;
   }
 
   .print-table th,
   .print-table td{
-    border:1px solid #bbb;
-    padding:8px;
+    border:1px solid #222;
+    padding:9px;
     text-align:center;
-  }
-
-  .print-table th{
-    background:#f1f1f1;
-    font-weight:900;
-  }
-
-  .print-total{
-    margin-top:15px;
-    margin-right:auto;
-    width:300px;
-    border:1px solid #ccc;
-    padding:10px;
-  }
-
-  .print-signatures{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:20px;
-    margin-top:60px;
-    text-align:center;
-    font-size:11px;
   }
 }
 
@@ -1131,121 +894,85 @@ select:focus{
    RESPONSIVE
 ========================= */
 
-@media(max-width:900px){
+@media(max-width:800px){
   .stat-grid{
     grid-template-columns:repeat(2,1fr);
-  }
-}
-
-@media(max-width:650px){
-
-  .app{
-    padding:12px 11px 75px;
   }
 
   .header{
     align-items:flex-start;
   }
 
-  .brand-text h1{
-    font-size:18px;
+  .user-area{
+    flex-direction:column;
+    align-items:flex-end;
+  }
+}
+
+@media(max-width:560px){
+  .app{
+    padding:10px 10px 70px;
   }
 
-  .brand-text p{
-    font-size:10px;
+  .header{
+    padding:12px;
+    border-radius:17px;
   }
 
-  .app-logo{
-    width:49px;
-    height:49px;
-    border-radius:13px;
+  .brand-logo{
+    width:47px;
+    height:47px;
+  }
+
+  .brand h1{
+    font-size:17px;
+  }
+
+  .brand p{
+    font-size:9px;
   }
 
   .user-badge{
-    display:none;
-  }
-
-  .header-actions{
-    margin-top:5px;
+    max-width:130px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
   }
 
   .stat-grid{
     grid-template-columns:1fr 1fr;
-    gap:9px;
+    gap:8px;
   }
 
-  .stat-card{
-    padding:14px 10px;
+  .stat{
+    padding:13px;
   }
 
-  .stat-card b{
-    font-size:20px;
-  }
-
-  .stat-card span{
-    font-size:10px;
-  }
-
-  .card{
-    padding:16px;
-    border-radius:17px;
+  .stat b{
+    font-size:19px;
   }
 
   .row2,
-  .info-grid,
-  .report-summary{
+  .row3{
     grid-template-columns:1fr;
   }
 
+  .item-header,
   .item-row{
-    grid-template-columns:1fr 62px 82px 32px;
+    grid-template-columns:1fr 70px 85px 34px;
   }
 
-  .items-head{
-    grid-template-columns:1fr 62px 82px 32px;
+  .card{
+    padding:15px;
+    border-radius:16px;
   }
 
   .order-top{
     flex-direction:column;
   }
 
-  .order-top > .pill{
-    align-self:flex-start;
-  }
-
-  .dashboard-head{
-    align-items:flex-start;
-  }
-
-  .dashboard-head h2{
-    font-size:20px;
-  }
-
-  .login-card{
-    padding:35px 20px 25px;
-  }
-}
-
-@media(max-width:420px){
-
-  .item-row{
-    grid-template-columns:1fr 58px 75px 30px;
-    gap:5px;
-  }
-
-  .items-head{
-    grid-template-columns:1fr 58px 75px 30px;
-    gap:5px;
-  }
-
-  .item-row input{
-    padding:9px 6px;
-    font-size:11px;
-  }
-
-  .rm-btn{
-    width:30px;
-    height:30px;
+  .flow-step{
+    min-width:110px;
   }
 }
 </style>
@@ -1253,24 +980,25 @@ select:focus{
 
 <body>
 
-<div class="app" id="app"></div>
-<div class="toast" id="toast"></div>
+<div id="app"></div>
+<div id="toast" class="toast"></div>
 <div id="printArea"></div>
 
 <script>
 
-/* ============================================================
+/* =========================================================
    RASRAS PLASTIC ERP
-   النسخة المحسنة - واجهة احترافية
-============================================================ */
+   نظام إدارة أوامر البيع
+========================================================= */
 
-/* اللوجو */
 const LOGO_SRC =
 "https://i.ibb.co/6R22M5n/rasras-logo.jpg";
 
-/* المستخدمون الافتراضيون */
-let USERS = {
+/* =========================
+   USERS
+========================= */
 
+let USERS = {
   admin:{
     pass:"1234",
     name:"المدير العام",
@@ -1312,15 +1040,17 @@ let USERS = {
     role:"driver",
     stage:"with_driver"
   }
-
 };
 
-/* مراحل دورة الأمر */
+/* =========================
+   WORKFLOW
+========================= */
+
 const STAGES = [
 
   {
-    key:"sales_created",
-    label:"تم إنشاء الأمر"
+    key:"manager_approval",
+    label:"اعتماد المدير"
   },
 
   {
@@ -1346,55 +1076,62 @@ const STAGES = [
   {
     key:"delivered",
     label:"تم التسليم"
+  },
+
+  {
+    key:"tax_pending",
+    label:"إجراء الفاتورة الضريبية"
+  },
+
+  {
+    key:"completed",
+    label:"مكتمل"
   }
 
 ];
 
-/* قاعدة البيانات المحلية */
-let DATA = {
+/* =========================
+   DATABASE
+========================= */
 
+let DATA = {
   orders:[],
   parties:[],
+  notifications:[],
   usersConfig:USERS
-
 };
 
-let LOADED = false;
 let currentUser = null;
 
 let state = {
-
   view:"dashboard",
   orderType:"sale",
   selectedOrderId:null,
   draft:null
-
 };
 
-
-/* ============================================================
-   DATABASE
-============================================================ */
+/* =========================================================
+   STORAGE
+========================================================= */
 
 function loadData(){
 
-  const local =
-    localStorage.getItem("RASRAS_SYSTEM_DATABASE_V3");
+  const raw =
+    localStorage.getItem("RASRAS_ERP_DATABASE_V3");
 
-  if(local){
+  if(raw){
 
     try{
 
-      DATA = JSON.parse(local);
+      DATA = JSON.parse(raw);
 
-      if(!DATA.orders)
-        DATA.orders=[];
+      if(!DATA.orders) DATA.orders=[];
+      if(!DATA.parties) DATA.parties=[];
+      if(!DATA.notifications) DATA.notifications=[];
 
-      if(!DATA.parties)
-        DATA.parties=[];
-
-      if(DATA.usersConfig)
-        USERS=DATA.usersConfig;
+      if(DATA.usersConfig){
+        USERS = DATA.usersConfig;
+      }
 
     }catch(e){
 
@@ -1428,36 +1165,30 @@ function loadData(){
 
   }
 
-  LOADED=true;
-
   render();
-
 }
-
 
 function saveData(){
 
   DATA.usersConfig=USERS;
 
   localStorage.setItem(
-    "RASRAS_SYSTEM_DATABASE_V3",
+    "RASRAS_ERP_DATABASE_V3",
     JSON.stringify(DATA)
   );
-
 }
 
-
-/* ============================================================
+/* =========================================================
    HELPERS
-============================================================ */
+========================================================= */
 
 function uid(prefix){
 
-  return prefix+"-"+Date.now().toString().slice(-6)+
-         Math.floor(Math.random()*90+10);
+  return prefix+"-"+Date.now()+"-"+Math.floor(
+    100+Math.random()*900
+  );
 
 }
-
 
 function todayISO(){
 
@@ -1465,13 +1196,11 @@ function todayISO(){
 
 }
 
+function fmtDate(date){
 
-function fmtDate(iso){
+  if(!date) return "—";
 
-  if(!iso)
-    return "—";
-
-  return new Date(iso).toLocaleDateString(
+  return new Date(date).toLocaleDateString(
     "ar-EG",
     {
       year:"numeric",
@@ -1482,13 +1211,11 @@ function fmtDate(iso){
 
 }
 
+function fmtDateTime(date){
 
-function fmtDateTime(iso){
+  if(!date) return "—";
 
-  if(!iso)
-    return "—";
-
-  return new Date(iso).toLocaleString(
+  return new Date(date).toLocaleString(
     "ar-EG",
     {
       year:"numeric",
@@ -1501,105 +1228,91 @@ function fmtDateTime(iso){
 
 }
 
-
 function fmtMoney(n){
 
   return Number(n||0).toLocaleString(
     "ar-EG",
     {
-      minimumFractionDigits:0,
       maximumFractionDigits:2
     }
   )+" ج.م";
 
 }
 
-
 function itemsTotal(order){
 
   return (order.items||[]).reduce(
-
     (sum,item)=>
       sum+
       (Number(item.qty)||0)*
       (Number(item.price)||0),
-
     0
-
   );
 
 }
-
 
 function orderTotal(order){
 
   if(
     order.finalTotal !== undefined &&
     order.finalTotal !== null &&
-    Number(order.finalTotal)>0
+    order.finalTotal !== ""
   ){
-
-    return Number(order.finalTotal);
-
+    return Number(order.finalTotal)||0;
   }
 
-  return itemsTotal(order)+
-         (Number(order.shippingCost)||0);
+  return itemsTotal(order)+(Number(order.shippingCost)||0);
 
 }
 
+function getStageLabel(key){
 
-function showToast(msg){
+  const s =
+    STAGES.find(x=>x.key===key);
 
-  const t=document.getElementById("toast");
+  return s ? s.label : key;
 
-  t.textContent=msg;
+}
 
-  t.classList.add("show");
+function showToast(message){
+
+  const toast =
+    document.getElementById("toast");
+
+  toast.textContent=message;
+
+  toast.classList.add("show");
 
   setTimeout(
-    ()=>t.classList.remove("show"),
-    2300
+    ()=>toast.classList.remove("show"),
+    2400
   );
 
 }
 
+/* =========================================================
+   DRAFT
+========================================================= */
 
-function escapeHTML(value){
+function newDraft(){
 
-  return String(value??"")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#039;");
+  return {
 
-}
+    id:uid("SO"),
 
-
-/* ============================================================
-   NEW ORDER
-============================================================ */
-
-function newDraft(type){
-
-  return{
-
-    id:uid(
-      type==="sale"
-      ?"SO"
-      :"PO"
-    ),
-
-    type,
+    type:"sale",
 
     partyName:"",
+
     phone:"",
+
     address:"",
 
     taxInvoice:false,
 
     paymentMethod:"نقدي",
+
+    expectedCollection:0,
 
     items:[
       {
@@ -1613,60 +1326,306 @@ function newDraft(type){
 
     finalTotal:0,
 
-    stage:"sales_created",
+    stage:"manager_approval",
 
     driverName:"",
 
-    createdBy:
-      currentUser
-      ?currentUser.name
-      :"المبيعات",
+    driverPhone:"",
 
-    createdAt:todayISO()
+    createdBy:
+      currentUser?
+      currentUser.name:
+      "المبيعات",
+
+    createdAt:todayISO(),
+
+    managerApprovedAt:null,
+
+    logisticsApprovedAt:null,
+
+    accountsApprovedAt:null,
+
+    warehouseReleasedAt:null,
+
+    deliveredAt:null,
+
+    taxInvoiceCompleted:false,
+
+    taxInvoiceCompletedAt:null,
+
+    taxNotificationSent:false,
+
+    driverMessage:""
 
   };
 
 }
 
+/* =========================================================
+   LOGIN
+========================================================= */
 
-/* ============================================================
-   MAIN RENDER
-============================================================ */
+function loginHTML(){
 
-function render(){
+  return `
 
-  const app=document.getElementById("app");
+  <div class="login-screen">
 
-  if(!LOADED){
+    <div class="login-card">
 
-    app.innerHTML=`
+      <img
+        src="${LOGO_SRC}"
+        class="login-logo"
+        alt="RASRAS PLASTIC"
+        onerror="this.style.display='none'"
+      >
 
-      <div class="login-screen">
+      <h1>RASRAS PLASTIC</h1>
 
-        <div class="card" style="
-          max-width:360px;
-          width:100%;
-          text-align:center;
-        ">
+      <div class="subtitle">
+        نظام إدارة أوامر البيع والمخازن والحسابات
+      </div>
 
-          <img
-            src="${LOGO_SRC}"
-            class="login-logo-img"
-            onerror="this.style.display='none'"
-          >
+      <label>اختيار المستخدم</label>
 
-          <h3>جاري تحميل النظام...</h3>
+      <select id="loginUser">
 
-        </div>
+        ${Object.keys(USERS).map(
+          key=>`
+
+          <option value="${key}">
+            ${USERS[key].name}
+          </option>
+
+        `
+        ).join("")}
+
+      </select>
+
+      <label>كلمة المرور</label>
+
+      <input
+        type="password"
+        id="loginPass"
+        placeholder="••••"
+      >
+
+      <button
+        class="btn-primary"
+        id="loginBtn"
+      >
+        تسجيل الدخول
+      </button>
+
+      <div class="login-footer">
+        RASRAS PLASTIC ERP
+      </div>
+
+    </div>
+
+  </div>
+
+  `;
+
+}
+
+function bindLoginEvents(){
+
+  const button =
+    document.getElementById("loginBtn");
+
+  button.onclick=()=>{
+
+    const username =
+      document.getElementById("loginUser").value;
+
+    const password =
+      document.getElementById("loginPass").value;
+
+    if(
+      USERS[username] &&
+      USERS[username].pass===password
+    ){
+
+      currentUser={
+        ...USERS[username],
+        username
+      };
+
+      state.view="dashboard";
+
+      render();
+
+    }else{
+
+      showToast("كلمة المرور غير صحيحة");
+
+    }
+
+  };
+
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+function headerHTML(){
+
+  return `
+
+  <header class="header">
+
+    <div class="brand">
+
+      <img
+        src="${LOGO_SRC}"
+        class="brand-logo"
+        alt="RASRAS"
+        onerror="this.style.display='none'"
+      >
+
+      <div>
+
+        <h1>RASRAS PLASTIC</h1>
+
+        <p>
+          ERP • إدارة أوامر البيع والمتابعة
+        </p>
 
       </div>
 
-    `;
+    </div>
 
-    return;
+    <div class="user-area">
+
+      <span class="user-badge">
+        ${currentUser.name}
+      </span>
+
+      <button
+        class="logout-btn"
+        id="logoutBtn"
+      >
+        خروج
+      </button>
+
+    </div>
+
+  </header>
+
+  `;
+
+}
+
+/* =========================================================
+   TABS
+========================================================= */
+
+function tabsHTML(){
+
+  let pending=0;
+
+  if(currentUser.role==="admin"){
+
+    pending=
+      DATA.orders.filter(
+        o=>
+          o.stage==="manager_approval" ||
+          o.stage==="tax_pending"
+      ).length;
+
+  }else if(currentUser.stage){
+
+    pending=
+      DATA.orders.filter(
+        o=>o.stage===currentUser.stage
+      ).length;
 
   }
 
+  return `
+
+  <nav class="tabs">
+
+    <button
+      class="tab ${state.view==="dashboard"?"active":""}"
+      data-v="dashboard"
+    >
+      الرئيسية
+    </button>
+
+    ${
+      currentUser.role==="sales" ||
+      currentUser.role==="admin"
+      ?
+
+      `<button
+        class="tab ${state.view==="new_sale"?"active":""}"
+        data-v="new_sale"
+      >
+        + أمر بيع
+      </button>`
+
+      :""
+    }
+
+    <button
+      class="tab ${state.view==="approvals"?"active":""}"
+      data-v="approvals"
+    >
+      الاعتمادات
+      ${
+        pending
+        ?
+        `<span class="badge">${pending}</span>`
+        :""
+      }
+    </button>
+
+    <button
+      class="tab ${state.view==="reports"?"active":""}"
+      data-v="reports"
+    >
+      التقارير
+    </button>
+
+    <button
+      class="tab ${state.view==="customers"?"active":""}"
+      data-v="customers"
+    >
+      العملاء
+    </button>
+
+    ${
+      currentUser.role==="admin"
+
+      ?
+
+      `<button
+        class="tab ${state.view==="users"?"active":""}"
+        data-v="users"
+      >
+        المستخدمون
+      </button>`
+
+      :""
+    }
+
+  </nav>
+
+  `;
+
+}
+
+/* =========================================================
+   RENDER
+========================================================= */
+
+function render(){
+
+  const app=
+    document.getElementById("app");
 
   if(!currentUser){
 
@@ -1675,12 +1634,9 @@ function render(){
     bindLoginEvents();
 
     return;
-
   }
 
-
   app.innerHTML=
-
     headerHTML()+
     tabsHTML()+
     viewHTML();
@@ -1689,1812 +1645,817 @@ function render(){
 
 }
 
-
-/* ============================================================
-   LOGIN
-============================================================ */
-
-function loginHTML(){
-
-  return`
-
-    <div class="login-screen">
-
-      <div class="login-card">
-
-        <img
-          src="${LOGO_SRC}"
-          class="login-logo-img"
-          alt="RASRAS PLASTIC"
-          onerror="this.style.display='none'"
-        >
-
-        <h2>RASRAS PLASTIC</h2>
-
-        <p class="login-subtitle">
-          نظام إدارة أوامر البيع والشراء
-        </p>
-
-        <label>
-          اختيار المستخدم
-        </label>
-
-        <select id="loginUser">
-
-          ${Object.keys(USERS)
-            .map(
-              key=>`
-
-                <option value="${key}">
-                  ${escapeHTML(USERS[key].name)}
-                </option>
-
-              `
-            )
-            .join("")
-          }
-
-        </select>
-
-        <label>
-          كلمة السر
-        </label>
-
-        <input
-          type="password"
-          id="loginPass"
-          placeholder="أدخل كلمة السر"
-        >
-
-        <button
-          class="btn-primary"
-          id="loginBtn"
-        >
-          تسجيل الدخول
-        </button>
-
-        <div class="login-footer">
-          RASRAS PLASTIC © ${new Date().getFullYear()}
-        </div>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* ============================================================
-   HEADER
-============================================================ */
-
-function headerHTML(){
-
-  return`
-
-    <div class="header">
-
-      <div class="brand">
-
-        <img
-          src="${LOGO_SRC}"
-          class="app-logo"
-          alt="RASRAS PLASTIC"
-          onerror="this.style.display='none'"
-        >
-
-        <div class="brand-text">
-
-          <h1>RASRAS PLASTIC</h1>
-
-          <p>
-            نظام إدارة ومتابعة أوامر البيع والشراء
-          </p>
-
-        </div>
-
-      </div>
-
-      <div class="header-actions">
-
-        <span class="user-badge">
-          ${escapeHTML(currentUser.name)}
-        </span>
-
-        <button
-          class="logout-btn"
-          id="logoutBtn"
-        >
-          خروج
-        </button>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* ============================================================
-   TABS
-============================================================ */
-
-function tabsHTML(){
-
-  const pending=currentUser.stage
-
-    ?DATA.orders.filter(
-        o=>o.stage===currentUser.stage
-      ).length
-
-    :0;
-
-
-  return`
-
-    <div class="tabs">
-
-      <button
-        class="tab ${state.view==="dashboard"?"active":""}"
-        data-v="dashboard"
-      >
-        🏠 الرئيسية
-      </button>
-
-      <button
-        class="tab ${
-          ["new_sale","new_purchase"].includes(state.view)
-          ?"active"
-          :""
-        }"
-        data-v="new_sale"
-      >
-        ＋ أمر جديد
-      </button>
-
-      <button
-        class="tab ${state.view==="approvals"?"active":""}"
-        data-v="approvals"
-      >
-        ✓ قائمة الاعتماد
-
-        ${
-          pending
-          ?`<span class="badge">${pending}</span>`
-          :""
-        }
-
-      </button>
-
-      <button
-        class="tab ${state.view==="reports"?"active":""}"
-        data-v="reports"
-      >
-        📊 التقارير
-      </button>
-
-      <button
-        class="tab ${state.view==="customers"?"active":""}"
-        data-v="customers"
-      >
-        👥 العملاء والموردين
-      </button>
-
-      ${
-        currentUser.role==="admin"
-        ?`
-
-          <button
-            class="tab ${state.view==="users"?"active":""}"
-            data-v="users"
-          >
-            ⚙ إدارة المستخدمين
-          </button>
-
-        `
-        :""
-      }
-
-    </div>
-
-  `;
-
-}
-
-
-/* ============================================================
-   VIEW
-============================================================ */
-
 function viewHTML(){
 
-  if(state.view==="dashboard")
-    return dashboardHTML();
+  switch(state.view){
 
-  if(
-    ["new_sale","new_purchase"].includes(
-      state.view
-    )
-  )
-    return newOrderHTML();
+    case"dashboard":
+      return dashboardHTML();
 
-  if(state.view==="approvals")
-    return approvalsHTML();
+    case"new_sale":
+      return newSaleHTML();
 
-  if(state.view==="reports")
-    return reportsHTML();
+    case"approvals":
+      return approvalsHTML();
 
-  if(state.view==="customers")
-    return customersHTML();
+    case"reports":
+      return reportsHTML();
 
-  if(state.view==="users")
-    return usersManagementHTML();
+    case"customers":
+      return customersHTML();
 
-  if(state.view==="detail")
-    return detailHTML();
+    case"users":
+      return usersHTML();
 
-  return"";
+    case"detail":
+      return detailHTML();
+
+    default:
+      return dashboardHTML();
+
+  }
 
 }
 
-
-/* ============================================================
+/* =========================================================
    DASHBOARD
-============================================================ */
+========================================================= */
 
 function dashboardHTML(){
 
+  const total=
+    DATA.orders.length;
+
   const active=
     DATA.orders.filter(
-      o=>o.stage!=="delivered"
+      o=>
+        o.stage!=="completed" &&
+        o.stage!=="delivered"
     ).length;
 
   const delivered=
     DATA.orders.filter(
-      o=>o.stage==="delivered"
+      o=>
+        o.stage==="delivered" ||
+        o.stage==="tax_pending" ||
+        o.stage==="completed"
     ).length;
 
-  const sales=
+  const taxPending=
     DATA.orders.filter(
-      o=>o.type==="sale"
+      o=>o.stage==="tax_pending"
     ).length;
 
-  const recent=
-    DATA.orders.slice(0,10);
+  let visibleOrders=
+    [...DATA.orders];
 
+  if(currentUser.role==="sales"){
 
-  return`
+    visibleOrders=
+      visibleOrders.filter(
+        o=>o.createdBy===currentUser.name
+      );
 
-    <div class="dashboard-head">
+  }
+
+  return `
+
+  <div class="stat-grid">
+
+    <div class="stat">
+      <div class="stat-icon">📋</div>
+      <b>${total}</b>
+      <span>إجمالي أوامر البيع</span>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">⏳</div>
+      <b>${active}</b>
+      <span>أوامر قيد التنفيذ</span>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">🚚</div>
+      <b>${delivered}</b>
+      <span>تم التسليم</span>
+    </div>
+
+    <div class="stat">
+      <div class="stat-icon">🧾</div>
+      <b>${taxPending}</b>
+      <span>بانتظار الفاتورة الضريبية</span>
+    </div>
+
+  </div>
+
+  ${
+    currentUser.role==="admin"
+    ?
+    `
+    <div class="alert alert-blue">
+      <b>لوحة المدير:</b>
+      أي أمر بيع جديد لا ينتقل للنقل أو الحسابات أو المخازن
+      إلا بعد اعتماد المدير.
+    </div>
+    `
+    :""
+  }
+
+  ${
+    currentUser.role==="accounts"
+    ?
+    `
+    <div class="alert alert-green">
+      الحسابات تستلم تنبيه الفاتورة الضريبية بعد تأكيد تسليم البضاعة،
+      إذا كان أمر البيع محدداً كفاتورة ضريبية.
+    </div>
+    `
+    :""
+  }
+
+  ${
+    currentUser.role==="warehouse"
+    ?
+    `
+    <div class="alert alert-yellow">
+      المخازن لا يظهر لها أي سعر أو إجمالي مالي.
+      المخزن يرى الصنف والكمية وبيانات التسليم فقط.
+    </div>
+    `
+    :""
+  }
+
+  <div class="card">
+
+    <div class="card-title">
+
+      <div>
+        <h2>أحدث أوامر البيع</h2>
+        <p>متابعة دورة الأمر من الإنشاء حتى التسليم</p>
+      </div>
+
+    </div>
+
+    ${
+      visibleOrders.length
+      ?
+      visibleOrders
+        .slice(0,12)
+        .map(orderItemHTML)
+        .join("")
+      :
+      `
+      <div class="empty">
+        <div class="empty-icon">📦</div>
+        <b>لا توجد أوامر حتى الآن</b>
+        <span>ابدأ بإنشاء أمر بيع جديد</span>
+      </div>
+      `
+    }
+
+  </div>
+
+  `;
+
+}
+
+/* =========================================================
+   ORDER ITEM
+========================================================= */
+
+function orderItemHTML(o){
+
+  const label=
+    getStageLabel(o.stage);
+
+  let money="";
+
+  if(
+    currentUser.role!=="warehouse" &&
+    currentUser.role!=="driver"
+  ){
+
+    money=
+      `<b>${fmtMoney(orderTotal(o))}</b>`;
+
+  }
+
+  return `
+
+  <div
+    class="order-item"
+    onclick="openOrder('${o.id}')"
+  >
+
+    <div class="order-top">
 
       <div>
 
-        <h2>
-          لوحة التحكم
-        </h2>
+        <div class="order-id">
+          ${o.id} · أمر بيع
+        </div>
 
-        <p>
-          مرحباً بك في نظام RASRAS PLASTIC
-        </p>
+        <div class="order-name">
+          ${escapeHTML(o.partyName)}
+        </div>
 
-      </div>
+        <div class="order-meta">
 
-    </div>
+          ${fmtDate(o.createdAt)}
 
+          ·
 
-    <div class="stat-grid">
+          ${escapeHTML(o.paymentMethod)}
 
-      <div class="stat-card">
+          ${money ? " · "+money : ""}
 
-        <div class="stat-icon">📋</div>
-
-        <b>${DATA.orders.length}</b>
-
-        <span>
-          إجمالي الأوامر
-        </span>
+        </div>
 
       </div>
 
-
-      <div class="stat-card">
-
-        <div class="stat-icon">⏳</div>
-
-        <b>${active}</b>
-
-        <span>
-          أوامر قيد التنفيذ
-        </span>
-
-      </div>
-
-
-      <div class="stat-card">
-
-        <div class="stat-icon">✓</div>
-
-        <b>${delivered}</b>
-
-        <span>
-          أوامر مكتملة
-        </span>
-
-      </div>
-
-
-      <div class="stat-card">
-
-        <div class="stat-icon">💰</div>
-
-        <b>${sales}</b>
-
-        <span>
-          أوامر البيع
-        </span>
-
-      </div>
-
-    </div>
-
-
-    <div class="dashboard-section-title">
-
-      <h3>
-        أحدث الأوامر
-      </h3>
-
-      <span style="
-        color:var(--muted);
-        font-size:11px;
-      ">
-        آخر 10 أوامر
+      <span class="pill stage-${o.stage}">
+        ${label}
       </span>
 
     </div>
 
-
-    ${
-      recent.length===0
-
-      ?`
-
-        <div class="card empty">
-
-          <div class="empty-icon">
-            📋
-          </div>
-
-          <b>
-            لا توجد أوامر حتى الآن
-          </b>
-
-          <span>
-            قم بإنشاء أول أمر بيع أو شراء
-          </span>
-
-        </div>
-
-      `
-
-      :recent
-        .map(orderItemHTML)
-        .join("")
-
-    }
+  </div>
 
   `;
 
 }
 
+/* =========================================================
+   NEW SALE
+========================================================= */
 
-/* ============================================================
-   ORDER ITEM
-============================================================ */
-
-function orderItemHTML(o){
-
-  const st=
-    STAGES.find(
-      s=>s.key===o.stage
-    )||STAGES[0];
-
-
-  return`
-
-    <div
-      class="order-item"
-      onclick="openOrder('${o.id}')"
-    >
-
-      <div class="order-top">
-
-        <div>
-
-          <div class="order-id">
-
-            ${escapeHTML(o.id)}
-
-            <span class="
-              order-type
-              ${o.type==="sale"?"sale":"purchase"}
-            ">
-
-              ${
-                o.type==="sale"
-                ?"أمر بيع"
-                :"أمر شراء"
-              }
-
-            </span>
-
-          </div>
-
-          <div class="order-name">
-
-            ${escapeHTML(o.partyName)}
-
-          </div>
-
-          <div class="order-meta">
-
-            ${fmtDate(o.createdAt)}
-            ·
-            ${escapeHTML(o.paymentMethod)}
-            ·
-            <b>${fmtMoney(orderTotal(o))}</b>
-
-          </div>
-
-        </div>
-
-
-        <span
-          class="pill stage-${o.stage}"
-        >
-          ${st.label}
-        </span>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* ============================================================
-   NEW ORDER
-============================================================ */
-
-function newOrderHTML(){
+function newSaleHTML(){
 
   if(
-    !state.draft ||
-    state.draft.type!==state.orderType
-  ){
-
-    state.draft=
-      newDraft(state.orderType);
-
-  }
-
-
-  const d=state.draft;
-
-  const partyTypeFilter=
-    state.orderType==="sale"
-    ?"عميل"
-    :"مورد";
-
-
-  const availableParties=
-    (DATA.parties||[])
-      .filter(
-        p=>
-          p.type===partyTypeFilter ||
-          !p.type
-      );
-
-
-  return`
-
-    <div class="seg">
-
-      <button
-        class="seg-btn ${
-          state.orderType==="sale"
-          ?"active"
-          :""
-        }"
-        id="btnTypeSale"
-      >
-        🛒 أمر بيع جديد
-      </button>
-
-      <button
-        class="seg-btn ${
-          state.orderType==="purchase"
-          ?"active"
-          :""
-        }"
-        id="btnTypePurchase"
-      >
-        📦 أمر شراء جديد
-      </button>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="card-title">
-
-        <div>
-
-          <h3>
-            بيانات الجهة
-          </h3>
-
-          <p>
-            بيانات العميل أو المورد
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <label>
-        اختر ${partyTypeFilter} مسجل
-      </label>
-
-      <select
-        id="partySelect"
-        onchange="onPartySelect(this)"
-      >
-
-        <option value="">
-          -- اختر من القائمة --
-        </option>
-
-        ${availableParties
-          .map(
-            p=>`
-
-              <option
-                value="${escapeHTML(p.name)}"
-                data-phone="${escapeHTML(p.phone||"")}"
-                data-address="${escapeHTML(p.address||"")}"
-              >
-                ${escapeHTML(p.name)}
-                - ${escapeHTML(p.phone||"")}
-              </option>
-
-            `
-          )
-          .join("")
-        }
-
-      </select>
-
-
-      <label>
-        اسم الجهة
-      </label>
-
-      <input
-        type="text"
-        id="f_name"
-        value="${escapeHTML(d.partyName)}"
-        placeholder="اسم العميل / المورد"
-      >
-
-
-      <div class="row2">
-
-        <div>
-
-          <label>
-            التليفون
-          </label>
-
-          <input
-            type="tel"
-            id="f_phone"
-            value="${escapeHTML(d.phone)}"
-            placeholder="01xxxxxxxxx"
-          >
-
-        </div>
-
-
-        <div>
-
-          <label>
-            فاتورة ضريبية؟
-          </label>
-
-          <select id="f_tax">
-
-            <option
-              value="0"
-              ${!d.taxInvoice?"selected":""}
-            >
-              لا
-            </option>
-
-            <option
-              value="1"
-              ${d.taxInvoice?"selected":""}
-            >
-              نعم
-            </option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-
-      <label>
-        العنوان / موقع التسليم
-      </label>
-
-      <input
-        type="text"
-        id="f_address"
-        value="${escapeHTML(d.address)}"
-        placeholder="العنوان"
-      >
-
-
-      <label>
-        طريقة الدفع / التحصيل
-      </label>
-
-      <select id="f_pay">
-
-        <option
-          value="نقدي"
-          ${d.paymentMethod==="نقدي"?"selected":""}
-        >
-          نقدي
-        </option>
-
-        <option
-          value="آجل"
-          ${d.paymentMethod==="آجل"?"selected":""}
-        >
-          آجل
-        </option>
-
-        <option
-          value="شيك"
-          ${d.paymentMethod==="شيك"?"selected":""}
-        >
-          شيك بنكي
-        </option>
-
-        <option
-          value="تحويل"
-          ${d.paymentMethod==="تحويل"?"selected":""}
-        >
-          تحويل بنكي
-        </option>
-
-      </select>
-
-    </div>
-
-
-    <div class="card">
-
-      <div class="card-title">
-
-        <div>
-
-          <h3>
-            الأصناف والأسعار
-          </h3>
-
-          <p>
-            أضف الخامات والكميات والأسعار
-          </p>
-
-        </div>
-
-      </div>
-
-
-      <div class="items-head">
-
-        <span>الصنف / الخامة</span>
-        <span>الكمية</span>
-        <span>السعر</span>
-        <span></span>
-
-      </div>
-
-
-      <div id="itemsWrap">
-
-        ${d.items
-          .map(
-            (it,idx)=>`
-
-              <div
-                class="item-row"
-                data-idx="${idx}"
-              >
-
-                <input
-                  type="text"
-                  class="it-name"
-                  placeholder="اسم الصنف / الخامة"
-                  value="${escapeHTML(it.name)}"
-                >
-
-                <input
-                  type="number"
-                  min="0"
-                  class="it-qty"
-                  placeholder="الكمية"
-                  value="${it.qty}"
-                >
-
-                <input
-                  type="number"
-                  min="0"
-                  class="it-price"
-                  placeholder="السعر"
-                  value="${it.price}"
-                >
-
-                <button
-                  class="rm-btn"
-                  onclick="rmItem(${idx})"
-                >
-                  ×
-                </button>
-
-              </div>
-
-            `
-          )
-          .join("")
-        }
-
-      </div>
-
-
-      <button
-        class="add-item-btn"
-        onclick="addItem()"
-      >
-        ＋ إضافة صنف آخر
-      </button>
-
-
-      <div class="total-box">
-
-        <div class="total-line">
-
-          <span>
-            مجموع الأصناف
-          </span>
-
-          <strong>
-            ${fmtMoney(itemsTotal(d))}
-          </strong>
-
-        </div>
-
-
-        <div class="total-line total-final">
-
-          <span>
-            الإجمالي المبدئي
-          </span>
-
-          <b>
-            ${fmtMoney(itemsTotal(d))}
-          </b>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <button
-      class="btn-primary"
-      onclick="submitOrder()"
-    >
-      حفظ الأمر وتحويله إلى قسم النقل
-    </button>
-
-  `;
-
-}
-
-
-/* ============================================================
-   PARTY
-============================================================ */
-
-function onPartySelect(sel){
-
-  const opt=
-    sel.options[sel.selectedIndex];
-
-  if(!opt.value)
-    return;
-
-  document.getElementById("f_name").value=
-    opt.value;
-
-  document.getElementById("f_phone").value=
-    opt.dataset.phone||"";
-
-  document.getElementById("f_address").value=
-    opt.dataset.address||"";
-
-}
-
-
-/* ============================================================
-   APPROVALS
-============================================================ */
-
-function approvalsHTML(){
-
-  if(
-    !currentUser.stage &&
+    currentUser.role!=="sales" &&
     currentUser.role!=="admin"
   ){
 
-    return`
+    return `
 
-      <div class="card empty">
+    <div class="card">
 
-        <div class="empty-icon">
-          ✓
-        </div>
-
-        <b>
-          لا توجد مرحلة اعتماد مرتبطة بحسابك
-        </b>
-
+      <div class="alert alert-red">
+        لا توجد لديك صلاحية إنشاء أوامر بيع.
       </div>
+
+    </div>
 
     `;
 
   }
 
+  if(
+    !state.draft
+  ){
 
-  const list=
+    state.draft=newDraft();
 
-    currentUser.role==="admin"
+  }
 
-    ?DATA.orders.filter(
-        o=>o.stage!=="delivered"
-      )
+  const d=state.draft;
 
-    :DATA.orders.filter(
-        o=>o.stage===currentUser.stage
-      );
+  const customers=
+    DATA.parties.filter(
+      p=>p.type==="عميل"
+    );
 
+  return `
 
-  return`
+  <div class="alert alert-green">
 
-    <div class="dashboard-head">
+    <b>دورة أمر البيع:</b>
+    المبيعات ← اعتماد المدير ← النقل ← الحسابات ← المخزن ← السائق ← التسليم
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-title">
 
       <div>
-
-        <h2>
-          قائمة الاعتماد
-        </h2>
-
-        <p>
-          الأوامر التي تحتاج إجراء من القسم الحالي
-        </p>
-
+        <h2>إنشاء أمر بيع</h2>
+        <p>المبيعات تقوم بإدخال بيانات البيع فقط</p>
       </div>
+
+      <span class="pill stage-manager_approval">
+        يحتاج اعتماد المدير
+      </span>
 
     </div>
 
+    <label>العميل المسجل</label>
 
-    ${
-      list.length===0
+    <select
+      id="partySelect"
+      onchange="onPartySelect(this)"
+    >
 
-      ?`
+      <option value="">
+        — اختر عميل —
+      </option>
 
-        <div class="card empty">
+      ${customers.map(
+        p=>`
 
-          <div class="empty-icon">
-            ✓
-          </div>
-
-          <b>
-            لا توجد أوامر معلقة
-          </b>
-
-          <span>
-            لا توجد أوامر تنتظر اعتمادك حالياً
-          </span>
-
-        </div>
-
-      `
-
-      :list
-        .map(orderItemHTML)
-        .join("")
-
-    }
-
-  `;
-
-}
-
-
-/* ============================================================
-   REPORTS
-============================================================ */
-
-function reportsHTML(){
-
-  const sales=
-    DATA.orders.filter(
-      o=>o.type==="sale"
-    );
-
-  const purchases=
-    DATA.orders.filter(
-      o=>o.type==="purchase"
-    );
-
-
-  const totalSales=
-    sales.reduce(
-      (s,o)=>s+orderTotal(o),
-      0
-    );
-
-
-  const totalPurchases=
-    purchases.reduce(
-      (s,o)=>s+orderTotal(o),
-      0
-    );
-
-
-  const delivered=
-    DATA.orders.filter(
-      o=>o.stage==="delivered"
-    ).length;
-
-
-  return`
-
-    <div class="dashboard-head">
-
-      <div>
-
-        <h2>
-          التقارير
-        </h2>
-
-        <p>
-          ملخص حركة أوامر البيع والشراء
-        </p>
-
-      </div>
-
-    </div>
-
-
-    <div class="report-summary">
-
-      <div class="report-kpi">
-
-        <small>
-          إجمالي المبيعات
-        </small>
-
-        <strong>
-          ${fmtMoney(totalSales)}
-        </strong>
-
-      </div>
-
-
-      <div class="report-kpi">
-
-        <small>
-          إجمالي المشتريات
-        </small>
-
-        <strong>
-          ${fmtMoney(totalPurchases)}
-        </strong>
-
-      </div>
-
-
-      <div class="report-kpi">
-
-        <small>
-          الأوامر المكتملة
-        </small>
-
-        <strong>
-          ${delivered}
-        </strong>
-
-      </div>
-
-    </div>
-
-
-    <div class="report-card">
-
-      <div class="report-header">
-
-        <div>
-
-          <h3>
-            تقرير جميع الأوامر
-          </h3>
-
-          <span>
-            إجمالي السجلات: ${DATA.orders.length}
-          </span>
-
-        </div>
-
-        <button
-          class="btn-secondary"
-          onclick="printReport()"
-          style="
-            width:auto;
-            margin:0;
-            padding:9px 14px;
-          "
+        <option
+          value="${escapeAttr(p.name)}"
+          data-phone="${escapeAttr(p.phone||"")}"
+          data-address="${escapeAttr(p.address||"")}"
         >
-          🖨️ طباعة التقرير
-        </button>
+          ${escapeHTML(p.name)}
+        </option>
 
-      </div>
+        `
+      ).join("")}
 
+    </select>
 
-      <div class="table-wrap">
+    <label>اسم العميل</label>
 
-        <table class="report-table">
+    <input
+      id="f_name"
+      value="${escapeAttr(d.partyName)}"
+      placeholder="اسم الشركة / العميل"
+    >
 
-          <thead>
-
-            <tr>
-
-              <th>رقم الأمر</th>
-              <th>النوع</th>
-              <th>التاريخ</th>
-              <th>الجهة</th>
-              <th>الدفع</th>
-              <th>الإجمالي</th>
-              <th>الحالة</th>
-
-            </tr>
-
-          </thead>
-
-
-          <tbody>
-
-            ${
-              DATA.orders.length===0
-
-              ?`
-
-                <tr>
-
-                  <td
-                    colspan="7"
-                    style="padding:30px"
-                  >
-                    لا توجد بيانات
-                  </td>
-
-                </tr>
-
-              `
-
-              :DATA.orders
-                .map(
-                  o=>`
-
-                    <tr>
-
-                      <td>
-                        <b>${escapeHTML(o.id)}</b>
-                      </td>
-
-                      <td>
-                        ${
-                          o.type==="sale"
-                          ?"بيع"
-                          :"شراء"
-                        }
-                      </td>
-
-                      <td>
-                        ${fmtDate(o.createdAt)}
-                      </td>
-
-                      <td>
-                        ${escapeHTML(o.partyName)}
-                      </td>
-
-                      <td>
-                        ${escapeHTML(o.paymentMethod)}
-                      </td>
-
-                      <td class="amount">
-                        ${fmtMoney(orderTotal(o))}
-                      </td>
-
-                      <td>
-
-                        <span
-                          class="pill stage-${o.stage}"
-                        >
-                          ${
-                            (
-                              STAGES.find(
-                                s=>s.key===o.stage
-                              )||{}
-                            ).label||"—"
-                          }
-                        </span>
-
-                      </td>
-
-                    </tr>
-
-                  `
-                )
-                .join("")
-
-            }
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </div>
-
-  `;
-
-}
-
-
-/* ============================================================
-   CUSTOMERS
-============================================================ */
-
-function customersHTML(){
-
-  return`
-
-    <div class="dashboard-head">
+    <div class="row2">
 
       <div>
 
-        <h2>
-          العملاء والموردين
-        </h2>
+        <label>التليفون</label>
 
-        <p>
-          إدارة بيانات الجهات والتعاملات
-        </p>
+        <input
+          type="tel"
+          id="f_phone"
+          value="${escapeAttr(d.phone)}"
+          placeholder="01xxxxxxxxx"
+        >
+
+      </div>
+
+      <div>
+
+        <label>فاتورة ضريبية؟</label>
+
+        <select id="f_tax">
+
+          <option
+            value="0"
+            ${!d.taxInvoice?"selected":""}
+          >
+            لا
+          </option>
+
+          <option
+            value="1"
+            ${d.taxInvoice?"selected":""}
+          >
+            نعم - مطلوب فاتورة ضريبية
+          </option>
+
+        </select>
 
       </div>
 
     </div>
 
+    <label>العنوان / مكان التسليم</label>
 
-    <div class="card">
+    <input
+      id="f_address"
+      value="${escapeAttr(d.address)}"
+      placeholder="عنوان العميل"
+    >
 
-      <div class="section-label">
+    <div class="row2">
 
-        <h3>
-          إضافة عميل / مورد
-        </h3>
+      <div>
+
+        <label>طريقة التحصيل</label>
+
+        <select id="f_pay">
+
+          <option value="نقدي">نقدي</option>
+          <option value="آجل">آجل</option>
+          <option value="شيك">شيك بنكي</option>
+          <option value="تحويل">تحويل بنكي</option>
+
+        </select>
 
       </div>
 
+      <div>
 
-      <label>
-        الاسم
-      </label>
+        <label>
+          المبلغ الذي سيحصله السائق
+        </label>
 
-      <input
-        type="text"
-        id="p_name"
-        placeholder="اسم الشركة أو الشخص"
-      >
+        <input
+          type="number"
+          id="f_collection"
+          value="${d.expectedCollection||0}"
+          min="0"
+          placeholder="0"
+        >
 
+      </div>
 
-      <div class="row2">
+    </div>
 
-        <div>
+  </div>
 
-          <label>
-            التليفون
-          </label>
+  <div class="card">
+
+    <div class="card-title">
+
+      <div>
+        <h3>الأصناف والكميات</h3>
+        <p>
+          السعر يظهر للمبيعات والحسابات فقط
+        </p>
+      </div>
+
+    </div>
+
+    <div class="item-header">
+      <span>الصنف / الخامة</span>
+      <span>الكمية</span>
+      <span>السعر</span>
+      <span></span>
+    </div>
+
+    <div id="itemsWrap">
+
+      ${d.items.map(
+        (item,index)=>`
+
+        <div
+          class="item-row"
+          data-index="${index}"
+        >
 
           <input
-            type="tel"
-            id="p_phone"
-            placeholder="رقم الهاتف"
+            class="it-name"
+            placeholder="مثال: PP SABIC"
+            value="${escapeAttr(item.name)}"
           >
 
+          <input
+            class="it-qty"
+            type="number"
+            min="0"
+            value="${item.qty}"
+          >
+
+          <input
+            class="it-price"
+            type="number"
+            min="0"
+            value="${item.price}"
+          >
+
+          <button
+            class="rm-btn"
+            onclick="rmItem(${index})"
+          >
+            ×
+          </button>
+
         </div>
 
-
-        <div>
-
-          <label>
-            النوع
-          </label>
-
-          <select id="p_type">
-
-            <option value="عميل">
-              عميل
-            </option>
-
-            <option value="مورد">
-              مورد
-            </option>
-
-          </select>
-
-        </div>
-
-      </div>
-
-
-      <label>
-        العنوان
-      </label>
-
-      <input
-        type="text"
-        id="p_address"
-        placeholder="العنوان"
-      >
-
-
-      <button
-        class="btn-primary"
-        onclick="saveParty()"
-      >
-        حفظ في السجل
-      </button>
+        `
+      ).join("")}
 
     </div>
 
+    <button
+      class="add-item"
+      onclick="addItem()"
+    >
+      + إضافة صنف
+    </button>
 
-    <div class="report-card">
+    <div class="total-box">
 
-      <div class="report-header">
+      <span>إجمالي الأمر المبدئي</span>
 
-        <div>
-
-          <h3>
-            سجل العملاء والموردين
-          </h3>
-
-          <span>
-            عدد الجهات: ${(DATA.parties||[]).length}
-          </span>
-
-        </div>
-
-      </div>
-
-
-      <div class="table-wrap">
-
-        <table class="report-table">
-
-          <thead>
-
-            <tr>
-
-              <th>الاسم</th>
-              <th>النوع</th>
-              <th>التليفون</th>
-              <th>العنوان</th>
-
-            </tr>
-
-          </thead>
-
-
-          <tbody>
-
-            ${(DATA.parties||[])
-              .map(
-                p=>`
-
-                  <tr>
-
-                    <td>
-                      <b>${escapeHTML(p.name)}</b>
-                    </td>
-
-                    <td>
-                      ${escapeHTML(p.type||"عميل")}
-                    </td>
-
-                    <td>
-                      ${escapeHTML(p.phone||"—")}
-                    </td>
-
-                    <td>
-                      ${escapeHTML(p.address||"—")}
-                    </td>
-
-                  </tr>
-
-                `
-              )
-              .join("")
-            }
-
-          </tbody>
-
-        </table>
-
-      </div>
+      <b>
+        ${fmtMoney(itemsTotal(d))}
+      </b>
 
     </div>
+
+  </div>
+
+  <button
+    class="btn-primary"
+    onclick="submitSale()"
+  >
+    حفظ أمر البيع وإرساله للمدير
+  </button>
 
   `;
 
 }
 
+/* =========================================================
+   PARTY
+========================================================= */
 
-/* ============================================================
-   SAVE PARTY
-============================================================ */
+function onPartySelect(select){
 
-function saveParty(){
+  const option=
+    select.options[
+      select.selectedIndex
+    ];
+
+  if(!option || !option.value) return;
+
+  document.getElementById("f_name").value=
+    option.value;
+
+  document.getElementById("f_phone").value=
+    option.dataset.phone||"";
+
+  document.getElementById("f_address").value=
+    option.dataset.address||"";
+
+}
+
+/* =========================================================
+   ADD / REMOVE ITEMS
+========================================================= */
+
+function addItem(){
+
+  if(!state.draft) return;
+
+  state.draft.items.push({
+    name:"",
+    qty:1,
+    price:0
+  });
+
+  render();
+
+}
+
+function rmItem(index){
+
+  if(
+    !state.draft ||
+    state.draft.items.length<=1
+  ) return;
+
+  state.draft.items.splice(index,1);
+
+  render();
+
+}
+
+/* =========================================================
+   SUBMIT SALE
+========================================================= */
+
+function submitSale(){
 
   const name=
-    document.getElementById("p_name")
-      .value.trim();
+    document.getElementById("f_name").value.trim();
 
   const phone=
-    document.getElementById("p_phone")
-      .value.trim();
-
-  const type=
-    document.getElementById("p_type")
-      .value;
+    document.getElementById("f_phone").value.trim();
 
   const address=
-    document.getElementById("p_address")
-      .value.trim();
+    document.getElementById("f_address").value.trim();
 
+  const tax=
+    document.getElementById("f_tax").value==="1";
+
+  const pay=
+    document.getElementById("f_pay").value;
+
+  const collection=
+    Number(
+      document.getElementById("f_collection").value
+    )||0;
 
   if(!name){
 
-    showToast(
-      "من فضلك أدخل اسم العميل أو المورد"
-    );
+    showToast("أدخل اسم العميل");
 
     return;
 
   }
 
+  if(!phone){
 
-  if(
+    showToast("أدخل تليفون العميل");
+
+    return;
+
+  }
+
+  const items=[];
+
+  document
+    .querySelectorAll(".item-row")
+    .forEach(row=>{
+
+      const itemName=
+        row.querySelector(".it-name")
+          .value.trim();
+
+      const qty=
+        Number(
+          row.querySelector(".it-qty").value
+        )||0;
+
+      const price=
+        Number(
+          row.querySelector(".it-price").value
+        )||0;
+
+      if(itemName && qty>0){
+
+        items.push({
+          name:itemName,
+          qty,
+          price
+        });
+
+      }
+
+    });
+
+  if(!items.length){
+
+    showToast("أدخل صنف واحد على الأقل");
+
+    return;
+
+  }
+
+  const order=state.draft;
+
+  order.partyName=name;
+  order.phone=phone;
+  order.address=address;
+  order.taxInvoice=tax;
+  order.paymentMethod=pay;
+  order.expectedCollection=collection;
+  order.items=items;
+
+  /*
+    مهم:
+    أمر البيع يذهب للمدير أولا.
+    لا يذهب للنقل مباشرة.
+  */
+
+  order.stage="manager_approval";
+
+  order.createdBy=
+    currentUser.name;
+
+  order.createdAt=
+    todayISO();
+
+  DATA.orders.unshift(order);
+
+  DATA.parties=
+    DATA.parties||[];
+
+  const exists=
     DATA.parties.some(
-      p=>p.name.toLowerCase()===name.toLowerCase()
-    )
-  ){
-
-    showToast(
-      "هذه الجهة موجودة بالفعل"
+      p=>p.name===name
     );
 
-    return;
+  if(!exists){
+
+    DATA.parties.push({
+
+      id:uid("P"),
+
+      name,
+
+      phone,
+
+      address,
+
+      type:"عميل"
+
+    });
 
   }
 
+  DATA.notifications.unshift({
 
-  DATA.parties.push({
+    id:uid("NT"),
 
-    id:uid("P"),
-    name,
-    phone,
-    type,
-    address
+    type:"manager_order",
+
+    orderId:order.id,
+
+    title:"أمر بيع جديد يحتاج اعتماد المدير",
+
+    message:
+      `تم إنشاء أمر البيع ${order.id} للعميل ${name}`,
+
+    read:false,
+
+    createdAt:todayISO()
 
   });
 
-
   saveData();
 
+  state.draft=null;
+
+  state.view="dashboard";
+
   showToast(
-    "تم حفظ البيانات بنجاح"
+    "تم حفظ أمر البيع وإرساله للمدير للاعتماد"
   );
 
   render();
 
 }
 
+/* =========================================================
+   APPROVALS
+========================================================= */
 
-/* ============================================================
-   USERS
-============================================================ */
+function approvalsHTML(){
 
-function usersManagementHTML(){
+  let list=[];
 
-  return`
+  if(currentUser.role==="admin"){
 
-    <div class="dashboard-head">
+    list=
+      DATA.orders.filter(
+        o=>
+          o.stage==="manager_approval" ||
+          o.stage==="tax_pending"
+      );
+
+  }else if(currentUser.stage){
+
+    list=
+      DATA.orders.filter(
+        o=>o.stage===currentUser.stage
+      );
+
+  }
+
+  return `
+
+  <div class="card">
+
+    <div class="card-title">
 
       <div>
-
-        <h2>
-          إدارة المستخدمين
-        </h2>
-
+        <h2>قائمة الاعتماد</h2>
         <p>
-          التحكم في الحسابات والصلاحيات
+          الأوامر التي تحتاج إجراء من حسابك
         </p>
-
       </div>
 
     </div>
 
+    ${
+      list.length
+      ?
+      list.map(orderItemHTML).join("")
+      :
+      `
+      <div class="empty">
 
-    <div class="card">
+        <div class="empty-icon">✅</div>
 
-      <div class="section-label">
+        <b>لا توجد مهام معلقة</b>
 
-        <h3>
-          إضافة / تعديل مستخدم
-        </h3>
-
-      </div>
-
-
-      <label>
-        اسم المستخدم
-      </label>
-
-      <input
-        type="text"
-        id="u_key"
-        placeholder="مثال: sales2"
-      >
-
-
-      <label>
-        الاسم والصفة
-      </label>
-
-      <input
-        type="text"
-        id="u_name"
-        placeholder="مثال: أحمد - المبيعات"
-      >
-
-
-      <label>
-        كلمة السر
-      </label>
-
-      <input
-        type="password"
-        id="u_pass"
-        placeholder="كلمة السر"
-      >
-
-
-      <label>
-        الصلاحية
-      </label>
-
-      <select id="u_role">
-
-        <option value="sales">
-          المبيعات
-        </option>
-
-        <option value="logistics">
-          قسم النقل
-        </option>
-
-        <option value="accounts">
-          الحسابات
-        </option>
-
-        <option value="warehouse">
-          المخازن
-        </option>
-
-        <option value="driver">
-          السائق
-        </option>
-
-        <option value="admin">
-          مدير النظام
-        </option>
-
-      </select>
-
-
-      <button
-        class="btn-primary"
-        onclick="saveUser()"
-      >
-        حفظ المستخدم
-      </button>
-
-    </div>
-
-
-    <div class="report-card">
-
-      <div class="report-header">
-
-        <div>
-
-          <h3>
-            المستخدمون الحاليون
-          </h3>
-
-          <span>
-            عدد المستخدمين: ${Object.keys(USERS).length}
-          </span>
-
-        </div>
+        <span>
+          كل العمليات المطلوبة منك منتهية حالياً
+        </span>
 
       </div>
+      `
+    }
 
-
-      <div class="table-wrap">
-
-        <table class="report-table">
-
-          <thead>
-
-            <tr>
-
-              <th>المستخدم</th>
-              <th>الاسم</th>
-              <th>الصلاحية</th>
-              <th>التحكم</th>
-
-            </tr>
-
-          </thead>
-
-
-          <tbody>
-
-            ${Object.keys(USERS)
-              .map(
-                k=>`
-
-                  <tr>
-
-                    <td>
-                      <b>${escapeHTML(k)}</b>
-                    </td>
-
-                    <td>
-                      ${escapeHTML(USERS[k].name)}
-                    </td>
-
-                    <td>
-                      ${roleLabel(USERS[k].role)}
-                    </td>
-
-                    <td>
-
-                      ${
-                        k==="admin"
-
-                        ?`
-
-                          <span
-                            style="
-                              color:var(--green);
-                              font-weight:800;
-                            "
-                          >
-                            رئيسي
-                          </span>
-
-                        `
-
-                        :`
-
-                          <button
-                            onclick="deleteUser('${k}')"
-                            style="
-                              border:0;
-                              background:var(--red-soft);
-                              color:var(--red);
-                              padding:6px 10px;
-                              border-radius:8px;
-                              cursor:pointer;
-                              font-weight:800;
-                            "
-                          >
-                            حذف
-                          </button>
-
-                        `
-                      }
-
-                    </td>
-
-                  </tr>
-
-                `
-              )
-              .join("")
-            }
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-    </div>
+  </div>
 
   `;
 
 }
 
-
-function roleLabel(role){
-
-  const map={
-
-    admin:"مدير النظام",
-    sales:"المبيعات",
-    logistics:"النقل",
-    accounts:"الحسابات",
-    warehouse:"المخازن",
-    driver:"السائق"
-
-  };
-
-  return map[role]||role;
-
-}
-
-
-/* ============================================================
-   SAVE USER
-============================================================ */
-
-function saveUser(){
-
-  const k=
-    document.getElementById("u_key")
-      .value.trim();
-
-  const name=
-    document.getElementById("u_name")
-      .value.trim();
-
-  const pass=
-    document.getElementById("u_pass")
-      .value.trim();
-
-  const role=
-    document.getElementById("u_role")
-      .value;
-
-
-  if(!k||!name||!pass){
-
-    showToast(
-      "أكمل البيانات المطلوبة"
-    );
-
-    return;
-
-  }
-
-
-  let stage=null;
-
-  if(role==="logistics")
-    stage="logistics_review";
-
-  if(role==="accounts")
-    stage="accounts_approval";
-
-  if(role==="warehouse")
-    stage="warehouse_release";
-
-  if(role==="driver")
-    stage="with_driver";
-
-
-  USERS[k]={
-
-    pass,
-    name,
-    role,
-    stage
-
-  };
-
-
-  saveData();
-
-  showToast(
-    "تم حفظ المستخدم بنجاح"
-  );
-
-  render();
-
-}
-
-
-function deleteUser(k){
-
-  if(k==="admin")
-    return;
-
-
-  if(
-    confirm(
-      "هل أنت متأكد من حذف المستخدم؟"
-    )
-  ){
-
-    delete USERS[k];
-
-    saveData();
-
-    showToast(
-      "تم حذف المستخدم"
-    );
-
-    render();
-
-  }
-
-}
-
-
-/* ============================================================
+/* =========================================================
    DETAIL
-============================================================ */
+========================================================= */
 
 function detailHTML(){
 
@@ -3503,502 +2464,869 @@ function detailHTML(){
       x=>x.id===state.selectedOrderId
     );
 
+  if(!o){
 
-  if(!o)
-    return"";
+    return `<div class="card">الأمر غير موجود.</div>`;
 
+  }
 
-  const currentIndex=
-    STAGES.findIndex(
-      s=>s.key===o.stage
+  const canSeePrices=
+    !(
+      currentUser.role==="warehouse" ||
+      currentUser.role==="driver"
     );
 
+  return `
 
-  return`
+  <button
+    class="btn-secondary"
+    onclick="goDashboard()"
+    style="margin-bottom:12px"
+  >
+    ← الرجوع
+  </button>
 
-    <button
-      class="btn-secondary"
-      onclick="
-        state.view='dashboard';
-        render();
-      "
-      style="
-        margin-bottom:12px;
-        width:auto;
-        padding:9px 14px;
-      "
-    >
-      ← الرجوع للأوامر
-    </button>
+  <div class="card">
 
+    <div class="card-title">
 
-    <div class="card">
+      <div>
 
-      <div class="detail-title">
+        <h2>
+          أمر بيع ${o.id}
+        </h2>
 
-        <div>
+        <p>
+          تم الإنشاء: ${fmtDateTime(o.createdAt)}
+        </p>
 
-          <div class="detail-id">
-            ${escapeHTML(o.id)}
-            ·
-            ${
-              o.type==="sale"
-              ?"أمر بيع"
-              :"أمر شراء"
-            }
-          </div>
+      </div>
 
-          <div class="detail-name">
-            ${escapeHTML(o.partyName)}
-          </div>
+      <span class="pill stage-${o.stage}">
+        ${getStageLabel(o.stage)}
+      </span>
 
-        </div>
+    </div>
 
+    ${flowHTML(o)}
 
-        <span
-          class="pill stage-${o.stage}"
+  </div>
+
+  <div class="card">
+
+    <div class="card-title">
+      <h3>بيانات العميل</h3>
+    </div>
+
+    <div class="row2">
+
+      <div>
+
+        <label>العميل</label>
+
+        <input
+          value="${escapeAttr(o.partyName)}"
+          readonly
         >
-          ${
-            (
-              STAGES.find(
-                s=>s.key===o.stage
-              )||{}
-            ).label||"—"
-          }
-        </span>
 
       </div>
 
+      <div>
 
-      <div class="stage-flow">
+        <label>التليفون</label>
 
-        ${STAGES.map(
-          (s,index)=>`
-
-            <div
-              class="
-                stage-step
-                ${
-                  index<currentIndex
-                  ?"done"
-                  :""
-                }
-                ${
-                  index===currentIndex
-                  ?"current"
-                  :""
-                }
-              "
-            >
-
-              <div class="stage-line"></div>
-
-              <span>
-                ${s.label}
-              </span>
-
-            </div>
-
-          `
-        ).join("")}
-
-      </div>
-
-
-      <div class="info-grid">
-
-        <div class="info-box">
-
-          <span>
-            التليفون
-          </span>
-
-          <b>
-            ${escapeHTML(o.phone||"—")}
-          </b>
-
-        </div>
-
-
-        <div class="info-box">
-
-          <span>
-            العنوان
-          </span>
-
-          <b>
-            ${escapeHTML(o.address||"—")}
-          </b>
-
-        </div>
-
-
-        <div class="info-box">
-
-          <span>
-            طريقة الدفع
-          </span>
-
-          <b>
-            ${escapeHTML(o.paymentMethod)}
-          </b>
-
-        </div>
-
-
-        <div class="info-box">
-
-          <span>
-            فاتورة ضريبية
-          </span>
-
-          <b>
-            ${o.taxInvoice?"نعم":"لا"}
-          </b>
-
-        </div>
-
-
-        <div class="info-box">
-
-          <span>
-            منشئ الأمر
-          </span>
-
-          <b>
-            ${escapeHTML(o.createdBy||"—")}
-          </b>
-
-        </div>
-
-
-        <div class="info-box">
-
-          <span>
-            تاريخ الإنشاء
-          </span>
-
-          <b>
-            ${fmtDateTime(o.createdAt)}
-          </b>
-
-        </div>
+        <input
+          value="${escapeAttr(o.phone)}"
+          readonly
+        >
 
       </div>
 
     </div>
 
+    <label>العنوان / مكان التسليم</label>
 
-    <div class="card">
+    <input
+      value="${escapeAttr(o.address||"")}"
+      readonly
+    >
 
-      <div class="section-label">
+    <div class="row2">
 
-        <h3>
-          تفاصيل الأصناف
-        </h3>
+      <div>
+
+        <label>طريقة التحصيل</label>
+
+        <input
+          value="${escapeAttr(o.paymentMethod)}"
+          readonly
+        >
 
       </div>
 
+      <div>
 
-      <div class="table-wrap">
+        <label>فاتورة ضريبية</label>
 
-        <table class="report-table"
-               style="min-width:550px">
+        <input
+          value="${o.taxInvoice?"نعم":"لا"}"
+          readonly
+        >
 
-          <thead>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-title">
+
+      <div>
+        <h3>الأصناف</h3>
+        ${
+          !canSeePrices
+          ?
+          `<p>المخزن والسائق لا يظهر لهما الأسعار</p>`
+          :""
+        }
+      </div>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table class="report-table">
+
+        <thead>
+
+          <tr>
+
+            <th>الصنف</th>
+            <th>الكمية</th>
+
+            ${
+              canSeePrices
+              ?
+              `
+              <th>السعر</th>
+              <th>الإجمالي</th>
+              `
+              :""
+            }
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${o.items.map(
+            item=>`
 
             <tr>
 
-              <th>الصنف</th>
-              <th>الكمية</th>
-              <th>السعر</th>
-              <th>الإجمالي</th>
+              <td>
+                <b>${escapeHTML(item.name)}</b>
+              </td>
+
+              <td>
+                ${item.qty}
+              </td>
+
+              ${
+                canSeePrices
+                ?
+                `
+                <td>
+                  ${fmtMoney(item.price)}
+                </td>
+
+                <td>
+                  ${fmtMoney(item.qty*item.price)}
+                </td>
+                `
+                :""
+              }
 
             </tr>
 
-          </thead>
+            `
+          ).join("")}
 
-          <tbody>
+        </tbody>
 
-            ${o.items.map(
-              i=>`
-
-                <tr>
-
-                  <td>
-                    ${escapeHTML(i.name)}
-                  </td>
-
-                  <td>
-                    ${i.qty}
-                  </td>
-
-                  <td class="amount">
-                    ${fmtMoney(i.price)}
-                  </td>
-
-                  <td class="amount">
-                    ${fmtMoney(i.qty*i.price)}
-                  </td>
-
-                </tr>
-
-              `
-            ).join("")}
-
-          </tbody>
-
-        </table>
-
-      </div>
-
-
-      <div class="total-box">
-
-        <div class="total-line">
-
-          <span>
-            مجموع الأصناف
-          </span>
-
-          <strong>
-            ${fmtMoney(itemsTotal(o))}
-          </strong>
-
-        </div>
-
-
-        <div class="total-line">
-
-          <span>
-            تكلفة الشحن
-          </span>
-
-          <strong>
-            ${fmtMoney(o.shippingCost)}
-          </strong>
-
-        </div>
-
-
-        <div class="total-line total-final">
-
-          <span>
-            الإجمالي النهائي
-          </span>
-
-          <b>
-            ${fmtMoney(orderTotal(o))}
-          </b>
-
-        </div>
-
-      </div>
-
-
-      <button
-        class="btn-secondary"
-        onclick="printSingleOrder('${o.id}')"
-      >
-        🖨️ طباعة أمر البيع / الشراء
-      </button>
+      </table>
 
     </div>
 
+    ${
+      canSeePrices
+      ?
+      `
+      <div class="total-box">
 
-    ${actionBoxHTML(o)}
+        <span>الإجمالي</span>
+
+        <b>
+          ${fmtMoney(orderTotal(o))}
+        </b>
+
+      </div>
+      `
+      :""
+    }
+
+  </div>
+
+  ${actionBoxHTML(o)}
+
+  ${driverMessageHTML(o)}
 
   `;
 
 }
 
+/* =========================================================
+   FLOW
+========================================================= */
 
-/* ============================================================
-   ACTION BOX
-============================================================ */
+function flowHTML(order){
 
-function actionBoxHTML(o){
+  const currentIndex=
+    STAGES.findIndex(
+      x=>x.key===order.stage
+    );
 
-  if(
-    currentUser.role!=="admin" &&
-    currentUser.stage!==o.stage
-  )
-    return"";
+  return `
 
+  <div class="flow">
 
-  if(o.stage==="logistics_review"){
+    ${STAGES.map(
+      (stage,index)=>`
 
-    return`
+      <div
+        class="flow-step
+          ${
+            index<currentIndex
+            ?"done"
+            :
+            index===currentIndex
+            ?"active"
+            :""
+          }
+        "
+      >
 
-      <div class="card">
+        <div class="flow-dot">
 
-        <div class="section-label">
-
-          <h3>
-            مراجعة قسم النقل
-          </h3>
-
-        </div>
-
-        <label>
-          تكلفة الشحن / النقل
-        </label>
-
-        <input
-          type="number"
-          id="shipInput"
-          value="${o.shippingCost||0}"
-        >
-
-        <button
-          class="btn-primary"
-          onclick="approveLogistics('${o.id}')"
-        >
-          اعتماد النقل وتحويل الأمر للحسابات
-        </button>
-
-      </div>
-
-    `;
-
-  }
-
-
-  if(o.stage==="accounts_approval"){
-
-    return`
-
-      <div class="card">
-
-        <div class="section-label">
-
-          <h3>
-            اعتماد الحسابات
-          </h3>
+          ${
+            index<currentIndex
+            ?"✓"
+            :
+            index+1
+          }
 
         </div>
 
-        <label>
-          الإجمالي النهائي بعد الاعتماد
-        </label>
-
-        <input
-          type="number"
-          id="totalInput"
-          value="${
-            itemsTotal(o)+(o.shippingCost||0)
-          }"
-        >
-
-        <button
-          class="btn-primary"
-          onclick="approveAccounts('${o.id}')"
-        >
-          اعتماد المبلغ وتحويله للمخزن
-        </button>
-
-      </div>
-
-    `;
-
-  }
-
-
-  if(o.stage==="warehouse_release"){
-
-    return`
-
-      <div class="card">
-
-        <div class="section-label">
-
-          <h3>
-            إصدار إذن المخزن
-          </h3>
-
+        <div class="flow-label">
+          ${stage.label}
         </div>
 
-        <label>
-          اسم السائق المسؤول
-        </label>
-
-        <input
-          type="text"
-          id="driverInput"
-          value="${escapeHTML(o.driverName||"")}"
-          placeholder="اسم السائق"
-        >
-
-        <button
-          class="btn-primary"
-          onclick="approveWarehouse('${o.id}')"
-        >
-          إصدار إذن الصرف وتسليم السائق
-        </button>
-
       </div>
 
-    `;
+      `
+    ).join("")}
 
-  }
+  </div>
 
-
-  if(o.stage==="with_driver"){
-
-    return`
-
-      <div class="card">
-
-        <div class="section-label">
-
-          <h3>
-            التسليم
-          </h3>
-
-        </div>
-
-        ${
-          o.driverName
-          ?`
-
-            <div class="info-box">
-
-              <span>
-                السائق
-              </span>
-
-              <b>
-                ${escapeHTML(o.driverName)}
-              </b>
-
-            </div>
-
-          `
-          :""
-        }
-
-        <button
-          class="btn-primary"
-          onclick="approveDelivery('${o.id}')"
-        >
-          ✓ تأكيد استلام العميل وإتمام الأمر
-        </button>
-
-      </div>
-
-    `;
-
-  }
-
-
-  return"";
+  `;
 
 }
 
+/* =========================================================
+   ACTION BOX
+========================================================= */
 
-/* ============================================================
-   APPROVAL FUNCTIONS
-============================================================ */
+function actionBoxHTML(o){
+
+  /* =========================
+     ADMIN APPROVAL
+  ========================= */
+
+  if(
+    currentUser.role==="admin" &&
+    o.stage==="manager_approval"
+  ){
+
+    return `
+
+    <div class="card">
+
+      <div class="alert alert-yellow">
+
+        <b>مطلوب اعتماد المدير</b><br>
+
+        هذا أمر بيع جديد من المبيعات.
+        بعد الاعتماد ينتقل تلقائياً إلى قسم النقل.
+
+      </div>
+
+      <button
+        class="btn-primary"
+        onclick="approveManager('${o.id}')"
+      >
+        ✓ اعتماد أمر البيع وتحويله للنقل
+      </button>
+
+      <button
+        class="btn-danger"
+        onclick="rejectOrder('${o.id}')"
+        style="width:100%;margin-top:8px"
+      >
+        رفض أمر البيع
+      </button>
+
+    </div>
+
+    `;
+
+  }
+
+  /* =========================
+     TAX PENDING
+  ========================= */
+
+  if(
+    currentUser.role==="accounts" &&
+    o.stage==="tax_pending" &&
+    o.taxInvoice
+  ){
+
+    return `
+
+    <div class="card">
+
+      <div class="alert alert-red">
+
+        <b>تنبيه للحسابات:</b><br>
+
+        هذا الأمر تم تسليمه بالفعل،
+        والعميل طلب فاتورة ضريبية.
+        يجب إصدار الفاتورة الضريبية الآن.
+
+      </div>
+
+      <div class="row2">
+
+        <div>
+
+          <label>رقم الفاتورة الضريبية</label>
+
+          <input
+            id="taxInvoiceNumber"
+            placeholder="أدخل رقم الفاتورة"
+          >
+
+        </div>
+
+        <div>
+
+          <label>حالة الفاتورة</label>
+
+          <input
+            value="مطلوب إصدار فاتورة ضريبية"
+            readonly
+          >
+
+        </div>
+
+      </div>
+
+      <button
+        class="btn-primary"
+        onclick="completeTaxInvoice('${o.id}')"
+      >
+        ✓ تأكيد إصدار الفاتورة الضريبية
+      </button>
+
+    </div>
+
+    `;
+
+  }
+
+  /* =========================
+     LOGISTICS
+  ========================= */
+
+  if(
+    (
+      currentUser.role==="logistics" ||
+      currentUser.role==="admin"
+    ) &&
+    o.stage==="logistics_review"
+  ){
+
+    return `
+
+    <div class="card">
+
+      <div class="card-title">
+
+        <div>
+          <h3>مراجعة النقل</h3>
+          <p>تحديد تكلفة النقل فقط</p>
+        </div>
+
+      </div>
+
+      <label>تكلفة النقل</label>
+
+      <input
+        type="number"
+        id="shipInput"
+        value="${o.shippingCost||0}"
+        min="0"
+      >
+
+      <button
+        class="btn-primary"
+        onclick="approveLogistics('${o.id}')"
+      >
+        اعتماد النقل وتحويل الأمر للحسابات
+      </button>
+
+    </div>
+
+    `;
+
+  }
+
+  /* =========================
+     ACCOUNTS
+  ========================= */
+
+  if(
+    (
+      currentUser.role==="accounts" ||
+      currentUser.role==="admin"
+    ) &&
+    o.stage==="accounts_approval"
+  ){
+
+    return `
+
+    <div class="card">
+
+      <div class="card-title">
+
+        <div>
+
+          <h3>اعتماد الحسابات</h3>
+
+          <p>
+            مراجعة السعر والإجمالي النهائي
+          </p>
+
+        </div>
+
+      </div>
+
+      ${
+        o.taxInvoice
+        ?
+        `
+        <div class="alert alert-blue">
+
+          ⚠️ هذا الأمر محدد كـ
+          <b>فاتورة ضريبية</b>.
+          بعد التسليم سيظهر تنبيه للحسابات
+          لإصدار الفاتورة الضريبية.
+
+        </div>
+        `
+        :""
+      }
+
+      <label>الإجمالي النهائي المعتمد</label>
+
+      <input
+        type="number"
+        id="totalInput"
+        value="${itemsTotal(o)+(o.shippingCost||0)}"
+      >
+
+      <button
+        class="btn-primary"
+        onclick="approveAccounts('${o.id}')"
+      >
+        اعتماد الحسابات وتحويل الأمر للمخزن
+      </button>
+
+    </div>
+
+    `;
+
+  }
+
+  /* =========================
+     WAREHOUSE
+  ========================= */
+
+  if(
+    (
+      currentUser.role==="warehouse" ||
+      currentUser.role==="admin"
+    ) &&
+    o.stage==="warehouse_release"
+  ){
+
+    return `
+
+    <div class="card">
+
+      <div class="alert alert-green">
+
+        <b>تنبيه المخزن:</b><br>
+
+        الأسعار والإجماليات المالية غير ظاهرة للمخزن.
+        المطلوب تنفيذ الكمية فقط وإصدار إذن الصرف.
+
+      </div>
+
+      <div class="row2">
+
+        <div>
+
+          <label>اسم السائق</label>
+
+          <input
+            id="driverName"
+            placeholder="اسم السائق"
+          >
+
+        </div>
+
+        <div>
+
+          <label>رقم هاتف السائق</label>
+
+          <input
+            type="tel"
+            id="driverPhone"
+            placeholder="01xxxxxxxxx"
+          >
+
+        </div>
+
+      </div>
+
+      <label>رقم السائق / كود السائق</label>
+
+      <input
+        id="driverCode"
+        placeholder="مثال: DR-001"
+      >
+
+      <button
+        class="btn-primary"
+        onclick="approveWarehouse('${o.id}')"
+      >
+        ✓ إصدار إذن الصرف وتسليم السائق
+      </button>
+
+    </div>
+
+    `;
+
+  }
+
+  /* =========================
+     DRIVER
+  ========================= */
+
+  if(
+    (
+      currentUser.role==="driver" ||
+      currentUser.role==="admin"
+    ) &&
+    o.stage==="with_driver"
+  ){
+
+    return `
+
+    <div class="card">
+
+      <div class="alert alert-yellow">
+
+        <b>الأمر مع السائق</b><br>
+
+        راجع بيانات العميل والكميات قبل التوصيل.
+
+      </div>
+
+      <button
+        class="btn-primary"
+        onclick="approveDelivery('${o.id}')"
+      >
+        ✓ تأكيد تسليم البضاعة للعميل
+      </button>
+
+    </div>
+
+    `;
+
+  }
+
+  return "";
+
+}
+
+/* =========================================================
+   DRIVER MESSAGE
+========================================================= */
+
+function buildDriverMessage(o){
+
+  const collection=
+    Number(o.expectedCollection)||0;
+
+  const collectionText=
+    collection>0
+
+    ?
+
+    `💰 التحصيل عند العميل: ${fmtMoney(collection)}`
+
+    :
+
+    `💰 التحصيل عند العميل: لا يوجد تحصيل`;
+
+  const itemsText=
+    o.items
+      .map(
+        item=>
+          `• ${item.name} — الكمية: ${item.qty}`
+      )
+      .join("\n");
+
+  return `
+
+مرحباً ${o.driverName||"السائق"} 👋
+
+لديك أمر توصيل جديد من RASRAS PLASTIC
+
+📋 رقم الأمر: ${o.id}
+
+👤 العميل:
+${o.partyName}
+
+📞 هاتف العميل:
+${o.phone}
+
+📍 العنوان:
+${o.address||"غير محدد"}
+
+📦 الكميات:
+${itemsText}
+
+${collectionText}
+
+يرجى تأكيد التسليم بعد استلام البضاعة من المخزن.
+
+شكراً،
+RASRAS PLASTIC
+`;
+
+}
+
+function driverMessageHTML(o){
+
+  if(
+    !o.driverName ||
+    (
+      o.stage!=="with_driver" &&
+      o.stage!=="delivered" &&
+      o.stage!=="tax_pending" &&
+      o.stage!=="completed"
+    )
+  ){
+
+    return "";
+
+  }
+
+  const message=
+    o.driverMessage ||
+    buildDriverMessage(o);
+
+  return `
+
+  <div class="card">
+
+    <div class="card-title">
+
+      <div>
+
+        <h3>رسالة السائق</h3>
+
+        <p>
+          ${escapeHTML(o.driverName)}
+          ·
+          ${escapeHTML(o.driverCode||"")}
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="driver-message">
+      ${escapeHTML(message)}
+    </div>
+
+    <div class="message-actions">
+
+      <button
+        class="btn-blue"
+        onclick="copyDriverMessage('${o.id}')"
+      >
+        📋 نسخ الرسالة
+      </button>
+
+      ${
+        o.driverPhone
+        ?
+        `
+        <button
+          class="btn-primary"
+          onclick="sendDriverWhatsApp('${o.id}')"
+        >
+          WhatsApp
+        </button>
+        `
+        :""
+      }
+
+    </div>
+
+    <div class="alert alert-blue" style="margin-top:12px;margin-bottom:0">
+
+      الرسالة يتم تجهيزها تلقائياً من بيانات الأمر.
+      زر WhatsApp يفتح المحادثة بالرسالة جاهزة للإرسال.
+
+    </div>
+
+  </div>
+
+  `;
+
+}
+
+/* =========================================================
+   MANAGER APPROVAL
+========================================================= */
+
+function approveManager(id){
+
+  const o=
+    DATA.orders.find(
+      x=>x.id===id
+    );
+
+  if(!o) return;
+
+  o.stage="logistics_review";
+
+  o.managerApprovedAt=
+    todayISO();
+
+  DATA.notifications.unshift({
+
+    id:uid("NT"),
+
+    type:"logistics",
+
+    orderId:o.id,
+
+    title:"أمر بيع جديد للنقل",
+
+    message:
+      `تم اعتماد ${o.id} بواسطة المدير وتحويله للنقل`,
+
+    read:false,
+
+    createdAt:todayISO()
+
+  });
+
+  saveData();
+
+  showToast(
+    "تم اعتماد الأمر وتحويله لقسم النقل"
+  );
+
+  render();
+
+}
+
+/* =========================================================
+   REJECT
+========================================================= */
+
+function rejectOrder(id){
+
+  const o=
+    DATA.orders.find(
+      x=>x.id===id
+    );
+
+  if(!o) return;
+
+  const reason=
+    prompt(
+      "سبب رفض أمر البيع:",
+      ""
+    );
+
+  if(reason===null) return;
+
+  o.stage="rejected";
+
+  o.rejectionReason=
+    reason||"بدون سبب محدد";
+
+  DATA.notifications.unshift({
+
+    id:uid("NT"),
+
+    type:"rejection",
+
+    orderId:o.id,
+
+    title:"تم رفض أمر البيع",
+
+    message:
+      `تم رفض ${o.id}. السبب: ${o.rejectionReason}`,
+
+    read:false,
+
+    createdAt:todayISO()
+
+  });
+
+  saveData();
+
+  showToast("تم رفض الأمر");
+
+  render();
+
+}
+
+/* =========================================================
+   LOGISTICS
+========================================================= */
 
 function approveLogistics(id){
 
@@ -4007,21 +3335,38 @@ function approveLogistics(id){
       x=>x.id===id
     );
 
-  if(!o)
-    return;
+  if(!o) return;
 
+  const input=
+    document.getElementById("shipInput");
 
   o.shippingCost=
-    Number(
-      document.getElementById(
-        "shipInput"
-      ).value
-    )||0;
+    Number(input.value)||0;
 
+  o.stage=
+    "accounts_approval";
 
-  o.stage="accounts_approval";
+  o.logisticsApprovedAt=
+    todayISO();
 
-  o.updatedAt=todayISO();
+  DATA.notifications.unshift({
+
+    id:uid("NT"),
+
+    type:"accounts",
+
+    orderId:o.id,
+
+    title:"أمر بيع يحتاج اعتماد الحسابات",
+
+    message:
+      `الأمر ${o.id} جاهز لمراجعة الحسابات`,
+
+    read:false,
+
+    createdAt:todayISO()
+
+  });
 
   saveData();
 
@@ -4033,6 +3378,9 @@ function approveLogistics(id){
 
 }
 
+/* =========================================================
+   ACCOUNTS
+========================================================= */
 
 function approveAccounts(id){
 
@@ -4041,45 +3389,65 @@ function approveAccounts(id){
       x=>x.id===id
     );
 
-  if(!o)
-    return;
+  if(!o) return;
 
+  const input=
+    document.getElementById("totalInput");
 
-  const value=
-    Number(
-      document.getElementById(
-        "totalInput"
-      ).value
-    );
+  const total=
+    Number(input.value);
 
+  if(
+    !Number.isFinite(total) ||
+    total<0
+  ){
 
-  if(!value||value<0){
-
-    showToast(
-      "أدخل إجمالي صحيح"
-    );
+    showToast("أدخل إجمالي صحيح");
 
     return;
 
   }
 
+  o.finalTotal=total;
 
-  o.finalTotal=value;
+  o.stage=
+    "warehouse_release";
 
-  o.stage="warehouse_release";
+  o.accountsApprovedAt=
+    todayISO();
 
-  o.updatedAt=todayISO();
+  DATA.notifications.unshift({
+
+    id:uid("NT"),
+
+    type:"warehouse",
+
+    orderId:o.id,
+
+    title:"أمر بيع جاهز للمخزن",
+
+    message:
+      `الأمر ${o.id} تم اعتماده حسابياً وأصبح جاهزاً للصرف`,
+
+    read:false,
+
+    createdAt:todayISO()
+
+  });
 
   saveData();
 
   showToast(
-    "تم اعتماد المبلغ وتحويل الأمر للمخزن"
+    "تم اعتماد الحسابات وتحويل الأمر للمخزن"
   );
 
   render();
 
 }
 
+/* =========================================================
+   WAREHOUSE
+========================================================= */
 
 function approveWarehouse(id){
 
@@ -4088,43 +3456,111 @@ function approveWarehouse(id){
       x=>x.id===id
     );
 
-  if(!o)
-    return;
+  if(!o) return;
 
+  const driverName=
+    document
+      .getElementById("driverName")
+      .value
+      .trim();
 
-  const driver=
-    document.getElementById(
-      "driverInput"
-    ).value.trim();
+  const driverPhone=
+    document
+      .getElementById("driverPhone")
+      .value
+      .trim();
 
+  const driverCode=
+    document
+      .getElementById("driverCode")
+      .value
+      .trim();
 
-  if(!driver){
+  if(!driverName){
 
-    showToast(
-      "أدخل اسم السائق"
-    );
+    showToast("اكتب اسم السائق");
 
     return;
 
   }
 
+  if(!driverPhone){
 
-  o.driverName=driver;
+    showToast("اكتب رقم هاتف السائق");
 
-  o.stage="with_driver";
+    return;
 
-  o.updatedAt=todayISO();
+  }
+
+  if(!driverCode){
+
+    showToast("اكتب رقم / كود السائق");
+
+    return;
+
+  }
+
+  o.driverName=
+    driverName;
+
+  o.driverPhone=
+    driverPhone;
+
+  o.driverCode=
+    driverCode;
+
+  o.warehouseReleasedAt=
+    todayISO();
+
+  o.stage=
+    "with_driver";
+
+  /*
+    إنشاء الرسالة تلقائياً
+  */
+
+  o.driverMessage=
+    buildDriverMessage(o);
+
+  DATA.notifications.unshift({
+
+    id:uid("NT"),
+
+    type:"driver",
+
+    orderId:o.id,
+
+    title:"أمر توصيل جديد للسائق",
+
+    message:
+      o.driverMessage,
+
+    read:false,
+
+    createdAt:todayISO(),
+
+    driverPhone
+
+  });
 
   saveData();
 
+  /*
+    في الواجهة الحالية يتم تجهيز الرسالة تلقائياً.
+    الإرسال الفعلي عبر WhatsApp يحتاج API / Backend.
+  */
+
   showToast(
-    "تم إصدار إذن الصرف وتسليم الأمر للسائق"
+    "تم إصدار إذن الصرف وتجهيز رسالة السائق تلقائياً"
   );
 
   render();
 
 }
 
+/* =========================================================
+   DELIVERY
+========================================================= */
 
 function approveDelivery(id){
 
@@ -4133,352 +3569,361 @@ function approveDelivery(id){
       x=>x.id===id
     );
 
-  if(!o)
-    return;
+  if(!o) return;
 
+  o.deliveredAt=
+    todayISO();
 
-  o.stage="delivered";
+  /*
+    لو فاتورة ضريبية:
+    لا يتم إغلاق الأمر مباشرة.
+    يذهب للحسابات لإصدار الفاتورة.
+  */
 
-  o.deliveredAt=todayISO();
+  if(o.taxInvoice){
 
-  o.updatedAt=todayISO();
+    o.stage=
+      "tax_pending";
 
-  saveData();
+    o.taxNotificationSent=true;
 
-  showToast(
-    "تم إتمام التسليم بنجاح"
-  );
+    DATA.notifications.unshift({
+
+      id:uid("NT"),
+
+      type:"tax_invoice",
+
+      orderId:o.id,
+
+      title:"🔔 مطلوب فاتورة ضريبية",
+
+      message:
+        `تم تسليم الأمر ${o.id}. العميل طلب فاتورة ضريبية ويجب على الحسابات إصدارها الآن.`,
+
+      read:false,
+
+      createdAt:todayISO()
+
+    });
+
+    saveData();
+
+    showToast(
+      "تم التسليم وتم إرسال تنبيه للحسابات لإصدار الفاتورة الضريبية"
+    );
+
+  }else{
+
+    o.stage=
+      "completed";
+
+    saveData();
+
+    showToast(
+      "تم تسليم البضاعة وإغلاق الأمر"
+    );
+
+  }
 
   render();
 
 }
 
+/* =========================================================
+   TAX INVOICE
+========================================================= */
 
-/* ============================================================
-   PRINT SINGLE ORDER
-============================================================ */
-
-function printSingleOrder(id){
+function completeTaxInvoice(id){
 
   const o=
     DATA.orders.find(
       x=>x.id===id
     );
 
-  if(!o)
+  if(!o) return;
+
+  const number=
+    document
+      .getElementById("taxInvoiceNumber")
+      .value
+      .trim();
+
+  if(!number){
+
+    showToast(
+      "أدخل رقم الفاتورة الضريبية"
+    );
+
     return;
 
+  }
 
-  const title=
-    o.type==="sale"
-    ?"أمر بيع"
-    :"أمر شراء";
+  o.taxInvoiceNumber=
+    number;
 
+  o.taxInvoiceCompleted=true;
 
-  document.getElementById(
-    "printArea"
-  ).innerHTML=`
+  o.taxInvoiceCompletedAt=
+    todayISO();
 
-    <div class="print-head">
+  o.stage=
+    "completed";
 
-      <img
-        src="${LOGO_SRC}"
-        class="print-logo"
-        alt="RASRAS PLASTIC"
-      >
+  DATA.notifications.unshift({
 
-      <div class="print-company">
+    id:uid("NT"),
 
-        <h1>
-          RASRAS PLASTIC
-        </h1>
+    type:"tax_completed",
 
-        <p>
-          PLASTIC RAW MATERIALS
-        </p>
+    orderId:o.id,
 
-        <p>
-          نظام إدارة أوامر البيع والشراء
-        </p>
+    title:"تم إصدار الفاتورة الضريبية",
 
-      </div>
+    message:
+      `تم إصدار الفاتورة الضريبية رقم ${number} للأمر ${o.id}`,
 
-      <div style="
-        text-align:left;
-        font-size:11px;
-      ">
+    read:false,
 
-        <b>
-          ${escapeHTML(o.id)}
-        </b>
+    createdAt:todayISO()
 
-        <br>
+  });
 
-        ${fmtDate(o.createdAt)}
+  saveData();
 
-      </div>
+  showToast(
+    "تم تسجيل الفاتورة الضريبية وإغلاق الأمر"
+  );
 
-    </div>
-
-
-    <div class="print-title">
-      ${title}
-    </div>
-
-
-    <div class="print-info">
-
-      <div>
-        <b>اسم الجهة:</b>
-        ${escapeHTML(o.partyName)}
-      </div>
-
-      <div>
-        <b>التليفون:</b>
-        ${escapeHTML(o.phone||"—")}
-      </div>
-
-      <div>
-        <b>العنوان:</b>
-        ${escapeHTML(o.address||"—")}
-      </div>
-
-      <div>
-        <b>طريقة الدفع:</b>
-        ${escapeHTML(o.paymentMethod)}
-      </div>
-
-      <div>
-        <b>فاتورة ضريبية:</b>
-        ${o.taxInvoice?"نعم":"لا"}
-      </div>
-
-      <div>
-        <b>السائق:</b>
-        ${escapeHTML(o.driverName||"—")}
-      </div>
-
-    </div>
-
-
-    <table class="print-table">
-
-      <thead>
-
-        <tr>
-
-          <th>#</th>
-          <th>الصنف / الخامة</th>
-          <th>الكمية</th>
-          <th>السعر</th>
-          <th>الإجمالي</th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody>
-
-        ${o.items.map(
-          (it,index)=>`
-
-            <tr>
-
-              <td>
-                ${index+1}
-              </td>
-
-              <td>
-                ${escapeHTML(it.name)}
-              </td>
-
-              <td>
-                ${it.qty}
-              </td>
-
-              <td>
-                ${fmtMoney(it.price)}
-              </td>
-
-              <td>
-                ${fmtMoney(it.qty*it.price)}
-              </td>
-
-            </tr>
-
-          `
-        ).join("")}
-
-      </tbody>
-
-    </table>
-
-
-    <div class="print-total">
-
-      <div>
-        إجمالي الأصناف:
-        <b>${fmtMoney(itemsTotal(o))}</b>
-      </div>
-
-      <div>
-        الشحن:
-        <b>${fmtMoney(o.shippingCost)}</b>
-      </div>
-
-      <div style="
-        border-top:1px solid #ccc;
-        margin-top:7px;
-        padding-top:7px;
-      ">
-
-        الإجمالي النهائي:
-        <b>${fmtMoney(orderTotal(o))}</b>
-
-      </div>
-
-    </div>
-
-
-    <div class="print-signatures">
-
-      <div>
-        إعداد
-        <br><br>
-        __________________
-      </div>
-
-      <div>
-        اعتماد الحسابات
-        <br><br>
-        __________________
-      </div>
-
-      <div>
-        استلام العميل
-        <br><br>
-        __________________
-      </div>
-
-    </div>
-
-  `;
-
-
-  window.print();
+  render();
 
 }
 
+/* =========================================================
+   DRIVER WHATSAPP
+========================================================= */
 
-/* ============================================================
-   PRINT REPORT
-============================================================ */
+function normalizeEgyptPhone(phone){
 
-function printReport(){
+  let p=
+    String(phone||"")
+      .replace(/\D/g,"");
+
+  if(p.startsWith("01")){
+
+    p="20"+p.substring(1);
+
+  }
+
+  if(p.startsWith("0020")){
+
+    p=p.substring(2);
+
+  }
+
+  return p;
+
+}
+
+function sendDriverWhatsApp(id){
+
+  const o=
+    DATA.orders.find(
+      x=>x.id===id
+    );
+
+  if(!o || !o.driverPhone){
+
+    showToast(
+      "رقم السائق غير موجود"
+    );
+
+    return;
+
+  }
+
+  const phone=
+    normalizeEgyptPhone(
+      o.driverPhone
+    );
+
+  const message=
+    o.driverMessage ||
+    buildDriverMessage(o);
+
+  const url=
+    "https://wa.me/"+
+    phone+
+    "?text="+
+    encodeURIComponent(message);
+
+  window.open(
+    url,
+    "_blank"
+  );
+
+}
+
+function copyDriverMessage(id){
+
+  const o=
+    DATA.orders.find(
+      x=>x.id===id
+    );
+
+  if(!o) return;
+
+  const message=
+    o.driverMessage ||
+    buildDriverMessage(o);
+
+  if(
+    navigator.clipboard &&
+    navigator.clipboard.writeText
+  ){
+
+    navigator.clipboard
+      .writeText(message)
+      .then(
+        ()=>showToast(
+          "تم نسخ رسالة السائق"
+        )
+      );
+
+  }else{
+
+    showToast(
+      "انسخ الرسالة يدوياً"
+    );
+
+  }
+
+}
+
+/* =========================================================
+   REPORTS
+========================================================= */
+
+function reportsHTML(){
 
   const sales=
     DATA.orders.filter(
       o=>o.type==="sale"
     );
 
-  const purchases=
-    DATA.orders.filter(
-      o=>o.type==="purchase"
-    );
-
-
-  const totalSales=
+  const total=
     sales.reduce(
-      (s,o)=>s+orderTotal(o),
+      (sum,o)=>sum+orderTotal(o),
       0
     );
 
+  const completed=
+    sales.filter(
+      o=>o.stage==="completed"
+    ).length;
 
-  const totalPurchases=
-    purchases.reduce(
-      (s,o)=>s+orderTotal(o),
-      0
-    );
+  const tax=
+    sales.filter(
+      o=>o.taxInvoice
+    ).length;
 
+  return `
 
-  document.getElementById(
-    "printArea"
-  ).innerHTML=`
+  <div class="stat-grid">
 
-    <div class="print-head">
+    <div class="stat">
 
-      <img
-        src="${LOGO_SRC}"
-        class="print-logo"
+      <div class="stat-icon">💵</div>
+
+      <b>${fmtMoney(total)}</b>
+
+      <span>إجمالي قيمة أوامر البيع</span>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="stat-icon">📦</div>
+
+      <b>${sales.length}</b>
+
+      <span>عدد أوامر البيع</span>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="stat-icon">✅</div>
+
+      <b>${completed}</b>
+
+      <span>أوامر مكتملة</span>
+
+    </div>
+
+    <div class="stat">
+
+      <div class="stat-icon">🧾</div>
+
+      <b>${tax}</b>
+
+      <span>أوامر بفواتير ضريبية</span>
+
+    </div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-title">
+
+      <div>
+
+        <h2>تقرير أوامر البيع</h2>
+
+        <p>
+          تقرير احترافي قابل للطباعة
+        </p>
+
+      </div>
+
+      <button
+        class="btn-secondary"
+        onclick="printReport()"
       >
-
-      <div class="print-company">
-
-        <h1>
-          RASRAS PLASTIC
-        </h1>
-
-        <p>
-          تقرير أوامر البيع والشراء
-        </p>
-
-        <p>
-          تاريخ الطباعة: ${fmtDateTime(todayISO())}
-        </p>
-
-      </div>
+        🖨️ طباعة التقرير
+      </button>
 
     </div>
 
+    <div class="table-wrap">
 
-    <div class="print-info">
+      <table class="report-table">
 
-      <div>
-        <b>إجمالي المبيعات:</b>
-        ${fmtMoney(totalSales)}
-      </div>
+        <thead>
 
-      <div>
-        <b>إجمالي المشتريات:</b>
-        ${fmtMoney(totalPurchases)}
-      </div>
+          <tr>
 
-    </div>
+            <th>الأمر</th>
+            <th>التاريخ</th>
+            <th>العميل</th>
+            <th>الدفع</th>
+            <th>ضريبي</th>
+            <th>الإجمالي</th>
+            <th>الحالة</th>
 
+          </tr>
 
-    <table class="print-table">
+        </thead>
 
-      <thead>
+        <tbody>
 
-        <tr>
-
-          <th>رقم الأمر</th>
-          <th>النوع</th>
-          <th>التاريخ</th>
-          <th>الجهة</th>
-          <th>الدفع</th>
-          <th>الإجمالي</th>
-          <th>الحالة</th>
-
-        </tr>
-
-      </thead>
-
-
-      <tbody>
-
-        ${DATA.orders.map(
-          o=>`
+          ${sales.map(
+            o=>`
 
             <tr>
 
               <td>
-                ${escapeHTML(o.id)}
-              </td>
-
-              <td>
-                ${o.type==="sale"?"بيع":"شراء"}
+                <b>${o.id}</b>
               </td>
 
               <td>
@@ -4494,20 +3939,121 @@ function printReport(){
               </td>
 
               <td>
+                ${
+                  o.taxInvoice
+                  ?"نعم"
+                  :"لا"
+                }
+              </td>
+
+              <td>
                 ${fmtMoney(orderTotal(o))}
               </td>
 
               <td>
-                ${
-                  (
-                    STAGES.find(
-                      s=>s.key===o.stage
-                    )||{}
-                  ).label||"—"
-                }
+
+                <span class="pill stage-${o.stage}">
+                  ${getStageLabel(o.stage)}
+                </span>
+
               </td>
 
             </tr>
+
+            `
+          ).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  `;
+
+}
+
+/* =========================================================
+   PRINT REPORT
+========================================================= */
+
+function printReport(){
+
+  const sales=
+    DATA.orders.filter(
+      o=>o.type==="sale"
+    );
+
+  document.getElementById(
+    "printArea"
+  ).innerHTML=`
+
+    <div class="print-header">
+
+      <img
+        src="${LOGO_SRC}"
+        alt="RASRAS"
+      >
+
+      <h1>RASRAS PLASTIC</h1>
+
+      <h2>تقرير أوامر البيع</h2>
+
+      <p>
+        تاريخ التقرير:
+        ${fmtDate(todayISO())}
+      </p>
+
+    </div>
+
+    <table class="print-table">
+
+      <thead>
+
+        <tr>
+
+          <th>رقم الأمر</th>
+          <th>التاريخ</th>
+          <th>العميل</th>
+          <th>الدفع</th>
+          <th>ضريبي</th>
+          <th>الإجمالي</th>
+          <th>الحالة</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        ${sales.map(
+          o=>`
+
+          <tr>
+
+            <td>${o.id}</td>
+
+            <td>${fmtDate(o.createdAt)}</td>
+
+            <td>${escapeHTML(o.partyName)}</td>
+
+            <td>${escapeHTML(o.paymentMethod)}</td>
+
+            <td>
+              ${o.taxInvoice?"نعم":"لا"}
+            </td>
+
+            <td>
+              ${fmtMoney(orderTotal(o))}
+            </td>
+
+            <td>
+              ${getStageLabel(o.stage)}
+            </td>
+
+          </tr>
 
           `
         ).join("")}
@@ -4516,473 +4062,578 @@ function printReport(){
 
     </table>
 
-
-    <div class="print-signatures">
-
-      <div>
-        إعداد التقرير
-        <br><br>
-        __________________
-      </div>
-
-      <div>
-        المراجعة
-        <br><br>
-        __________________
-      </div>
-
-      <div>
-        الاعتماد
-        <br><br>
-        __________________
-      </div>
-
-    </div>
+    <h3 style="margin-top:25px">
+      إجمالي قيمة أوامر البيع:
+      ${fmtMoney(
+        sales.reduce(
+          (s,o)=>s+orderTotal(o),
+          0
+        )
+      )}
+    </h3>
 
   `;
-
 
   window.print();
 
 }
 
+/* =========================================================
+   CUSTOMERS
+========================================================= */
 
-/* ============================================================
-   EVENTS
-============================================================ */
+function customersHTML(){
 
-function bindLoginEvents(){
+  return `
 
-  const loginBtn=
-    document.getElementById(
-      "loginBtn"
-    );
+  <div class="card">
 
+    <div class="card-title">
 
-  if(loginBtn){
+      <div>
 
-    loginBtn.onclick=()=>{
+        <h2>إضافة عميل</h2>
 
-      const uKey=
-        document.getElementById(
-          "loginUser"
-        ).value;
+        <p>
+          حفظ بيانات العملاء لاستخدامها في أوامر البيع
+        </p>
 
-      const pass=
-        document.getElementById(
-          "loginPass"
-        ).value;
+      </div>
 
+    </div>
 
-      if(
-        USERS[uKey] &&
-        USERS[uKey].pass===pass
-      ){
+    <label>اسم العميل</label>
 
-        currentUser=USERS[uKey];
+    <input
+      id="p_name"
+      placeholder="اسم الشركة"
+    >
 
-        state.view="dashboard";
+    <div class="row2">
 
-        render();
+      <div>
 
-      }else{
+        <label>التليفون</label>
 
-        showToast(
-          "كلمة السر غير صحيحة"
-        );
+        <input
+          id="p_phone"
+          placeholder="01xxxxxxxxx"
+        >
 
-      }
+      </div>
 
-    };
+      <div>
 
-  }
+        <label>نوع السجل</label>
 
+        <select id="p_type">
 
-  const passInput=
-    document.getElementById(
-      "loginPass"
-    );
+          <option value="عميل">
+            عميل
+          </option>
 
+          <option value="مورد">
+            مورد
+          </option>
 
-  if(passInput){
+        </select>
 
-    passInput.addEventListener(
-      "keydown",
-      e=>{
-        if(e.key==="Enter")
-          loginBtn.click();
-      }
-    );
+      </div>
 
-  }
+    </div>
+
+    <label>العنوان</label>
+
+    <input
+      id="p_address"
+      placeholder="العنوان"
+    >
+
+    <button
+      class="btn-primary"
+      onclick="saveParty()"
+    >
+      حفظ العميل
+    </button>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-title">
+
+      <h3>سجل العملاء</h3>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table class="report-table">
+
+        <thead>
+
+          <tr>
+
+            <th>الاسم</th>
+            <th>النوع</th>
+            <th>التليفون</th>
+            <th>العنوان</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${
+            DATA.parties
+              .map(
+                p=>`
+
+                <tr>
+
+                  <td>
+                    <b>
+                      ${escapeHTML(p.name)}
+                    </b>
+                  </td>
+
+                  <td>
+                    ${escapeHTML(p.type||"عميل")}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(p.phone||"—")}
+                  </td>
+
+                  <td>
+                    ${escapeHTML(p.address||"—")}
+                  </td>
+
+                </tr>
+
+                `
+              )
+              .join("")
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  `;
 
 }
 
-
-function bindAppEvents(){
-
-  const logoutBtn=
-    document.getElementById(
-      "logoutBtn"
-    );
-
-
-  if(logoutBtn){
-
-    logoutBtn.onclick=()=>{
-
-      currentUser=null;
-
-      state.view="dashboard";
-
-      state.draft=null;
-
-      render();
-
-    };
-
-  }
-
-
-  document
-    .querySelectorAll(".tab")
-    .forEach(
-      el=>{
-
-        el.onclick=()=>{
-
-          state.view=
-            el.dataset.v;
-
-          render();
-
-        };
-
-      }
-    );
-
-
-  const btnSale=
-    document.getElementById(
-      "btnTypeSale"
-    );
-
-
-  if(btnSale){
-
-    btnSale.onclick=()=>{
-
-      state.orderType="sale";
-
-      state.draft=null;
-
-      render();
-
-    };
-
-  }
-
-
-  const btnPur=
-    document.getElementById(
-      "btnTypePurchase"
-    );
-
-
-  if(btnPur){
-
-    btnPur.onclick=()=>{
-
-      state.orderType="purchase";
-
-      state.draft=null;
-
-      render();
-
-    };
-
-  }
-
-}
-
-
-/* ============================================================
-   ITEMS
-============================================================ */
-
-function addItem(){
-
-  if(!state.draft)
-    return;
-
-
-  syncDraftItems();
-
-
-  state.draft.items.push({
-
-    name:"",
-    qty:1,
-    price:0
-
-  });
-
-
-  render();
-
-}
-
-
-function rmItem(idx){
-
-  if(
-    !state.draft ||
-    state.draft.items.length<=1
-  )
-    return;
-
-
-  syncDraftItems();
-
-  state.draft.items.splice(
-    idx,
-    1
-  );
-
-  render();
-
-}
-
-
-function syncDraftItems(){
-
-  if(!state.draft)
-    return;
-
-
-  const rows=
-    document.querySelectorAll(
-      ".item-row"
-    );
-
-
-  if(!rows.length)
-    return;
-
-
-  const items=[];
-
-
-  rows.forEach(
-    row=>{
-
-      const name=
-        row.querySelector(
-          ".it-name"
-        ).value.trim();
-
-      const qty=
-        Number(
-          row.querySelector(
-            ".it-qty"
-          ).value
-        )||0;
-
-      const price=
-        Number(
-          row.querySelector(
-            ".it-price"
-          ).value
-        )||0;
-
-
-      items.push({
-
-        name,
-        qty,
-        price
-
-      });
-
-    }
-  );
-
-
-  state.draft.items=items;
-
-}
-
-
-/* ============================================================
-   SUBMIT ORDER
-============================================================ */
-
-function submitOrder(){
-
-  if(!state.draft){
-
-    state.draft=
-      newDraft(
-        state.orderType
-      );
-
-  }
-
-
-  syncDraftItems();
-
+function saveParty(){
 
   const name=
-    document.getElementById(
-      "f_name"
-    ).value.trim();
+    document
+      .getElementById("p_name")
+      .value.trim();
 
   const phone=
-    document.getElementById(
-      "f_phone"
-    ).value.trim();
+    document
+      .getElementById("p_phone")
+      .value.trim();
 
+  const type=
+    document
+      .getElementById("p_type")
+      .value;
+
+  const address=
+    document
+      .getElementById("p_address")
+      .value.trim();
 
   if(!name){
 
     showToast(
-      "أدخل اسم العميل أو المورد"
+      "أدخل اسم العميل"
     );
 
     return;
 
   }
 
+  DATA.parties.push({
 
-  if(!phone){
+    id:uid("P"),
 
-    showToast(
-      "أدخل رقم التليفون"
-    );
+    name,
 
-    return;
+    phone,
 
-  }
+    address,
 
+    type
 
-  const items=
-    state.draft.items.filter(
-      i=>i.name
-    );
-
-
-  if(!items.length){
-
-    showToast(
-      "أدخل صنف واحد على الأقل"
-    );
-
-    return;
-
-  }
-
-
-  const invalid=
-    items.some(
-      i=>
-        Number(i.qty)<=0 ||
-        Number(i.price)<0
-    );
-
-
-  if(invalid){
-
-    showToast(
-      "راجع الكميات والأسعار"
-    );
-
-    return;
-
-  }
-
-
-  const d=state.draft;
-
-
-  d.partyName=name;
-
-  d.phone=phone;
-
-  d.address=
-    document.getElementById(
-      "f_address"
-    ).value.trim();
-
-  d.taxInvoice=
-    document.getElementById(
-      "f_tax"
-    ).value==="1";
-
-  d.paymentMethod=
-    document.getElementById(
-      "f_pay"
-    ).value;
-
-  d.items=items;
-
-  d.shippingCost=0;
-
-  d.finalTotal=0;
-
-  d.stage="logistics_review";
-
-  d.createdAt=
-    d.createdAt||todayISO();
-
-
-  DATA.orders.unshift(d);
-
-
-  DATA.parties=
-    DATA.parties||[];
-
-
-  if(
-    !DATA.parties.some(
-      p=>p.name===name
-    )
-  ){
-
-    DATA.parties.push({
-
-      id:uid("P"),
-      name,
-      phone,
-      type:
-        d.type==="sale"
-        ?"عميل"
-        :"مورد",
-      address:d.address
-
-    });
-
-  }
-
+  });
 
   saveData();
 
   showToast(
-    "تم حفظ الأمر وتحويله لقسم النقل"
+    "تم حفظ العميل"
   );
-
-
-  state.view="dashboard";
-
-  state.draft=null;
 
   render();
 
 }
 
+/* =========================================================
+   USERS
+========================================================= */
 
-/* ============================================================
+function usersHTML(){
+
+  if(currentUser.role!=="admin"){
+
+    return `
+    <div class="card">
+      <div class="alert alert-red">
+        هذه الصفحة متاحة للمدير فقط.
+      </div>
+    </div>
+    `;
+
+  }
+
+  return `
+
+  <div class="card">
+
+    <div class="card-title">
+
+      <div>
+
+        <h2>إدارة المستخدمين</h2>
+
+        <p>
+          إضافة مستخدمين وتحديد المرحلة المسئولة لهم
+        </p>
+
+      </div>
+
+    </div>
+
+    <label>اسم المستخدم</label>
+
+    <input
+      id="u_key"
+      placeholder="مثال: sales2"
+    >
+
+    <label>اسم الموظف / الصفة</label>
+
+    <input
+      id="u_name"
+      placeholder="مثال: أحمد - المبيعات"
+    >
+
+    <label>كلمة المرور</label>
+
+    <input
+      type="password"
+      id="u_pass"
+      placeholder="كلمة المرور"
+    >
+
+    <label>الصلاحية</label>
+
+    <select id="u_role">
+
+      <option value="sales">
+        المبيعات - إنشاء أمر بيع
+      </option>
+
+      <option value="logistics">
+        النقل
+      </option>
+
+      <option value="accounts">
+        الحسابات
+      </option>
+
+      <option value="warehouse">
+        المخازن
+      </option>
+
+      <option value="driver">
+        السائق
+      </option>
+
+      <option value="admin">
+        مدير النظام
+      </option>
+
+    </select>
+
+    <button
+      class="btn-primary"
+      onclick="saveUser()"
+    >
+      حفظ المستخدم
+    </button>
+
+  </div>
+
+  <div class="card">
+
+    <div class="card-title">
+
+      <h3>المستخدمون الحاليون</h3>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table class="report-table">
+
+        <thead>
+
+          <tr>
+
+            <th>Username</th>
+            <th>الاسم</th>
+            <th>الصلاحية</th>
+            <th>التحكم</th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          ${Object.keys(USERS).map(
+            key=>`
+
+            <tr>
+
+              <td>
+                <b>${escapeHTML(key)}</b>
+              </td>
+
+              <td>
+                ${escapeHTML(USERS[key].name)}
+              </td>
+
+              <td>
+                ${roleLabel(USERS[key].role)}
+              </td>
+
+              <td>
+
+                ${
+                  key!=="admin"
+
+                  ?
+
+                  `
+                  <button
+                    class="btn-danger"
+                    onclick="deleteUser('${escapeAttr(key)}')"
+                  >
+                    حذف
+                  </button>
+                  `
+
+                  :
+
+                  "المدير الرئيسي"
+                }
+
+              </td>
+
+            </tr>
+
+            `
+          ).join("")}
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+  `;
+
+}
+
+function roleLabel(role){
+
+  const labels={
+
+    sales:"المبيعات",
+
+    logistics:"النقل",
+
+    accounts:"الحسابات",
+
+    warehouse:"المخازن",
+
+    driver:"السائق",
+
+    admin:"مدير النظام"
+
+  };
+
+  return labels[role]||role;
+
+}
+
+function saveUser(){
+
+  const key=
+    document
+      .getElementById("u_key")
+      .value.trim();
+
+  const name=
+    document
+      .getElementById("u_name")
+      .value.trim();
+
+  const pass=
+    document
+      .getElementById("u_pass")
+      .value.trim();
+
+  const role=
+    document
+      .getElementById("u_role")
+      .value;
+
+  if(!key||!name||!pass){
+
+    showToast(
+      "أكمل البيانات المطلوبة"
+    );
+
+    return;
+
+  }
+
+  let stage=null;
+
+  if(role==="logistics")
+    stage="logistics_review";
+
+  if(role==="accounts")
+    stage="accounts_approval";
+
+  if(role==="warehouse")
+    stage="warehouse_release";
+
+  if(role==="driver")
+    stage="with_driver";
+
+  USERS[key]={
+
+    pass,
+
+    name,
+
+    role,
+
+    stage
+
+  };
+
+  saveData();
+
+  showToast(
+    "تم حفظ المستخدم"
+  );
+
+  render();
+
+}
+
+function deleteUser(key){
+
+  if(
+    !confirm(
+      "هل تريد حذف هذا المستخدم؟"
+    )
+  ) return;
+
+  delete USERS[key];
+
+  saveData();
+
+  showToast(
+    "تم حذف المستخدم"
+  );
+
+  render();
+
+}
+
+/* =========================================================
+   APP EVENTS
+========================================================= */
+
+function bindAppEvents(){
+
+  const logout=
+    document.getElementById(
+      "logoutBtn"
+    );
+
+  if(logout){
+
+    logout.onclick=()=>{
+
+      currentUser=null;
+
+      state={
+        view:"dashboard",
+        orderType:"sale",
+        selectedOrderId:null,
+        draft:null
+      };
+
+      render();
+
+    };
+
+  }
+
+  document
+    .querySelectorAll(".tab")
+    .forEach(tab=>{
+
+      tab.onclick=()=>{
+
+        state.view=
+          tab.dataset.v;
+
+        if(
+          state.view!=="new_sale"
+        ){
+
+          state.draft=null;
+
+        }
+
+        render();
+
+      };
+
+    });
+
+}
+
+/* =========================================================
    OPEN ORDER
-============================================================ */
+========================================================= */
 
 function openOrder(id){
 
@@ -4994,10 +4645,40 @@ function openOrder(id){
 
 }
 
+function goDashboard(){
 
-/* ============================================================
+  state.view="dashboard";
+
+  state.selectedOrderId=null;
+
+  render();
+
+}
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHTML(value){
+
+  return String(value??"")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+function escapeAttr(value){
+
+  return escapeHTML(value);
+
+}
+
+/* =========================================================
    START
-============================================================ */
+========================================================= */
 
 loadData();
 
