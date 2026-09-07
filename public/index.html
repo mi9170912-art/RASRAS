@@ -1,1212 +1,451 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>RASRAS PLASTIC ERP</title>
-
-<style>
-*{
-  box-sizing:border-box;
-  margin:0;
-  padding:0;
-}
-
-body{
-  font-family:Arial,Tahoma,sans-serif;
-  background:#f4f7f5;
-  color:#17231b;
-}
-
-button,input,select{
-  font:inherit;
-}
-
-button{
-  cursor:pointer;
-}
-
-.app{
-  min-height:100vh;
-  display:flex;
-}
-
-/* SIDEBAR */
-
-.sidebar{
-  width:250px;
-  background:#10251a;
-  color:white;
-  padding:20px 14px;
-  position:fixed;
-  right:0;
-  top:0;
-  bottom:0;
-  z-index:10;
-}
-
-.logo{
-  padding:15px;
-  margin-bottom:25px;
-  border-bottom:1px solid rgba(255,255,255,.1);
-}
-
-.logo h1{
-  font-size:22px;
-  color:#6ee7a1;
-}
-
-.logo span{
-  font-size:12px;
-  color:#aab8ae;
-}
-
-.menu{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.menu button{
-  border:0;
-  background:transparent;
-  color:#cbd8cf;
-  padding:13px;
-  border-radius:10px;
-  text-align:right;
-}
-
-.menu button:hover,
-.menu button.active{
-  background:#1e6b40;
-  color:white;
-}
-
-/* MAIN */
-
-.main{
-  width:calc(100% - 250px);
-  margin-right:250px;
-  padding:25px;
-}
-
-.topbar{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:25px;
-}
-
-.page-title h2{
-  font-size:25px;
-}
-
-.page-title p{
-  color:#718078;
-  margin-top:5px;
-}
-
-.profile{
-  background:white;
-  padding:10px 15px;
-  border-radius:12px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  box-shadow:0 3px 15px rgba(0,0,0,.05);
-}
-
-.avatar{
-  width:40px;
-  height:40px;
-  border-radius:50%;
-  background:#1e6b40;
-  color:white;
-  display:grid;
-  place-items:center;
-  font-weight:bold;
-}
-
-/* CARDS */
-
-.cards{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:15px;
-  margin-bottom:20px;
-}
-
-.card{
-  background:white;
-  border-radius:15px;
-  padding:20px;
-  box-shadow:0 4px 18px rgba(0,0,0,.05);
-}
-
-.stat-title{
-  color:#718078;
-  font-size:13px;
-}
-
-.stat-value{
-  font-size:26px;
-  font-weight:bold;
-  margin-top:10px;
-}
-
-.stat-green{
-  color:#168044;
-}
-
-.stat-orange{
-  color:#d47a00;
-}
-
-.stat-blue{
-  color:#2878b8;
-}
-
-.stat-red{
-  color:#c54141;
-}
-
-/* TABLE */
-
-.table-card{
-  margin-top:20px;
-}
-
-.table-head{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-}
-
-th,td{
-  padding:13px 10px;
-  border-bottom:1px solid #edf0ed;
-  text-align:right;
-}
-
-th{
-  color:#65736a;
-  font-size:13px;
-}
-
-.badge{
-  display:inline-block;
-  padding:5px 9px;
-  border-radius:20px;
-  font-size:11px;
-  background:#e8f7ee;
-  color:#168044;
-}
-
-/* BUTTON */
-
-.btn{
-  border:0;
-  padding:10px 16px;
-  border-radius:9px;
-  font-weight:bold;
-}
-
-.btn-primary{
-  background:#1e6b40;
-  color:white;
-}
-
-.btn-primary:hover{
-  background:#185633;
-}
-
-.btn-light{
-  background:#eef3ef;
-  color:#24352b;
-}
-
-/* FORMS */
-
-.form-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:15px;
-}
-
-.form-group{
-  display:flex;
-  flex-direction:column;
-  gap:7px;
-}
-
-.form-group label{
-  font-size:13px;
-  font-weight:bold;
-}
-
-.form-group input,
-.form-group select{
-  padding:12px;
-  border:1px solid #dce5de;
-  border-radius:9px;
-  outline:none;
-}
-
-.form-group input:focus,
-.form-group select:focus{
-  border-color:#1e6b40;
-}
-
-.form-actions{
-  margin-top:20px;
-  display:flex;
-  gap:10px;
-}
-
-/* MOBILE */
-
-.mobile-menu{
-  display:none;
-}
-
-@media(max-width:900px){
-
-  .sidebar{
-    display:none;
-  }
-
-  .main{
-    width:100%;
-    margin-right:0;
-    padding:15px;
-  }
-
-  .mobile-menu{
-    display:block;
-  }
-
-  .cards{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-}
-
-@media(max-width:600px){
-
-  .cards{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .topbar{
-    align-items:flex-start;
-  }
-
-  .profile{
-    padding:7px;
-  }
-
-  .profile span{
-    display:none;
-  }
-
-  .form-grid{
-    grid-template-columns:1fr;
-  }
-
-  table{
-    min-width:700px;
-  }
-
-  .table-card{
-    overflow:auto;
-  }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رصرص للتوكيلات التجارية | Rasras Plastic</title>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Cairo -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-green: #008744;
+            --dark-green: #005c2e;
+            --accent-black: #111111;
+            --light-bg: #f8faf9;
+            --white: #ffffff;
+            --text-gray: #555555;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--accent-black);
+            line-height: 1.6;
+        }
+
+        /* Header / Navbar */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            border: 2px solid var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-green);
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo-text h1 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--accent-black);
+            line-height: 1.2;
+        }
+
+        .logo-text span {
+            font-size: 0.75rem;
+            color: var(--primary-green);
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--accent-black);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--primary-green);
+        }
+
+        .btn-contact {
+            background-color: var(--primary-green);
+            color: var(--white);
+            padding: 0.6rem 1.4rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: background 0.3s;
+        }
+
+        .btn-contact:hover {
+            background-color: var(--dark-green);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 160px 2rem 100px;
+            background: linear-gradient(135deg, rgba(0,135,68,0.05) 0%, rgba(255,255,255,1) 100%);
+            text-align: center;
+        }
+
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .hero-tag {
+            display: inline-block;
+            background-color: rgba(0, 135, 68, 0.1);
+            color: var(--primary-green);
+            padding: 0.4rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h2 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--accent-black);
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+        }
+
+        .hero-btns {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title h3 {
+            font-size: 2rem;
+            color: var(--accent-black);
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title div {
+            width: 60px;
+            height: 4px;
+            background-color: var(--primary-green);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background: var(--white);
+            padding: 2.5rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+            border-color: var(--primary-green);
+        }
+
+        .card-icon {
+            width: 65px;
+            height: 65px;
+            background-color: rgba(0, 135, 68, 0.1);
+            color: var(--primary-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin: 0 auto 1.5rem;
+        }
+
+        .card h4 {
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .card p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Products Section */
+        .products-bg {
+            background-color: var(--white);
+            padding: 80px 2rem;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .product-list {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .product-item {
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .product-item i {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 60px 2rem;
+            background-color: var(--accent-black);
+            color: var(--white);
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat-item h4 {
+            font-size: 2.5rem;
+            color: var(--primary-green);
+            margin-bottom: 0.3rem;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #0a0a0a;
+            color: #888;
+            padding: 40px 2rem 20px;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .hero h2 { font-size: 2rem; }
+            .footer-content { flex-direction: column; text-align: center; }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="app">
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar">
-
-<div class="logo">
-<h1>RASRAS</h1>
-<span>PLASTIC RAW MATERIALS</span>
-</div>
-
-<nav class="menu">
-
-<button class="active" onclick="showPage('dashboard',this)">
-🏠 الرئيسية
-</button>
-
-<button onclick="showPage('sales',this)">
-🛒 المبيعات
-</button>
-
-<button onclick="showPage('orders',this)">
-📋 أوامر البيع
-</button>
-
-<button onclick="showPage('warehouse',this)">
-📦 المخازن
-</button>
-
-<button onclick="showPage('customers',this)">
-👥 العملاء
-</button>
-
-<button onclick="showPage('suppliers',this)">
-🚚 الموردين
-</button>
-
-<button onclick="showPage('accounts',this)">
-💰 الحسابات
-</button>
-
-<button onclick="showPage('reports',this)">
-📊 التقارير
-</button>
-
-<button onclick="showPage('users',this)">
-👤 المستخدمين
-</button>
-
-<button onclick="showPage('settings',this)">
-⚙️ الإعدادات
-</button>
-
-</nav>
-
-</aside>
-
-
-<!-- MAIN -->
-
-<main class="main">
-
-<header class="topbar">
-
-<div class="page-title">
-
-<h2 id="pageTitle">
-لوحة التحكم
-</h2>
-
-<p>
-إدارة RASRAS PLASTIC ERP
-</p>
-
-</div>
-
-<div class="profile">
-
-<div class="avatar">
-د
-</div>
-
-<span>
-دكتور احمد
-</span>
-
-</div>
-
-</header>
-
-
-<!-- DASHBOARD -->
-
-<section id="dashboard">
-
-<div class="cards">
-
-<div class="card">
-
-<div class="stat-title">
-إجمالي المبيعات
-</div>
-
-<div class="stat-value stat-green">
-2,450,000
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="stat-title">
-المخزون
-</div>
-
-<div class="stat-value stat-blue">
-1,280 طن
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="stat-title">
-أوامر البيع
-</div>
-
-<div class="stat-value stat-orange">
-126
-</div>
-
-</div>
-
-
-<div class="card">
-
-<div class="stat-title">
-العملاء
-</div>
-
-<div class="stat-value stat-red">
-86
-</div>
-
-</div>
-
-</div>
-
-
-<div class="card table-card">
-
-<div class="table-head">
-
-<h3>
-آخر أوامر البيع
-</h3>
-
-<button class="btn btn-primary"
-onclick="showPage('sales')">
-+ أمر بيع جديد
-</button>
-
-</div>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>رقم الأمر</th>
-<th>العميل</th>
-<th>الصنف</th>
-<th>الكمية</th>
-<th>القيمة</th>
-<th>الحالة</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td>ORD-1042</td>
-
-<td>شركة النور</td>
-
-<td>SABIC PP</td>
-
-<td>25 طن</td>
-
-<td>1,687,500</td>
-
-<td>
-<span class="badge">
-اعتماد الحسابات
-</span>
-</td>
-
-</tr>
-
-<tr>
-
-<td>ORD-1041</td>
-
-<td>شركة السلام</td>
-
-<td>Borouge</td>
-
-<td>40 طن</td>
-
-<td>2,700,000</td>
-
-<td>
-<span class="badge">
-جاهز للمخزن
-</span>
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</section>
-
-
-<!-- SALES -->
-
-<section id="sales" style="display:none">
-
-<div class="card">
-
-<h3>
-إنشاء أمر بيع جديد
-</h3>
-
-<br>
-
-<div class="form-grid">
-
-<div class="form-group">
-
-<label>
-العميل
-</label>
-
-<select id="customer">
-
-<option>
-اختر العميل
-</option>
-
-<option>
-شركة النور
-</option>
-
-<option>
-شركة السلام
-</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-المخزن
-</label>
-
-<select id="warehouse">
-
-<option>
-مخزن العاشر من رمضان
-</option>
-
-<option>
-مخزن القاهرة
-</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-الصنف
-</label>
-
-<select id="item">
-
-<option>
-SABIC PP
-</option>
-
-<option>
-Borouge PP
-</option>
-
-<option>
-Natpet PP
-</option>
-
-</select>
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-الكمية بالطن
-</label>
-
-<input
-id="quantity"
-type="number"
-placeholder="مثال: 25"
->
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-سعر الطن
-</label>
-
-<input
-id="price"
-type="number"
-placeholder="مثال: 67500"
->
-
-</div>
-
-
-<div class="form-group">
-
-<label>
-طريقة الدفع
-</label>
-
-<select>
-
-<option>
-نقدي
-</option>
-
-<option>
-آجل
-</option>
-
-<option>
-شيك
-</option>
-
-</select>
-
-</div>
-
-</div>
-
-
-<div class="form-actions">
-
-<button class="btn btn-primary"
-onclick="createOrder()">
-
-حفظ وإرسال للاعتماد
-
-</button>
-
-<button class="btn btn-light">
-
-إلغاء
-
-</button>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- ORDERS -->
-
-<section id="orders" style="display:none">
-
-<div class="card table-card">
-
-<div class="table-head">
-
-<h3>
-أوامر البيع
-</h3>
-
-<button class="btn btn-primary"
-onclick="showPage('sales')">
-
-+ أمر جديد
-
-</button>
-
-</div>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>الأمر</th>
-<th>العميل</th>
-<th>المخزن</th>
-<th>الكمية</th>
-<th>القيمة</th>
-<th>الحالة</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-
-<td>ORD-1042</td>
-<td>شركة النور</td>
-<td>العاشر</td>
-<td>25 طن</td>
-<td>1,687,500</td>
-<td><span class="badge">الحسابات</span></td>
-
-</tr>
-
-<tr>
-
-<td>ORD-1041</td>
-<td>شركة السلام</td>
-<td>القاهرة</td>
-<td>40 طن</td>
-<td>2,700,000</td>
-<td><span class="badge">المخزن</span></td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</section>
-
-
-<!-- WAREHOUSE -->
-
-<section id="warehouse" style="display:none">
-
-<div class="cards">
-
-<div class="card">
-
-<div class="stat-title">
-مخزن العاشر
-</div>
-
-<div class="stat-value">
-850 طن
-</div>
-
-<span class="badge">
-متاح
-</span>
-
-</div>
-
-<div class="card">
-
-<div class="stat-title">
-مخزن القاهرة
-</div>
-
-<div class="stat-value">
-430 طن
-</div>
-
-<span class="badge">
-متاح
-</span>
-
-</div>
-
-<div class="card">
-
-<div class="stat-title">
-مخزن دمياط
-</div>
-
-<div class="stat-value">
-120 طن
-</div>
-
-<span class="badge">
-مخزون منخفض
-</span>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- CUSTOMERS -->
-
-<section id="customers" style="display:none">
-
-<div class="card">
-
-<div class="table-head">
-
-<h3>
-العملاء
-</h3>
-
-<button class="btn btn-primary">
-+ إضافة عميل
-</button>
-
-</div>
-
-<table>
-
-<thead>
-
-<tr>
-<th>العميل</th>
-<th>الهاتف</th>
-<th>الرصيد</th>
-<th>الحالة</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-<td>شركة النور</td>
-<td>01000000000</td>
-<td>250,000</td>
-<td><span class="badge">نشط</span></td>
-</tr>
-
-<tr>
-<td>شركة السلام</td>
-<td>01100000000</td>
-<td>125,000</td>
-<td><span class="badge">نشط</span></td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</section>
-
-
-<!-- SUPPLIERS -->
-
-<section id="suppliers" style="display:none">
-
-<div class="card">
-
-<h3>
-الموردين
-</h3>
-
-<br>
-
-<p>
-SABIC
-</p>
-
-<br>
-
-<p>
-Borouge
-</p>
-
-<br>
-
-<p>
-Natpet
-</p>
-
-</div>
-
-</section>
-
-
-<!-- ACCOUNTS -->
-
-<section id="accounts" style="display:none">
-
-<div class="cards">
-
-<div class="card">
-
-<div class="stat-title">
-إجمالي المديونية
-</div>
-
-<div class="stat-value">
-1,250,000
-</div>
-
-</div>
-
-<div class="card">
-
-<div class="stat-title">
-المتحصلات
-</div>
-
-<div class="stat-value stat-green">
-850,000
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- REPORTS -->
-
-<section id="reports" style="display:none">
-
-<div class="card">
-
-<h3>
-التقارير
-</h3>
-
-<br>
-
-<button class="btn btn-primary">
-تقرير المبيعات
-</button>
-
-<button class="btn btn-light">
-تقرير المخزون
-</button>
-
-<button class="btn btn-light">
-تقرير العملاء
-</button>
-
-</div>
-
-</section>
-
-
-<!-- USERS -->
-
-<section id="users" style="display:none">
-
-<div class="card">
-
-<h3>
-المستخدمين والصلاحيات
-</h3>
-
-<br>
-
-<table>
-
-<thead>
-
-<tr>
-<th>المستخدم</th>
-<th>الدور</th>
-<th>الحالة</th>
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr>
-<td>دكتور احمد</td>
-<td>صاحب المؤسسة</td>
-<td><span class="badge">نشط</span></td>
-</tr>
-
-<tr>
-<td>مدير المبيعات</td>
-<td>المبيعات</td>
-<td><span class="badge">نشط</span></td>
-</tr>
-
-<tr>
-<td>مدير الحسابات</td>
-<td>الحسابات</td>
-<td><span class="badge">نشط</span></td>
-</tr>
-
-<tr>
-<td>مدير المخازن</td>
-<td>المخازن</td>
-<td><span class="badge">نشط</span></td>
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-</section>
-
-
-<!-- SETTINGS -->
-
-<section id="settings" style="display:none">
-
-<div class="card">
-
-<h3>
-إعدادات النظام
-</h3>
-
-<br>
-
-<p>
-اسم الشركة: RASRAS PLASTIC
-</p>
-
-<br>
-
-<p>
-العملة: جنيه مصري
-</p>
-
-<br>
-
-<p>
-ضريبة القيمة المضافة: 14%
-</p>
-
-</div>
-
-</section>
-
-</main>
-
-</div>
-
-
-<script>
-
-const pages=[
-"dashboard",
-"sales",
-"orders",
-"warehouse",
-"customers",
-"suppliers",
-"accounts",
-"reports",
-"users",
-"settings"
-];
-
-function showPage(page,button){
-
-pages.forEach(p=>{
-const el=document.getElementById(p);
-if(el) el.style.display="none";
-});
-
-const target=document.getElementById(page);
-
-if(target){
-target.style.display="block";
-}
-
-document
-.querySelectorAll(".menu button")
-.forEach(btn=>{
-btn.classList.remove("active");
-});
-
-if(button){
-button.classList.add("active");
-}
-
-const titles={
-dashboard:"لوحة التحكم",
-sales:"المبيعات",
-orders:"أوامر البيع",
-warehouse:"المخازن",
-customers:"العملاء",
-suppliers:"الموردين",
-accounts:"الحسابات",
-reports:"التقارير",
-users:"المستخدمين",
-settings:"الإعدادات"
-};
-
-document.getElementById("pageTitle").innerText=
-titles[page] || "RASRAS ERP";
-
-}
-
-
-function createOrder(){
-
-const customer=
-document.getElementById("customer").value;
-
-const item=
-document.getElementById("item").value;
-
-const quantity=
-Number(document.getElementById("quantity").value);
-
-const price=
-Number(document.getElementById("price").value);
-
-if(
-customer==="اختر العميل" ||
-!quantity ||
-!price
-){
-
-alert("من فضلك أكمل بيانات أمر البيع");
-
-return;
-
-}
-
-const total=quantity*price;
-
-alert(
-"تم إنشاء أمر البيع بنجاح\n\n"+
-"العميل: "+customer+
-"\nالصنف: "+item+
-"\nالكمية: "+quantity+" طن"+
-"\nالإجمالي: "+total.toLocaleString()+" جنيه"+
-"\n\nتم إرسال الأمر للحسابات للمراجعة."
-);
-
-}
-
-</script>
+    <!-- Header / Navbar -->
+    <header>
+        <div class="nav-container">
+            <div class="logo-area">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-atom"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>رصرص للتوكيلات</h1>
+                    <span>RASRAS PLASTIC • EST 2016</span>
+                </div>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#home">الرئيسية</a></li>
+                    <li><a href="#about">عن الشركة</a></li>
+                    <li><a href="#products">المنتجات</a></li>
+                    <li><a href="#contact">تواصل معنا</a></li>
+                </ul>
+            </nav>
+            <a href="#contact" class="btn-contact">اطلب عرض سعر</a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-container">
+            <span class="hero-tag">تأسست عام 2016</span>
+            <h2>الريادة في توريد وتجارة خامات البلاستيك</h2>
+            <p>نوفر أجود أنواع المواد الخام البلاستيكية للقطاعات الصناعية بأسعار تنافسية وحلول توريد مستدامة تلبي احتياجات المصانع والشركات.</p>
+            <div class="hero-btns">
+                <a href="#products" class="btn-contact">استكشف خاماتنا</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="about">
+        <div class="section-title">
+            <h3>لماذا تختار رصرص للتوكيلات؟</h3>
+            <div></div>
+        </div>
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-award"></i></div>
+                <h4>جودة معتمدة</h4>
+                <p>نلتزم بأعلى معايير الجودة العالمية في توفير خامات البلاستيك النقية والمصنعة.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-truck-fast"></i></div>
+                <h4>توريد سريع</h4>
+                <p>شبكة لوجستية متكاملة تضمن وصول شحنات الخامات لشركتك في المواعيد المحتسبة.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon"><i class="fa-solid fa-handshake"></i></div>
+                <h4>أسعار تنافسية</h4>
+                <p>نقدم أفضل الحلول المادية المباشرة للشركات والمصانع لدعم خططهم الإنتاجية.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products-bg" id="products">
+        <div class="section-title">
+            <h3>خامات البلاستيك المتاحة</h3>
+            <div></div>
+        </div>
+        <div class="product-list">
+            <div class="product-item">
+                <i class="fa-solid fa-cubes"></i>
+                <div>
+                    <strong>Polypropylene (PP)</strong>
+                    <p style="font-size: 0.85rem; color: #666;">بولي بروبيلين عالي الجودة</p>
+                </div>
+            </div>
+            <div class="product-item">
+                <i class="fa-solid fa-cubes"></i>
+                <div>
+                    <strong>Polyethylene (HDPE/LDPE)</strong>
+                    <p style="font-size: 0.85rem; color: #666;">بولي إيثيلين عالي ومنخفض الكثافة</p>
+                </div>
+            </div>
+            <div class="product-item">
+                <i class="fa-solid fa-cubes"></i>
+                <div>
+                    <strong>Polystyrene (PS)</strong>
+                    <p style="font-size: 0.85rem; color: #666;">بولي ستيرين لجميع التطبيقات</p>
+                </div>
+            </div>
+            <div class="product-item">
+                <i class="fa-solid fa-cubes"></i>
+                <div>
+                    <strong>PET & Engineering Plastics</strong>
+                    <p style="font-size: 0.85rem; color: #666;">خامات هندسية متخصصة</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-grid">
+            <div class="stat-item">
+                <h4>+10</h4>
+                <p>سنوات من الخبرة</p>
+            </div>
+            <div class="stat-item">
+                <h4>100%</h4>
+                <p>جودة واختبارات معملية</p>
+            </div>
+            <div class="stat-item">
+                <h4>+500</h4>
+                <p>عميل وشريك نجاح</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div style="text-align: right;">
+                <h4 style="color: #fff; margin-bottom: 5px;">شركة رصرص للتوكيلات التجارية</h4>
+                <p>متخصصون في الخامات البلاستيكية</p>
+            </div>
+            <div>
+                <p><i class="fa-solid fa-phone" style="color: var(--primary-green);"></i> تواصل معنا مباشرة للحصول على الاستشارات الفنية والتوريد.</p>
+            </div>
+        </div>
+        <hr style="border-color: #222; margin-bottom: 15px;">
+        <p>&copy; 2026 شركة رصرص للتوكيلات التجارية - جميع الحقوق محفوظة.</p>
+    </footer>
 
 </body>
-  </html>
+</html>
