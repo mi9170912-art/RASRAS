@@ -1,124 +1,673 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مشروع Supabase</title>
-  
-  <!-- استدعاء مكتبة Supabase JS CDN -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظام مسار الطلبات السحابي - رصاص للتوكيلات التجارية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Supabase JS Client -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+  :root{
+    --ink:#1c2530;
+    --ink-soft:#3d4a5c;
+    --paper:#f0f2f5;
+    --panel:#ffffff;
+    --line:#dde2e8;
+    --amber:#c08a2e;
+    --amber-bg:#faf1de;
+    --teal:#2b7a6c;
+    --teal-bg:#e4f2ee;
+    --slate:#5b6b81;
+    --slate-bg:#eaeef3;
+    --red:#b23b3b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Cairo',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{max-width:760px;margin:0 auto;padding:14px 14px 80px;}
+  .header{display:flex;align-items:center;justify-content:space-between;padding:10px 2px 16px;}
+  .brand{display:flex;align-items:center;gap:10px;}
+  .brand-mark{width:36px;height:36px;border-radius:10px;background:var(--ink);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .brand-mark svg{width:20px;height:20px;}
+  .brand-text h1{font-size:16px;margin:0;font-weight:800;}
+  .brand-text p{font-size:11px;margin:1px 0 0;color:var(--slate);}
+  .role-picker{position:relative;}
+  .role-btn{
+    background:var(--panel);border:1px solid var(--line);border-radius:10px;
+    padding:8px 12px;font-family:inherit;font-size:12.5px;color:var(--ink);
+    display:flex;align-items:center;gap:6px;cursor:pointer;font-weight:700;
+  }
+  .role-dot{width:8px;height:8px;border-radius:50%;background:var(--amber);}
+  .role-menu{
+    position:absolute;left:0;top:calc(100% + 6px);background:var(--panel);
+    border:1px solid var(--line);border-radius:12px;box-shadow:0 8px 24px rgba(20,25,35,.12);
+    width:210px;padding:6px;z-index:40;display:none;
+  }
+  .role-menu.open{display:block;}
+  .role-item{padding:9px 10px;border-radius:8px;font-size:13px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;}
+  .role-item:hover{background:var(--slate-bg);}
+  .role-item.active{background:var(--ink);color:#fff;}
+  .tabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px;margin-bottom:14px;border-bottom:1px solid var(--line);}
+  .tab{
+    flex:0 0 auto;background:none;border:none;font-family:inherit;font-size:13px;font-weight:600;
+    color:var(--slate);padding:8px 4px;cursor:pointer;white-space:nowrap;position:relative;
+  }
+  .tab.active{color:var(--ink);font-weight:800;}
+  .tab.active::after{content:'';position:absolute;bottom:-11px;left:0;right:0;height:3px;background:var(--ink);border-radius:2px;}
+  .tab .badge{background:var(--amber);color:#fff;font-size:10px;padding:1px 6px;border-radius:20px;margin-inline-start:5px;font-weight:700;}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:12px;}
+  .stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:12px 10px;text-align:center;}
+  .stat b{display:block;font-size:20px;font-weight:800;}
+  .stat span{font-size:11px;color:var(--slate);}
+  h2.section-title{font-size:14px;font-weight:700;margin:18px 0 8px;color:var(--ink-soft);}
+  .order-item{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px 14px;margin-bottom:9px;cursor:pointer;}
+  .order-top{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;}
+  .order-id{font-size:12px;color:var(--slate);font-weight:600;}
+  .order-name{font-size:15px;font-weight:700;margin-top:2px;}
+  .order-meta{font-size:12px;color:var(--slate);margin-top:4px;}
+  .pill{font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap;}
+  .pill.stage-sales_created{background:var(--slate-bg);color:var(--slate);}
+  .pill.stage-logistics_review{background:var(--amber-bg);color:var(--amber);}
+  .pill.stage-accounts_approval{background:var(--amber-bg);color:var(--amber);}
+  .pill.stage-warehouse_release{background:var(--teal-bg);color:var(--teal);}
+  .pill.stage-with_driver{background:var(--teal-bg);color:var(--teal);}
+  .pill.stage-delivered{background:var(--ink);color:#fff;}
+  .empty{text-align:center;padding:40px 16px;color:var(--slate);}
+  label{display:block;font-size:12.5px;font-weight:700;color:var(--ink-soft);margin:12px 0 5px;}
+  label:first-child{margin-top:0;}
+  input[type=text], input[type=tel], input[type=number], select{
+    width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;
+    font-family:inherit;font-size:14px;background:#fbfbfc;color:var(--ink);
+  }
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .seg{display:flex;gap:6px;flex-wrap:wrap;}
+  .seg-btn{
+    flex:1;min-width:65px;padding:9px 6px;border-radius:9px;border:1px solid var(--line);
+    background:#fbfbfc;font-family:inherit;font-size:12px;font-weight:700;
+    color:var(--ink-soft);cursor:pointer;text-align:center;
+  }
+  .seg-btn.active{background:var(--ink);color:#fff;border-color:var(--ink);}
+  .item-row{display:grid;grid-template-columns:1fr 55px 75px 28px;gap:6px;margin-bottom:6px;align-items:center;}
+  .item-row input{padding:8px 9px;font-size:13px;}
+  .rm-btn{width:28px;height:28px;border-radius:7px;border:1px solid var(--line);background:#fff;color:var(--red);font-size:16px;cursor:pointer;}
+  .add-item-btn{background:none;border:1px dashed var(--line);border-radius:9px;width:100%;padding:9px;font-family:inherit;font-size:12.5px;color:var(--slate);cursor:pointer;font-weight:700;margin-top:4px;}
+  .total-line{display:flex;justify-content:space-between;padding:10px 2px;font-size:13.5px;border-top:1px solid var(--line);margin-top:10px;}
+  .btn-primary{
+    width:100%;padding:13px;border-radius:11px;border:none;background:var(--ink);color:#fff;
+    font-family:inherit;font-size:14.5px;font-weight:700;cursor:pointer;margin-top:16px;
+  }
+  .btn-secondary{
+    width:100%;padding:11px;border-radius:11px;border:1px solid var(--line);background:#fff;color:var(--ink);
+    font-family:inherit;font-size:13.5px;font-weight:700;cursor:pointer;margin-top:8px;
+  }
+  .back-row{display:flex;align-items:center;gap:8px;margin-bottom:14px;cursor:pointer;color:var(--slate);font-size:13px;font-weight:700;}
+  .stepper{display:flex;margin:16px 0 20px;}
+  .step{flex:1;text-align:center;position:relative;}
+  .step .dot{width:22px;height:22px;border-radius:50%;background:var(--slate-bg);color:var(--slate);
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;margin:0 auto 6px;}
+  .step.done .dot{background:var(--teal);color:#fff;}
+  .step.current .dot{background:var(--ink);color:#fff;}
+  .step .lbl{font-size:9.5px;color:var(--slate);font-weight:700;}
+  .step::before{content:'';position:absolute;top:11px;right:50%;width:100%;height:2px;background:var(--slate-bg);z-index:-1;}
+  .step:first-child::before{display:none;}
+  .step.done::before{background:var(--teal);}
+  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .kv{background:var(--slate-bg);border-radius:10px;padding:9px 11px;}
+  .kv span{display:block;font-size:10.5px;color:var(--slate);font-weight:700;}
+  .kv b{font-size:13px;}
+  .history-item{display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);}
+  .history-dot{width:8px;height:8px;border-radius:50%;background:var(--ink);margin-top:5px;}
+  .action-box{background:var(--amber-bg);border:1px solid #eddab3;border-radius:12px;padding:14px;margin-top:14px;}
+  .toast{
+    position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+    background:var(--ink);color:#fff;padding:11px 20px;border-radius:30px;font-size:13px;font-weight:600;
+    box-shadow:0 8px 20px rgba(0,0,0,.2);z-index:100;opacity:0;transition:opacity .25s;pointer-events:none;
+  }
+  .toast.show{opacity:1;}
+  .type-toggle{display:flex;background:var(--slate-bg);border-radius:11px;padding:3px;margin-bottom:16px;}
+  .type-toggle button{flex:1;padding:9px;border:none;background:none;border-radius:9px;font-family:inherit;font-size:13px;font-weight:700;color:var(--slate);cursor:pointer;}
+  .type-toggle button.active{background:#fff;color:var(--ink);}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background-color: #f0f2f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      direction: rtl;
-    }
-    .container {
-      background: #ffffff;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      width: 90%;
-      max-width: 450px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 1.4rem;
-      color: #1f2937;
-      margin-bottom: 12px;
-    }
-    p {
-      color: #6b7280;
-      font-size: 0.95rem;
-      margin-bottom: 20px;
-    }
-    .status-box {
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-    .loading { background-color: #eff6ff; color: #1d4ed8; }
-    .success { background-color: #ecfdf5; color: #047857; }
-    .error { background-color: #fef2f2; color: #b91c1c; }
-  </style>
+  @media print {
+    body * { visibility: hidden; }
+    #printArea, #printArea * { visibility: visible; }
+    #printArea { position: absolute; left: 0; top: 0; width: 100%; padding: 20px; }
+  }
+</style>
 </head>
 <body>
+<div class="app" id="app"></div>
+<div class="toast" id="toast"></div>
+<div id="printArea"></div>
 
-  <div class="container">
-    <h1>حالة الاتصال</h1>
-    <p id="sub-title">جاري فحص الاتصال بـ Supabase...</p>
-    <div id="status-badge" class="status-box loading">جاري التحميل...</div>
+<script>
+// ---------- إعدادات Supabase ----------
+const SUPABASE_URL = ""; 
+const SUPABASE_KEY = ""; 
+
+let supabaseClient = null;
+if (SUPABASE_URL && SUPABASE_KEY && window.supabase) {
+  supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+}
+
+let DATA = { orders: [], customers: [], suppliers: [] };
+let LOADED = false;
+
+const ROLES = {
+  sales:     { label:'د. أحمد (المبيعات)', stage:null },
+  logistics: { label:'قسم النقل',          stage:'logistics_review' },
+  accounts:  { label:'قسم الحسابات',       stage:'accounts_approval' },
+  warehouse: { label:'إدارة المخازن',      stage:'warehouse_release' },
+  driver:    { label:'السائق / التوصيل',   stage:'with_driver' },
+};
+
+const STAGES = [
+  { key:'sales_created',      label:'إنشاء الأمر', short:'إنشاء' },
+  { key:'logistics_review',   label:'مراجعة النقل', short:'النقل' },
+  { key:'accounts_approval',  label:'اعتماد الحسابات', short:'الحسابات' },
+  { key:'warehouse_release',  label:'إذن صرف المخازن', short:'المخازن' },
+  { key:'with_driver',        label:'مع السائق', short:'السائق' },
+  { key:'delivered',          label:'تم التسليم', short:'تم' },
+];
+
+const PAY_METHODS = ['نقدي','شيك','تحويل بنكي','آجل'];
+
+let state = {
+  role: 'sales',
+  view: 'dashboard',
+  orderType: 'sale',
+  selectedOrderId: null,
+  roleMenuOpen: false,
+  draft: null,
+  custSearch: '',
+};
+
+async function loadData(){
+  if(supabaseClient){
+    try{
+      let { data: dbData } = await supabaseClient.from('app_data').select('*').eq('id', 1).single();
+      if(dbData && dbData.content) DATA = dbData.content;
+    }catch(e){ console.error(e); }
+  } else {
+    const local = localStorage.getItem('MASAR_DATA');
+    if(local) {
+      try { DATA = JSON.parse(local); } catch(e){}
+    }
+  }
+  LOADED = true;
+  render();
+}
+
+async function saveData(){
+  if(supabaseClient){
+    try{
+      await supabaseClient.from('app_data').upsert({ id: 1, content: DATA });
+    }catch(e){ showToast('تحذير: الحفظ يعمل محلياً فقط'); }
+  }
+  localStorage.setItem('MASAR_DATA', JSON.stringify(DATA));
+}
+
+function uid(prefix){ return prefix + '-' + Math.floor(10000 + Math.random()*89999); }
+function todayISO(){ return new Date().toISOString(); }
+function fmtDate(iso){
+  if(!iso) return '—';
+  return new Date(iso).toLocaleDateString('ar-EG', { year:'numeric', month:'short', day:'numeric' });
+}
+function fmtMoney(n){ return Number(n||0).toLocaleString('ar-EG') + ' ج.م'; }
+
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2200);
+}
+
+function newDraft(type){
+  return {
+    id: uid(type === 'sale' ? 'SO' : 'PO'),
+    type,
+    partyName:'', phone:'', address:'',
+    taxInvoice:false,
+    paymentMethod:'نقدي',
+    items:[{name:'', qty:1, price:0}],
+    shippingCost:null,
+    finalTotal:null,
+    stage:'sales_created',
+    driverName:null,
+    createdBy: ROLES.sales.label,
+    createdAt: todayISO(),
+    history:[],
+  };
+}
+
+function itemsTotal(order){
+  return (order.items||[]).reduce((s,i)=> s + (Number(i.qty)||0) * (Number(i.price)||0), 0);
+}
+
+function submitNewOrder(){
+  const d = state.draft;
+  if(!d.partyName.trim()){ showToast('من فضلك أدخل الاسم'); return; }
+  if(!d.phone.trim()){ showToast('من فضلك أدخل رقم التليفون'); return; }
+  const cleanItems = d.items.filter(i=>i.name.trim());
+  if(cleanItems.length===0){ showToast('أضف صنف واحد على الأقل'); return; }
+  
+  d.items = cleanItems;
+  d.history.push({ stage:'sales_created', by:d.createdBy, note:'تم إنشاء الأمر بمعرفة ' + d.createdBy, at: todayISO() });
+  d.stage = 'logistics_review';
+  d.history.push({ stage:'logistics_review', by:'النظام', note:'تم تحويل الأمر إلى قسم النقل', at: todayISO() });
+
+  DATA.orders.unshift(d);
+
+  const list = d.type === 'sale' ? DATA.customers : DATA.suppliers;
+  let party = list.find(c => c.name.trim() === d.partyName.trim() && c.phone.trim() === d.phone.trim());
+  if(!party){
+    party = { name:d.partyName.trim(), phone:d.phone.trim(), address:d.address.trim(), orderIds:[] };
+    list.push(party);
+  }
+  if(!party.orderIds) party.orderIds = [];
+  party.orderIds.push(d.id);
+
+  saveData();
+  showToast('تم إنشاء الأمر بنجاح وتحويله للنقل');
+  state.view = 'detail';
+  state.selectedOrderId = d.id;
+  state.draft = null;
+  render();
+}
+
+function logisticsSubmit(order, cost){
+  order.shippingCost = Number(cost) || 0;
+  order.stage = 'accounts_approval';
+  order.history.push({ stage:'logistics_review', by:'النقل', note:'تم تحديد تكلفة الشحن بمبلغ ' + fmtMoney(cost), at: todayISO() });
+  order.history.push({ stage:'accounts_approval', by:'النظام', note:'تم تحويل الأمر للحسابات', at: todayISO() });
+  saveData();
+  showToast('تم الاعتماد والتحويل للحسابات');
+  render();
+}
+
+function accountsApprove(order, finalTotal, note){
+  order.finalTotal = Number(finalTotal) || (itemsTotal(order) + (order.shippingCost||0));
+  order.stage = 'warehouse_release';
+  order.history.push({ stage:'accounts_approval', by:'الحسابات', note:'تم اعتماد السعر النهائي ' + fmtMoney(order.finalTotal) + (note? ' — '+note : ''), at: todayISO() });
+  order.history.push({ stage:'warehouse_release', by:'النظام', note:'تم تحويل الأمر للمخازن', at: todayISO() });
+  saveData();
+  showToast('تم اعتماد الحسابات والتحويل للمخازن');
+  render();
+}
+
+function warehouseRelease(order, driverName){
+  order.driverName = driverName.trim() || 'غير محدد';
+  order.stage = 'with_driver';
+  order.history.push({ stage:'warehouse_release', by:'المخازن', note:'إذن صرف: البضاعة مع السائق ' + order.driverName, at: todayISO() });
+  saveData();
+  showToast('تم إصدار إذن الصرف للسائق');
+  render();
+}
+
+function markDelivered(order){
+  order.stage = 'delivered';
+  order.history.push({ stage:'delivered', by:'السائق', note:'تم التسليم بنجاح واصدار السداد', at: todayISO() });
+  saveData();
+  showToast('تم إنهاء وتسليم الطلب');
+  render();
+}
+
+function stageIndex(stage){ return STAGES.findIndex(s=>s.key===stage); }
+
+function customerStats(party){
+  const orders = (party.orderIds || [])
+    .map(id => DATA.orders.find(o=>o.id===id))
+    .filter(Boolean)
+    .sort((a,b)=> new Date(a.createdAt) - new Date(b.createdAt));
+  if(orders.length < 2) return { count: orders.length, avgDays: null, nextExpected: null };
+  
+  let gaps = [];
+  for(let i=1;i<orders.length;i++){
+    gaps.push((new Date(orders[i].createdAt) - new Date(orders[i-1].createdAt)) / 86400000);
+  }
+  const avg = Math.round(gaps.reduce((a,b)=>a+b,0) / gaps.length) || 1;
+  const next = new Date(new Date(orders[orders.length-1].createdAt).getTime() + avg*86400000);
+  return { count: orders.length, avgDays: avg, nextExpected: next.toISOString() };
+}
+
+function printOrder(o){
+  const total = o.finalTotal || (itemsTotal(o) + (o.shippingCost||0));
+  document.getElementById('printArea').innerHTML = `
+    <div style="text-align:center;border-bottom:2px solid #000;padding-bottom:10px;margin-bottom:15px;">
+      <h2>${o.type==='sale'?'فاتورة أمر بيع':'إذن أمر شراء'}</h2>
+      <p>رقم الأمر: <b>${o.id}</b> | التاريخ: ${fmtDate(o.createdAt)}</p>
+    </div>
+    <p><b>الاسم:</b> ${o.partyName} | <b>التليفون:</b> ${o.phone}</p>
+    <p><b>العنوان:</b> ${o.address||'—'} | <b>ضريبية:</b> ${o.taxInvoice?'نعم':'لا'} | <b>التحصيل:</b> ${o.paymentMethod}</p>
+    <table style="width:100%;border-collapse:collapse;margin:15px 0;" border="1" cellpadding="8">
+      <thead><tr style="background:#f0f0f0;"><th>الصنف</th><th>الكمية</th><th>السعر</th><th>الإجمالي</th></tr></thead>
+      <tbody>
+        ${o.items.map(it=>`<tr><td>${it.name}</td><td align="center">${it.qty}</td><td align="center">${fmtMoney(it.price)}</td><td align="center">${fmtMoney(it.qty*it.price)}</td></tr>`).join('')}
+      </tbody>
+    </table>
+    <h3>إجمالي النهائي: ${fmtMoney(total)}</h3>
+  `;
+  window.print();
+}
+
+function render(){
+  const app = document.getElementById('app');
+  if(!LOADED){ app.innerHTML = `<div class="empty"><p>جارِ تحميل النظام...</p></div>`; return; }
+  app.innerHTML = headerHTML() + tabsHTML() + viewHTML();
+  bindEvents();
+}
+
+function headerHTML(){
+  const role = ROLES[state.role];
+  return `
+  <div class="header">
+    <div class="brand">
+      <div class="brand-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M4 17V9l8-5 8 5v8l-8 5-8-5Z" stroke="#fff" stroke-width="1.6"/><path d="M4 9l8 5 8-5" stroke="#fff" stroke-width="1.6"/></svg></div>
+      <div class="brand-text">
+        <h1>مسار الطلبات</h1>
+        <p>رصاص للتوكيلات التجارية</p>
+      </div>
+    </div>
+    <div class="role-picker">
+      <button class="role-btn" id="roleBtn"><span class="role-dot"></span>${role.label}</button>
+      <div class="role-menu ${state.roleMenuOpen?'open':''}" id="roleMenu">
+        ${Object.entries(ROLES).map(([k,r])=>`<div class="role-item ${k===state.role?'active':''}" data-role="${k}">${r.label}</div>`).join('')}
+      </div>
+    </div>
+  </div>`;
+}
+
+function pendingCount(role){
+  const st = ROLES[role].stage;
+  return st ? DATA.orders.filter(o=>o.stage===st).length : 0;
+}
+
+function tabsHTML(){
+  const tabs = [
+    {k:'dashboard', label:'الرئيسية'},
+    {k:'new_sale', label:'أمر بيع / شراء'},
+    {k:'approvals', label:'قائمة عملي', badge: pendingCount(state.role)},
+    {k:'customers', label:'العملاء والموردين'},
+  ];
+  return `<div class="tabs">
+    ${tabs.map(t=>`<button class="tab ${state.view===t.k || (t.k==='new_sale' && ['new_sale','new_purchase'].includes(state.view)) ? 'active':''}" data-tab="${t.k}">${t.label}${t.badge?`<span class="badge">${t.badge}</span>`:''}</button>`).join('')}
+  </div>`;
+}
+
+function viewHTML(){
+  if(state.view === 'dashboard') return dashboardHTML();
+  if(state.view === 'new_sale' || state.view === 'new_purchase') return newOrderHTML();
+  if(state.view === 'approvals') return approvalsHTML();
+  if(state.view === 'customers') return customersHTML();
+  if(state.view === 'detail') return detailHTML();
+  return '';
+}
+
+function dashboardHTML(){
+  const sales = DATA.orders.filter(o=>o.type==='sale');
+  const active = DATA.orders.filter(o=>o.stage!=='delivered').length;
+  const delivered = DATA.orders.filter(o=>o.stage==='delivered').length;
+
+  return `
+  <div class="stat-row">
+    <div class="stat"><b>${DATA.orders.length}</b><span>إجمالي الأوامر</span></div>
+    <div class="stat"><b>${active}</b><span>قيد التنفيذ</span></div>
+    <div class="stat"><b>${delivered}</b><span>تم التسليم</span></div>
   </div>
+  <h2 class="section-title">أحدث الأوامر الحالية</h2>
+  ${DATA.orders.length===0 ? `<div class="empty"><p>لا توجد أوامر بعد.</p></div>` : DATA.orders.slice(0,10).map(orderItemHTML).join('')}
+  `;
+}
 
-  <script>
-    // 1. بيانات الربط الخاصة بك في Supabase
-    const SUPABASE_URL = 'https://YOUR_SUPABASE_PROJECT_URL.supabase.co';
-    const SUPABASE_KEY = 'YOUR_SUPABASE_ANON_KEY';
+function orderItemHTML(o){
+  const stage = STAGES[stageIndex(o.stage)];
+  const total = o.finalTotal || (itemsTotal(o) + (o.shippingCost||0));
+  return `
+  <div class="order-item" data-open="${o.id}">
+    <div class="order-top">
+      <div>
+        <div class="order-id">${o.id} · ${o.type==='sale'?'أمر بيع':'أمر شراء'}</div>
+        <div class="order-name">${o.partyName}</div>
+        <div class="order-meta">${fmtDate(o.createdAt)} · ${o.paymentMethod} · ${fmtMoney(total)}</div>
+      </div>
+      <span class="pill stage-${o.stage}">${stage.label}</span>
+    </div>
+  </div>`;
+}
 
-    // 2. إنشاء الكلاينت باسم جديد تماماً لتجنب مشكلة 'supabase' has already been declared
-    let supabaseClient = null;
+function newOrderHTML(){
+  if(!state.draft || state.draft.type !== state.orderType){
+    state.draft = newDraft(state.orderType);
+  }
+  const d = state.draft;
+  return `
+  <div class="type-toggle">
+    <button data-otype="sale" class="${state.orderType==='sale'?'active':''}">أمر بيع جديد</button>
+    <button data-otype="purchase" class="${state.orderType==='purchase'?'active':''}">أمر شراء جديد</button>
+  </div>
+  <div class="card">
+    <label>الاسم</label>
+    <input type="text" id="f_name" value="${d.partyName}" placeholder="اسم العميل أو المورد">
+    <div class="row2">
+      <div>
+        <label>التليفون</label>
+        <input type="tel" id="f_phone" value="${d.phone}" placeholder="01xxxxxxxxx">
+      </div>
+      <div>
+        <label>فاتورة ضريبية؟</label>
+        <div class="seg">
+          <button type="button" class="seg-btn ${d.taxInvoice?'active':''}" data-tax="1">نعم</button>
+          <button type="button" class="seg-btn ${!d.taxInvoice?'active':''}" data-tax="0">لا</button>
+        </div>
+      </div>
+    </div>
+    <label>العنوان</label>
+    <input type="text" id="f_address" value="${d.address}" placeholder="العنوان بالكامل">
+    <label>طريقة التحصيل / الدفع</label>
+    <div class="seg">
+      ${PAY_METHODS.map(m=>`<button type="button" class="seg-btn ${d.paymentMethod===m?'active':''}" data-pay="${m}">${m}</button>`).join('')}
+    </div>
+  </div>
+  <div class="card">
+    <label>الأصناف والأسعار</label>
+    <div id="itemsWrap">
+      ${d.items.map((it,idx)=>`
+        <div class="item-row" data-idx="${idx}">
+          <input type="text" placeholder="اسم الصنف" data-field="name" value="${it.name}">
+          <input type="number" placeholder="كمية" min="1" data-field="qty" value="${it.qty}">
+          <input type="number" placeholder="سعر" min="0" data-field="price" value="${it.price}">
+          <button type="button" class="rm-btn" data-rm="${idx}">×</button>
+        </div>`).join('')}
+    </div>
+    <button type="button" class="add-item-btn" id="addItemBtn">+ إضافة صنف</button>
+    <div class="total-line"><span>المجموع (قبل الشحن)</span><b>${fmtMoney(itemsTotal(d))}</b></div>
+  </div>
+  <button class="btn-primary" id="submitOrderBtn">حفظ وإرسال للنقل</button>
+  `;
+}
 
-    function initSupabase() {
-      try {
-        if (typeof supabase !== 'undefined') {
-          supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-          checkConnection();
-        } else {
-          showStatus('خطأ في تحميل مكتبة Supabase', 'error');
-        }
-      } catch (err) {
-        console.error('Initialization Error:', err);
-        showStatus('فشل في إعداد الاتصال', 'error');
-      }
+function approvalsHTML(){
+  const role = ROLES[state.role];
+  if(!role.stage) return `<div class="card"><p>أنت في دور المبيعات. استخدم زر "أمر بيع / شراء" لعمل أمر جديد.</p></div>`;
+  const list = DATA.orders.filter(o=>o.stage===role.stage);
+  return `
+  <h2 class="section-title">طلبات تنتظر اعتماد: ${role.label} (${list.length})</h2>
+  ${list.length===0 ? `<div class="empty"><p>لا توجد أوامر معلقة حالياً.</p></div>` : list.map(orderItemHTML).join('')}
+  `;
+}
+
+function customersHTML(){
+  const allParties = [...DATA.customers.map(c=>({...c, kind:'عميل'})), ...DATA.suppliers.map(s=>({...s, kind:'مورد'}))];
+  const q = state.custSearch.trim();
+  const filtered = q ? allParties.filter(p=> p.name.includes(q) || p.phone.includes(q)) : allParties;
+  return `
+  <input type="text" id="custSearch" placeholder="ابحث باسم العميل أو المورد" value="${state.custSearch}" style="margin-bottom:14px;">
+  ${filtered.map(p=>{
+    const stats = customerStats(p);
+    return `
+    <div class="card">
+      <div class="order-name">${p.name} (${p.kind})</div>
+      <div class="order-meta">تليفون: ${p.phone}</div>
+      ${stats.avgDays? `<div class="order-meta">متوسط تكرار الطلب: <b>كل ${stats.avgDays} يوم</b></div>` : ''}
+    </div>`;
+  }).join('')}
+  `;
+}
+
+function detailHTML(){
+  const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
+  if(!o) return '';
+  const idx = stageIndex(o.stage);
+  const total = o.finalTotal || (itemsTotal(o) + (o.shippingCost||0));
+  const role = ROLES[state.role];
+
+  let actionHTML = '';
+  if(role.stage === o.stage){
+    if(o.stage === 'logistics_review'){
+      actionHTML = `<div class="action-box"><h3>قسم النقل</h3><label>تكلفة الشحن (ج.م)</label><input type="number" id="shipCostInput"><button class="btn-primary" id="logisticsBtn">اعتماد الشحن وتحويل للحسابات</button></div>`;
+    } else if(o.stage === 'accounts_approval'){
+      actionHTML = `<div class="action-box"><h3>الحسابات</h3><label>الإجمالي النهائي</label><input type="number" id="finalTotalInput" value="${itemsTotal(o)+(o.shippingCost||0)}"><button class="btn-primary" id="accountsBtn">موافقة الحسابات (Approved)</button></div>`;
+    } else if(o.stage === 'warehouse_release'){
+      actionHTML = `<div class="action-box"><h3>المخازن</h3><label>اسم السائق</label><input type="text" id="driverInput"><button class="btn-primary" id="warehouseBtn">إصدار إذن صرف البضاعة</button></div>`;
+    } else if(o.stage === 'with_driver'){
+      actionHTML = `<div class="action-box"><button class="btn-primary" id="deliveredBtn">تأكيد استلام العميل والسداد</button></div>`;
     }
+  }
 
-    // 3. دالة تجريبية للاختبار والـ Console Log
-    async function checkConnection() {
-      const badge = document.getElementById('status-badge');
-      const subTitle = document.getElementById('sub-title');
+  return `
+  <div class="back-row" id="backBtn">→ رجوع</div>
+  <div class="card">
+    <div class="order-top">
+      <div><b>${o.id}</b> · ${o.partyName}</div>
+      <span class="pill stage-${o.stage}">${STAGES[idx].label}</span>
+    </div>
+    <div class="stepper">
+      ${STAGES.map((s,i)=>`<div class="step ${i<idx?'done':''} ${i===idx?'current':''}"><div class="dot">${i<idx?'✓':i+1}</div><div class="lbl">${s.short}</div></div>`).join('')}
+    </div>
+    <div class="detail-grid">
+      <div class="kv"><span>التليفون</span><b>${o.phone}</b></div>
+      <div class="kv"><span>نوع الفاتورة</span><b>${o.taxInvoice?'ضريبية':'عادية'}</b></div>
+      <div class="kv"><span>التحصيل</span><b>${o.paymentMethod}</b></div>
+      <div class="kv"><span>الشحن</span><b>${fmtMoney(o.shippingCost)}</b></div>
+    </div>
+    <div class="total-line"><span>الإجمالي النهائي</span><b>${fmtMoney(total)}</b></div>
+    <button class="btn-secondary" id="printBtn">🖨️ طباعة الفاتورة / إذن الصرف</button>
+  </div>
+  ${actionHTML}
+  <h2 class="section-title">سجل الاعتمادات</h2>
+  <div class="card">
+    ${(o.history||[]).map(h=>`<div class="history-item"><div class="history-dot"></div><div><p>${h.note}</p><small>${h.by} · ${fmtDate(h.at)}</small></div></div>`).join('')}
+  </div>
+  `;
+}
 
-      try {
-        // اختبار الاتصال بجدول من اختيارك (غير 'your_table' لاسم جدولك)
-        const { data, error } = await supabaseClient
-          .from('your_table')
-          .select('*')
-          .limit(1);
+function bindEvents(){
+  const roleBtn = document.getElementById('roleBtn');
+  if(roleBtn) roleBtn.onclick = (e)=>{ e.stopPropagation(); state.roleMenuOpen = !state.roleMenuOpen; render(); };
+  document.querySelectorAll('.role-item').forEach(el=>{
+    el.onclick = ()=>{ state.role = el.dataset.role; state.roleMenuOpen=false; render(); };
+  });
 
-        if (error) {
-          // إذا اشتغل الاتصال لكن اسم الجدول غلط مثلاً
-          console.warn('Supabase Notice:', error.message);
-          showStatus('الموقع شغال والربط قائم', 'success');
-          subTitle.textContent = 'تأكد من كتابة اسم الجدول الصحيح في الكود.';
-        } else {
-          console.log('بيانات الجدول:', data);
-          showStatus('تم الاتصال بنجاح (Ready)', 'success');
-          subTitle.textContent = 'الموقع يعمل بشكل ممتاز ومرتبط بـ Supabase.';
-        }
-      } catch (err) {
-        console.error('Connection Error:', err);
-        showStatus('حدث خطأ أثناء الاتصال', 'error');
-      }
-    }
+  document.querySelectorAll('.tab').forEach(el=>{
+    el.onclick = ()=>{
+      const t = el.dataset.tab;
+      if(t==='new_sale'){ state.view='new_sale'; state.orderType = state.orderType || 'sale'; }
+      else state.view = t;
+      render();
+    };
+  });
 
-    function showStatus(message, statusClass) {
-      const badge = document.getElementById('status-badge');
-      badge.textContent = message;
-      badge.className = `status-box ${statusClass}`;
-    }
+  document.querySelectorAll('[data-otype]').forEach(el=>{
+    el.onclick = ()=>{ state.orderType = el.dataset.otype; state.draft = null; state.view='new_sale'; render(); };
+  });
 
-    // تشغيل التكوين فور اكتمال عناصر DOM
-    document.addEventListener('DOMContentLoaded', initSupabase);
-  </script>
+  document.querySelectorAll('[data-open]').forEach(el=>{
+    el.onclick = ()=>{ state.selectedOrderId = el.dataset.open; state.view='detail'; render(); };
+  });
+
+  const backBtn = document.getElementById('backBtn');
+  if(backBtn) backBtn.onclick = ()=>{ state.view='dashboard'; render(); };
+
+  const fname = document.getElementById('f_name');
+  if(fname){
+    fname.oninput = ()=>{ state.draft.partyName = fname.value; };
+    document.getElementById('f_phone').oninput = (e)=>{ state.draft.phone = e.target.value; };
+    document.getElementById('f_address').oninput = (e)=>{ state.draft.address = e.target.value; };
+    document.querySelectorAll('[data-tax]').forEach(el=>{
+      el.onclick = ()=>{ state.draft.taxInvoice = el.dataset.tax==='1'; render(); };
+    });
+    document.querySelectorAll('[data-pay]').forEach(el=>{
+      el.onclick = ()=>{ state.draft.paymentMethod = el.dataset.pay; render(); };
+    });
+    document.querySelectorAll('.item-row').forEach(row=>{
+      const idx = Number(row.dataset.idx);
+      row.querySelectorAll('input').forEach(inp=>{
+        inp.oninput = ()=>{
+          const field = inp.dataset.field;
+          state.draft.items[idx][field] = field==='name' ? inp.value : Number(inp.value)||0;
+        };
+      });
+    });
+    document.querySelectorAll('[data-rm]').forEach(el=>{
+      el.onclick = ()=>{
+        const idx = Number(el.dataset.rm);
+        if(state.draft.items.length>1) state.draft.items.splice(idx,1);
+        render();
+      };
+    });
+    document.getElementById('addItemBtn').onclick = ()=>{
+      state.draft.items.push({name:'',qty:1,price:0});
+      render();
+    };
+    document.getElementById('submitOrderBtn').onclick = submitNewOrder;
+  }
+
+  const cs = document.getElementById('custSearch');
+  if(cs) cs.oninput = ()=>{ state.custSearch = cs.value; render(); };
+
+  const printBtn = document.getElementById('printBtn');
+  if(printBtn) printBtn.onclick = ()=>{
+    const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
+    if(o) printOrder(o);
+  };
+
+  const logisticsBtn = document.getElementById('logisticsBtn');
+  if(logisticsBtn) logisticsBtn.onclick = ()=>{
+    const val = document.getElementById('shipCostInput').value;
+    const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
+    logisticsSubmit(o, val);
+  };
+
+  const accountsBtn = document.getElementById('accountsBtn');
+  if(accountsBtn) accountsBtn.onclick = ()=>{
+    const total = document.getElementById('finalTotalInput').value;
+    const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
+    accountsApprove(o, total);
+  };
+
+  const warehouseBtn = document.getElementById('warehouseBtn');
+  if(warehouseBtn) warehouseBtn.onclick = ()=>{
+    const driver = document.getElementById('driverInput').value;
+    const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
+    warehouseRelease(o, driver);
+  };
+
+  const deliveredBtn = document.getElementById('deliveredBtn');
+  if(deliveredBtn) deliveredBtn.onclick = ()=>{
+    const o = DATA.orders.find(x=>x.id===state.selectedOrderId);
+    markDelivered(o);
+  };
+}
+
+loadData();
+</script>
 </body>
 </html>
