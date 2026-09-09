@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RASRAS ERP | نظام إدارة أوامر البيع</title>
+<title>RASRAS ERP | نظام الإدارة الشامل</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -1043,30 +1043,6 @@ textarea:focus{
 }
 
 /* =========================
-   DRIVER MESSAGE
-========================= */
-
-.driver-message{
-  background:var(--resin);
-  border:1px solid var(--pine-line);
-  border-radius:14px;
-  padding:16px;
-  white-space:pre-line;
-  font-size:12px;
-  line-height:2;
-}
-
-.message-actions{
-  display:flex;
-  gap:8px;
-  margin-top:12px;
-}
-
-.message-actions button{
-  flex:1;
-}
-
-/* =========================
    EMPTY
 ========================= */
 
@@ -1382,9 +1358,1701 @@ textarea:focus{
 <script>
 
 /* =========================================================
-   RASRAS PLASTIC ERP
-   نظام إدارة أوامر البيع
+   RASRAS ERP SYSTEM (UPDATED)
 ========================================================= */
 
-const LOGO_SRC =
-"data:image/jpeg;base64,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
+const LOGO_SRC = "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAJyAfcDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwD9U6KKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAopMiigBaKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKbn2pc/hUE1zHFlmZVA6szYFBLko7k2KbXN6t8R/DOh7jqGv6ZZhevnXiKfyJri9U/an+GOj7hN4ssZCv/PsXnz9CinNTKSirtnHUxuGpfHUS+Z63+NNr5+vv23/hpasfKu7+7HZobJxn8Gwf0rGuP29vAcbERadrMwHQ/ZlXP5tWXtqf8xwyzrL4b1l959N/jS/rXyu3/BQDwgGO3RNUI9Si/wBM03/h4B4T7aFqp/4AKXtqX8xP9vZd/wA/UfVP4UfhXyt/w8A8Kf8AQB1X/vgUf8PAPCn/AEAdV/74FHt6fcX9u5d/z+R9U/hR+FfK3/DwDwp/0AdV/wC+BR/w8A8Kf9AHVf.uuqVf8/kYVt4AK7vQz9K8b8TftafCzwuWSbxZZX0o/guT6S0U6PKr3OPEcRYLC3jKpf0ueya94m0jwzZveavqltpttGMs88qrx+Jr598Vft4eD9LWWPQ9Mv8AW7hQQrMgt4j9S3zD8q+YvHHxy8YfGO+bT/Dmn3M2lyPhaDTtPib1C7gXPHvXmV8fUleK0Pj8fxPi8Vd4eHs4v5s9S8cftteOvEEksWkfYtBtyeGjiE0mPYuMCuK8L/tD+P/CuoxXS+Ib3U7UnMlnfSmaJx6YJ4/CvMZPmySevc1r6b4R1zWADpuj318p/jjgYj88V5/tacb8zueD9cx9eTm6s3fvc/Vj9mb9ri0+McdnoGtWj6R4oWPd5Z5huQOoQ9iOxr6hWvxg+E3jTxl8D/HOma/Z2c8UcF0huoXjJWaPOGVvwr9uPhv4+0n4neDtN8SaLcLc2V9EsuFPKN/Ep9x3r0cPXjVWurP2LJeJYZ1RccT7s4/ieh0UUtdh92FFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAUUUUAFFFFABRRRQAIpY4Fd98NfhH4o+KurLY+HdLlvCpw8uMRp9WPH1r2f9m79hXUvHD23ibx1DNo/h3AeCxwY57gfXqg/Wv0y8PeG9M8LaVb6bpNnFY2UChI4Yk2hQAK56mIUX7ux8bnWe4bLX7HBe+1v2/4J8P8Awq/4J3aRpsdvceMdUl1a56tZWz7Il+rDk/nivr7wn8N/DHgW0Fvoei2mmx4wWhhUO/8AwI5NdbRXnyqSn8TPzPE5ljsyeq+K+vX/ACCo1XbTqKzOIYFpaKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigAooooAKKKKACiiigD/9k=";
+
+// Initial Data
+let db = {
+  users: [
+    {user: "manager", pass: "123", name: "المدير العام", role: "manager"},
+    {user: "sales", pass: "123", name: "مسؤول المبيعات", role: "sales"},
+    {user: "logistics", pass: "123", name: "مسؤول النقل", role: "logistics"},
+    {user: "accounts", pass: "123", name: "مسؤول الحسابات", role: "accounts"},
+    {user: "warehouse", pass: "123", name: "أمين المخزن", role: "warehouse"}
+  ],
+  salesOrders: [
+    {
+      id: "SO-1001",
+      clientName: "شركة الهدى للاستيراد والتصدير",
+      clientPhone: "01012345678",
+      clientTaxId: "300-111-222",
+      items: [
+        {name: "شكارة بلاستيك 50 كجم", qty: 500, price: 10},
+        {name: "لفة بلاستيك مطبوع", qty: 200, price: 25}
+      ],
+      total: 10000,
+      stage: "completed", // sales_created, manager_approval, logistics_review, accounts_approval, warehouse_release, delivered, tax_pending, completed
+      history: [
+        {stage: "إنشاء أمر البيع", by: "مسؤول المبيعات", date: "2026-06-01"},
+        {stage: "اعتماد المدير العام", by: "المدير العام", date: "2026-06-01"},
+        {stage: "تحديد بيانات النقل", by: "مسؤول النقل", date: "2026-06-02"},
+        {stage: "اعتماد الدفعات المالية والحسابات", by: "مسؤول الحسابات", date: "2026-06-02"},
+        {stage: "صرف من المخزن", by: "أمين المخزن", date: "2026-06-03"},
+        {stage: "تم التسليم", by: "مسؤول النقل", date: "2026-06-03"},
+        {stage: "إصدار الفاتورة الضريبية", by: "مسؤول الحسابات", date: "2026-06-03"},
+        {stage: "مكتمل نهائياً", by: "النظام", date: "2026-06-03"}
+      ],
+      transport: {
+        driverName: "محمد السيد",
+        carNumber: "أ ب ج 1234",
+        destination: "القاهرة - العبور",
+        cost: 1500,
+        paid: 1500
+      },
+      taxInvoiceIssued: true
+    }
+  ],
+  purchaseOrders: [
+    {
+      id: "PO-2001",
+      supplierName: "مصنع المواد الخام الحديثة",
+      supplierPhone: "01122334455",
+      items: [
+        {name: "حبوب حبيبات بولي إيثيلين LDPE", qty: 1000, price: 30}
+      ],
+      total: 30000,
+      stage: "completed", // manager_approval, warehouse_receive, completed
+      history: [
+        {stage: "إنشاء أمر الشراء", by: "المدير العام", date: "2026-06-01"},
+        {stage: "اعتماد المدير العام", by: "المدير العام", date: "2026-06-01"},
+        {stage: "الاستلام المخزني", by: "أمين المخزن", date: "2026-06-02"},
+        {stage: "مكتمل", by: "النظام", date: "2026-06-02"}
+      ],
+      warehouseReceived: true
+    }
+  ],
+  externalOrders: [
+    {
+      id: "EXT-3001",
+      supplierName: "شركة التوريدات الكبرى",
+      clientName: "مصنع النور للتغليف",
+      items: [
+        {name: "رول بلاستيك شفاف", qty: 300, price: 40}
+      ],
+      totalCost: 10000,
+      totalSale: 12000,
+      stage: "completed", // manager_approval, completed
+      history: [
+        {stage: "إنشاء أمر شراء وبيع خارجي", by: "المدير العام", date: "2026-06-04"},
+        {stage: "اعتماد المدير العام", by: "المدير العام", date: "2026-06-04"},
+        {stage: "مكتمل", by: "النظام", date: "2026-06-04"}
+      ]
+    }
+  ],
+  transportPayments: [
+    {
+      id: "TR-501",
+      driverName: "محمد السيد",
+      tripId: "SO-1001",
+      totalCost: 1500,
+      paidAmount: 1500,
+      remaining: 0,
+      date: "2026-06-02",
+      notes: "دفعة كاملة عن رحلة القاهرة"
+    }
+  ],
+  productsList: [
+    "شكارة بلاستيك 50 كجم",
+    "لفة بلاستيك مطبوع",
+    "رول بلاستيك شفاف",
+    "أكياس تسوق بلاستيك",
+    "حبوب حبيبات بولي إيثيلين LDPE",
+    "بودرة بلاستيك PVC"
+  ]
+};
+
+// Load state from localStorage if exists
+if(localStorage.getItem('rasras_erp_db_v3')) {
+  try {
+    db = JSON.parse(localStorage.getItem('rasras_erp_db_v3'));
+  } catch(e) { console.error(e); }
+}
+
+function saveDB() {
+  localStorage.setItem('rasras_erp_db_v3', JSON.stringify(db));
+}
+
+let currentUser = null;
+
+// Toast helper
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.innerText = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// Render Login Screen if not logged in
+function renderApp() {
+  const app = document.getElementById('app');
+  if(!currentUser) {
+    app.innerHTML = `
+      <div class="login-screen">
+        <div class="login-card">
+          <div class="login-top">
+            <img src="${LOGO_SRC}" class="login-logo" alt="Logo">
+            <h1>RASRAS ERP</h1>
+            <p class="subtitle">نظام الإدارة المتكامل لصناعة البلاستيك</p>
+          </div>
+          <div class="login-bottom">
+            <form onsubmit="handleLogin(event)">
+              <label>اسم المستخدم</label>
+              <select id="loginUser" required>
+                ${db.users.map(u => `<option value="${u.user}">${u.name} (${u.user})</option>`).join('')}
+              </select>
+              <label>كلمة المرور</label>
+              <input type="password" id="loginPass" value="123" required>
+              <button type="submit" class="btn-primary">تسجيل الدخول</button>
+            </form>
+            <div class="login-footer">جميع الحقوق محفوظة © 2026 RASRAS PLASTIC</div>
+          </div>
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  // Render Main App layout based on user role
+  let tabs = [];
+  if(currentUser.role === 'manager') {
+    tabs = [
+      {id: 'dashboard', name: 'اللوحة الرئيسية'},
+      {id: 'sales_orders', name: 'أوامر البيع', badge: db.salesOrders.filter(o => o.stage === 'manager_approval').length},
+      {id: 'purchase_orders', name: 'أوامر الشراء', badge: db.purchaseOrders.filter(o => o.stage === 'manager_approval').length},
+      {id: 'external_orders', name: 'شراء وبيع خارجي', badge: db.externalOrders.filter(o => o.stage === 'manager_approval').length},
+      {id: 'approvals', name: 'الاعتمادات الشاملة'},
+      {id: 'transport', name: 'النقل والحسابات'},
+      {id: 'reports', name: 'التقارير الاحترافية'}
+    ];
+  } else if(currentUser.role === 'sales') {
+    tabs = [
+      {id: 'dashboard', name: 'اللوحة الرئيسية'},
+      {id: 'sales_orders', name: 'أوامر البيع'},
+      {id: 'reports', name: 'التقارير'}
+    ];
+  } else if(currentUser.role === 'logistics') {
+    tabs = [
+      {id: 'dashboard', name: 'اللوحة الرئيسية'},
+      {id: 'transport', name: 'إدارة النقل والرحلات', badge: db.salesOrders.filter(o => o.stage === 'logistics_review').length}
+    ];
+  } else if(currentUser.role === 'accounts') {
+    tabs = [
+      {id: 'dashboard', name: 'اللوحة الرئيسية'},
+      {id: 'accounts_panel', name: 'الحسابات والدفعات', badge: db.salesOrders.filter(o => o.stage === 'accounts_approval').length},
+      {id: 'transport', name: 'حسابات النقل وكشف الحساب'},
+      {id: 'tax_invoices', name: 'الفواتير الضريبية'},
+      {id: 'reports', name: 'التقارير المالية'}
+    ];
+  } else if(currentUser.role === 'warehouse') {
+    tabs = [
+      {id: 'dashboard', name: 'اللوحة الرئيسية'},
+      {id: 'warehouse_panel', name: 'المخزن وأذونات الاستلام والصرف', badge: db.salesOrders.filter(o => o.stage === 'warehouse_release').length + db.purchaseOrders.filter(o => o.stage === 'warehouse_receive').length}
+    ];
+  }
+
+  // Default active tab
+  if(!window.currentTab || !tabs.some(t => t.id === window.currentTab)) {
+    window.currentTab = tabs[0].id;
+  }
+
+  app.innerHTML = `
+    <div class="header">
+      <div class="brand">
+        <img src="${LOGO_SRC}" class="brand-logo" alt="Logo">
+        <div>
+          <h1>RASRAS ERP</h1>
+          <p>النظام المتكامل لإدارة المصنع</p>
+        </div>
+      </div>
+      <div class="user-area">
+        <div class="user-badge">${currentUser.name} (${currentUser.role})</div>
+        <button class="logout-btn" onclick="logout()">خروج</button>
+      </div>
+    </div>
+
+    <div class="tabs">
+      ${tabs.map(t => `
+        <button class="tab ${window.currentTab === t.id ? 'active' : ''}" onclick="switchTab('${t.id}')">
+          ${t.badge ? `<span class="badge">${t.badge}</span>` : ''}
+          ${t.name}
+        </button>
+      `).join('')}
+    </div>
+
+    <div id="tabContent"></div>
+  `;
+
+  renderTabContent();
+}
+
+function handleLogin(e) {
+  e.preventDefault();
+  const uVal = document.getElementById('loginUser').value;
+  const found = db.users.find(u => u.user === uVal);
+  if(found) {
+    currentUser = found;
+    window.currentTab = 'dashboard';
+    saveDB();
+    renderApp();
+    showToast('مرحباً بك يا ' + found.name);
+  }
+}
+
+function logout() {
+  currentUser = null;
+  window.currentTab = null;
+  renderApp();
+  showToast تم بنجاح;
+}
+
+function switchTab(id) {
+  window.currentTab = id;
+  renderApp();
+}
+
+// Render Tab Content
+function renderTabContent() {
+  const container = document.getElementById('tabContent');
+  if(!container) return;
+
+  if(window.currentTab === 'dashboard') {
+    container.innerHTML = renderDashboard();
+  } else if(window.currentTab === 'sales_orders') {
+    container.innerHTML = renderSalesOrders();
+  } else if(window.currentTab === 'purchase_orders') {
+    container.innerHTML = renderPurchaseOrders();
+  } else if(window.currentTab === 'external_orders') {
+    container.innerHTML = renderExternalOrders();
+  } else if(window.currentTab === 'approvals') {
+    container.innerHTML = renderApprovals();
+  } else if(window.currentTab === 'transport') {
+    container.innerHTML = renderTransportAndAccounts();
+  } else if(window.currentTab === 'accounts_panel') {
+    container.innerHTML = renderAccountsPanel();
+  } else if(window.currentTab === 'warehouse_panel') {
+    container.innerHTML = renderWarehousePanel();
+  } else if(window.currentTab === 'tax_invoices') {
+    container.innerHTML = renderTaxInvoices();
+  } else if(window.currentTab === 'reports') {
+    container.innerHTML = renderProfessionalReports();
+  }
+}
+
+/* =========================================================
+   1. DASHBOARD
+========================================================= */
+function renderDashboard() {
+  const totalSalesVal = db.salesOrders.reduce((acc,o) => acc + o.total, 0);
+  const totalPurchasesVal = db.purchaseOrders.reduce((acc,o) => acc + o.total, 0);
+  const totalExtVal = db.externalOrders.reduce((acc,o) => acc + o.totalSale, 0);
+  const totalTransportCost = db.salesOrders.filter(o => o.transport).reduce((acc,o) => acc + (o.transport.cost || 0), 0);
+  const totalTransportPaid = db.salesOrders.filter(o => o.transport).reduce((acc,o) => acc + (o.transport.paid || 0), 0);
+  const totalTransportRem = totalTransportCost - totalTransportPaid;
+
+  return `
+    <div class="stat-grid">
+      <div class="stat">
+        <div class="stat-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <b>${totalSalesVal.toLocaleString()} ج.م</b>
+        <span>إجمالي المبيعات</span>
+      </div>
+      <div class="stat c-amber">
+        <div class="stat-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        </div>
+        <b>${totalPurchasesVal.toLocaleString()} ج.م</b>
+        <span>إجمالي المشتريات</span>
+      </div>
+      <div class="stat c-steel">
+        <div class="stat-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <b>${totalExtVal.toLocaleString()} ج.م</b>
+        <span>أوامر شراء وبيع خارجي</span>
+      </div>
+      <div class="stat c-clay">
+        <div class="stat-icon">
+          <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0zM13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10h1m10 0v-2m0 2h2m-2 0H8m0 0h5m4 0v2m0-2h-2m2-2h-5"/></svg>
+        </div>
+        <b>${totalTransportRem.toLocaleString()} ج.م</b>
+        <span>متبقي مستحقات النقل</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <div>
+          <h2>مرحباً بك في نظام RASRAS ERP المتطور</h2>
+          <p>لوحة التحكم تتيح لك متابعة سير العمليات، الاعتمادات، الحسابات، والمخازن بكفاءة تامة.</p>
+        </div>
+      </div>
+      <div class="alert alert-green">
+        <b>تنبيهات النظام:</b>
+        <br>• أوامر الشراء تتم فقط من خلال <b>المدير العام</b> وتمر بدورة اعتمادات ومخازن كاملة.
+        <br>• تم تفعيل قسم <b>أمر شراء وبيع خارجي</b> (شراء من مورد وبيع للعميل مرة واحدة بعيداً عن المخازن).
+        <br>• يتم سداد نفقات النقل ومتابعة المتبقي وكشف الحساب عبر قسم الحسابات والنقل بمرونة تامة.
+      </div>
+    </div>
+  `;
+}
+
+/* =========================================================
+   2. SALES ORDERS
+========================================================= */
+function renderSalesOrders() {
+  return `
+    <div class="card">
+      <div class="card-title">
+        <div>
+          <h2>إدارة أوامر البيع</h2>
+          <p>إنشاء ومتابعة طلبات العملاء ودورة الاعتماد</p>
+        </div>
+        ${currentUser.role === 'sales' || currentUser.role === 'manager' ? '<button class="btn-primary" style="width:auto;margin:0" onclick="openNewSalesOrderModal()">+ إنشاء أمر بيع جديد</button>' : ''}
+      </div>
+
+      <div class="order-list">
+        ${db.salesOrders.length === 0 ? '<div class="empty"><b>لا توجد أوامر بيع حالياً</b></div>' : db.salesOrders.map(o => `
+          <div class="order-item" onclick="viewOrderDetails('${o.id}')">
+            <div class="order-top">
+              <div>
+                <span class="order-id">${o.id}</span>
+                <div class="order-name">${o.clientName}</div>
+              </div>
+              <div>${renderStagePill(o.stage)}</div>
+            </div>
+            <div class="order-meta">
+              الإجمالي: <b>${o.total.toLocaleString()} ج.م</b> | الأصناف: ${o.items.length} أصناف
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderStagePill(stage) {
+  const map = {
+    sales_created: {text: 'تم الإنشاء (بانتظار المدير)', class: 'stage-sales_created'},
+    manager_approval: {text: 'بانتظار اعتماد المدير', class: 'stage-manager_approval'},
+    logistics_review: {text: 'بانتظار مراجعة النقل', class: 'stage-logistics_review'},
+    accounts_approval: {text: 'بانتظار الحسابات والدفعات', class: 'stage-accounts_approval'},
+    warehouse_release: {text: 'بانتظار الصرف المخزني', class: 'stage-warehouse_release'},
+    with_driver: {text: 'جاري التوصيل مع السائق', class: 'stage-with_driver'},
+    delivered: {text: 'تم التسليم', class: 'stage-delivered'},
+    tax_pending: {text: 'بانتظار الفاتورة الضريبية', class: 'stage-tax_pending'},
+    completed: {text: 'مكتمل', class: 'stage-completed'},
+    rejected: {text: 'مرفوض', class: 'stage-rejected'}
+  };
+  const m = map[stage] || {text: stage, class: 'stage-sales_created'};
+  return `<span class="pill ${m.class}">${m.text}</span>`;
+}
+
+function openNewSalesOrderModal() {
+  const modalHTML = `
+    <div id="customModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;padding:15px;">
+      <div style="background:var(--paper);width:100%;max-width:650px;border-radius:18px;padding:22px;max-height:90vh;overflow:auto;">
+        <div class="card-title">
+          <h2>إنشاء أمر بيع جديد</h2>
+          <button onclick="closeModal()" class="btn-secondary" style="padding:5px 10px">✕</button>
+        </div>
+        <form onsubmit="submitSalesOrder(event)">
+          <div class="row2">
+            <div>
+              <label>اسم العميل</label>
+              <input type="text" id="soClient" required placeholder="اسم العميل / الشركة">
+            </div>
+            <div>
+              <label>رقم هاتف العميل</label>
+              <input type="text" id="soPhone" required placeholder="01xxxxxxxx">
+            </div>
+          </div>
+          <label>الرقم الضريبي للعميل</label>
+          <input type="text" id="soTaxId" placeholder="300-xxx-xxx">
+
+          <label style="margin-top:15px">الأصناف المطلوبة</label>
+          <div class="item-header">
+            <span>الصنف</span>
+            <span>الكمية</span>
+            <span>السعر (ج.م)</span>
+            <span>حذف</span>
+          </div>
+          <div id="soItemsContainer">
+            <div class="item-row">
+              <select class="item-name" required>
+                ${db.productsList.map(p => `<option value="${p}">${p}</option>`).join('')}
+              </select>
+              <input type="number" class="item-qty" placeholder="الكمية" value="100" min="1" oninput="calcSOMerge()">
+              <input type="number" class="item-price" placeholder="السعر" value="10" min="0" oninput="calcSOMerge()">
+              <button type="button" class="rm-btn" onclick="this.parentElement.remove(); calcSOMerge();">×</button>
+            </div>
+          </div>
+          <button type="button" class="add-item" onclick="addSOItemRow()">+ إضافة صنف آخر</button>
+
+          <div class="total-box">
+            <span>الإجمالي الكلي:</span>
+            <b id="soTotalPreview">1,000 ج.م</b>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:15px;">
+            <button type="submit" class="btn-primary" style="margin:0">حفظ وإرسال للاعتماد</button>
+            <button type="button" class="btn-secondary" onclick="closeModal()">إلغاء</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+  calcSOMerge();
+}
+
+function addSOItemRow() {
+  const container = document.getElementById('soItemsContainer');
+  const div = document.createElement('div');
+  div.className = 'item-row';
+  div.innerHTML = `
+    <select class="item-name" required>
+      ${db.productsList.map(p => `<option value="${p}">${p}</option>`).join('')}
+    </select>
+    <input type="number" class="item-qty" placeholder="الكمية" value="100" min="1" oninput="calcSOMerge()">
+    <input type="number" class="item-price" placeholder="السعر" value="10" min="0" oninput="calcSOMerge()">
+    <button type="button" class="rm-btn" onclick="this.parentElement.remove(); calcSOMerge();">×</button>
+  `;
+  container.appendChild(div);
+  calcSOMerge();
+}
+
+function calcSOMerge() {
+  let total = 0;
+  document.querySelectorAll('#soItemsContainer .item-row').forEach(row => {
+    const q = parseFloat(row.querySelector('.item-qty').value) || 0;
+    const p = parseFloat(row.querySelector('.item-price').value) || 0;
+    total += q * p;
+  });
+  const prev = document.getElementById('soTotalPreview');
+  if(prev) prev.innerText = total.toLocaleString() + ' ج.م';
+}
+
+function submitSalesOrder(e) {
+  e.preventDefault();
+  const clientName = document.getElementById('soClient').value;
+  const clientPhone = document.getElementById('soPhone').value;
+  const clientTaxId = document.getElementById('soTaxId').value;
+
+  let items = [];
+  let total = 0;
+  document.querySelectorAll('#soItemsContainer .item-row').forEach(row => {
+    const name = row.querySelector('.item-name').value;
+    const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+    const price = parseFloat(row.querySelector('.item-price').value) || 0;
+    items.push({name, qty, price});
+    total += qty * price;
+  });
+
+  const newId = 'SO-' + (1000 + db.salesOrders.length + 1);
+  const newOrder = {
+    id: newId,
+    clientName,
+    clientPhone,
+    clientTaxId,
+    items,
+    total,
+    stage: 'manager_approval',
+    history: [
+      {stage: 'إنشاء أمر البيع', by: currentUser.name, date: new Date().toISOString().split('T')[0]}
+    ]
+  };
+
+  db.salesOrders.unshift(newOrder);
+  saveDB();
+  closeModal();
+  renderApp();
+  showToast('تم إنشاء أمر البيع بنجاح');
+}
+
+function closeModal() {
+  const m = document.getElementById('customModal');
+  if(m) m.remove();
+}
+
+/* =========================================================
+   3. PURCHASE ORDERS (المدير العام فقط)
+========================================================= */
+function renderPurchaseOrders() {
+  return `
+    <div class="card">
+      <div class="card-title">
+        <div>
+          <h2>أوامر الشراء (تتم من خلال المدير العام فقط)</h2>
+          <p>شراء المواد الخام والمستلزمات ودورة الاعتماد والمخازن</p>
+        </div>
+        ${currentUser.role === 'manager' ? '<button class="btn-primary" style="width:auto;margin:0" onclick="openNewPurchaseOrderModal()">+ إنشاء أمر شراء جديد</button>' : ''}
+      </div>
+
+      <div class="order-list">
+        ${db.purchaseOrders.length === 0 ? '<div class="empty"><b>لا توجد أوامر شراء حالياً</b></div>' : db.purchaseOrders.map(o => `
+          <div class="order-item" onclick="viewPurchaseDetails('${o.id}')">
+            <div class="order-top">
+              <div>
+                <span class="order-id">${o.id}</span>
+                <div class="order-name">المورد: ${o.supplierName}</div>
+              </div>
+              <div>${renderPurchaseStagePill(o.stage)}</div>
+            </div>
+            <div class="order-meta">
+              إجمالي التكلفة: <b>${o.total.toLocaleString()} ج.م</b> | الأصناف: ${o.items.length}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderPurchaseStagePill(stage) {
+  const map = {
+    manager_approval: {text: 'بانتظار اعتماد المدير العام', class: 'stage-manager_approval'},
+    warehouse_receive: {text: 'بانتظار الاستلام المخزني', class: 'stage-warehouse_release'},
+    completed: {text: 'مكتمل', class: 'stage-completed'},
+    rejected: {text: 'مرفوض', class: 'stage-clay'}
+  };
+  const m = map[stage] || {text: stage, class: 'stage-sales_created'};
+  return `<span class="pill ${m.class}">${m.text}</span>`;
+}
+
+function openNewPurchaseOrderModal() {
+  if(currentUser.role !== 'manager') {
+    showToast('عذراً، أمر الشراء يتم حصرياً من قِبل المدير العام فقط!');
+    return;
+  }
+  const modalHTML = `
+    <div id="customModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;padding:15px;">
+      <div style="background:var(--paper);width:100%;max-width:650px;border-radius:18px;padding:22px;max-height:90vh;overflow:auto;">
+        <div class="card-title">
+          <h2>إنشاء أمر شراء (المدير العام)</h2>
+          <button onclick="closeModal()" class="btn-secondary" style="padding:5px 10px">✕</button>
+        </div>
+        <form onsubmit="submitPurchaseOrder(event)">
+          <div class="row2">
+            <div>
+              <label>اسم المورد</label>
+              <input type="text" id="poSupplier" required placeholder="اسم المورد">
+            </div>
+            <div>
+              <label>هاتف المورد</label>
+              <input type="text" id="poPhone" required placeholder="01xxxxxxxx">
+            </div>
+          </div>
+
+          <label style="margin-top:15px">المواد الخام / الأصناف المطلوبة</label>
+          <div class="item-header">
+            <span>الصنف</span>
+            <span>الكمية</span>
+            <span>السعر (ج.م)</span>
+            <span>حذف</span>
+          </div>
+          <div id="poItemsContainer">
+            <div class="item-row">
+              <select class="item-name" required>
+                ${db.productsList.map(p => `<option value="${p}">${p}</option>`).join('')}
+              </select>
+              <input type="number" class="item-qty" placeholder="الكمية" value="500" min="1" oninput="calcPOMerge()">
+              <input type="number" class="item-price" placeholder="السعر" value="25" min="0" oninput="calcPOMerge()">
+              <button type="button" class="rm-btn" onclick="this.parentElement.remove(); calcPOMerge();">×</button>
+            </div>
+          </div>
+          <button type="button" class="add-item" onclick="addPOItemRow()">+ إضافة صنف آخر</button>
+
+          <div class="total-box">
+            <span>إجمالي أمر الشراء:</span>
+            <b id="poTotalPreview">12,500 ج.م</b>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:15px;">
+            <button type="submit" class="btn-primary" style="margin:0">اعتماد وإرسال للمخزن مباشرة</button>
+            <button type="button" class="btn-secondary" onclick="closeModal()">إلغاء</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+  calcPOMerge();
+}
+
+function addPOItemRow() {
+  const container = document.getElementById('poItemsContainer');
+  const div = document.createElement('div');
+  div.className = 'item-row';
+  div.innerHTML = `
+    <select class="item-name" required>
+      ${db.productsList.map(p => `<option value="${p}">${p}</option>`).join('')}
+    </select>
+    <input type="number" class="item-qty" placeholder="الكمية" value="500" min="1" oninput="calcPOMerge()">
+    <input type="number" class="item-price" placeholder="السعر" value="25" min="0" oninput="calcPOMerge()">
+    <button type="button" class="rm-btn" onclick="this.parentElement.remove(); calcPOMerge();">×</button>
+  `;
+  container.appendChild(div);
+  calcPOMerge();
+}
+
+function calcPOMerge() {
+  let total = 0;
+  document.querySelectorAll('#poItemsContainer .item-row').forEach(row => {
+    const q = parseFloat(row.querySelector('.item-qty').value) || 0;
+    const p = parseFloat(row.querySelector('.item-price').value) || 0;
+    total += q * p;
+  });
+  const prev = document.getElementById('poTotalPreview');
+  if(prev) prev.innerText = total.toLocaleString() + ' ج.م';
+}
+
+function submitPurchaseOrder(e) {
+  e.preventDefault();
+  const supplierName = document.getElementById('poSupplier').value;
+  const supplierPhone = document.getElementById('poPhone').value;
+
+  let items = [];
+  let total = 0;
+  document.querySelectorAll('#poItemsContainer .item-row').forEach(row => {
+    const name = row.querySelector('.item-name').value;
+    const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+    const price = parseFloat(row.querySelector('.item-price').value) || 0;
+    items.push({name, qty, price});
+    total += qty * price;
+  });
+
+  const newId = 'PO-' + (2000 + db.purchaseOrders.length + 1);
+  const newOrder = {
+    id: newId,
+    supplierName,
+    supplierPhone,
+    items,
+    total,
+    stage: 'warehouse_receive', // المدير العام أنشأه واعتمد تلقائياً، ينتظر الاستلام المخزني
+    history: [
+      {stage: 'إنشاء أمر الشراء بواسطة المدير العام', by: currentUser.name, date: new Date().toISOString().split('T')[0]},
+      {stage: 'اعتماد المدير العام', by: currentUser.name, date: new Date().toISOString().split('T')[0]}
+    ],
+    warehouseReceived: false
+  };
+
+  db.purchaseOrders.unshift(newOrder);
+  saveDB();
+  closeModal();
+  renderApp();
+  showToast('تم إصدار أمر الشراء واعتماده من المدير العام بنجاح');
+}
+
+/* =========================================================
+   4. EXTERNAL PURCHASE & SALE ORDERS (أمر شراء وبيع خارجي)
+========================================================= */
+function renderExternalOrders() {
+  return `
+    <div class="card">
+      <div class="card-title">
+        <div>
+          <h2>أوامر الشراء والبيع الخارجي</h2>
+          <p>أمر شراء من مورد وبيع للعميل مرة واحدة (بدون التأثير على المخازن)</p>
+        </div>
+        ${currentUser.role === 'manager' ? '<button class="btn-primary" style="width:auto;margin:0" onclick="openNewExternalOrderModal()">+ إنشاء أمر خارجي جديد</button>' : ''}
+      </div>
+
+      <div class="order-list">
+        ${db.externalOrders.length === 0 ? '<div class="empty"><b>لا توجد أورامر خارجية حالياً</b></div>' : db.externalOrders.map(o => `
+          <div class="order-item" onclick="viewExternalDetails('${o.id}')">
+            <div class="order-top">
+              <div>
+                <span class="order-id">${o.id}</span>
+                <div class="order-name">المورد: ${o.supplierName} ➔ العميل: ${o.clientName}</div>
+              </div>
+              <div>${renderExternalStagePill(o.stage)}</div>
+            </div>
+            <div class="order-meta">
+              تكلفة الشراء: <b>${o.totalCost.toLocaleString()} ج.م</b> | سعر البيع: <b>${o.totalSale.toLocaleString()} ج.م</b> | الربح: <b>${(o.totalSale - o.totalCost).toLocaleString()} ج.م</b>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+function renderExternalStagePill(stage) {
+  const map = {
+    manager_approval: {text: 'بانتظار اعتماد المدير العام', class: 'stage-manager_approval'},
+    completed: {text: 'مكتمل (بدون مخازن)', class: 'stage-completed'},
+    rejected: {text: 'مرفوض', class: 'stage-clay'}
+  };
+  const m = map[stage] || {text: stage, class: 'stage-sales_created'};
+  return `<span class="pill ${m.class}">${m.text}</span>`;
+}
+
+function openNewExternalOrderModal() {
+  if(currentUser.role !== 'manager') {
+    showToast('عذراً، الأوامر الخارجية تتبع صلاحيات المدير العام!');
+    return;
+  }
+  const modalHTML = `
+    <div id="customModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;padding:15px;">
+      <div style="background:var(--paper);width:100%;max-width:650px;border-radius:18px;padding:22px;max-height:90vh;overflow:auto;">
+        <div class="card-title">
+          <h2>أمر شراء وبيع خارجي مباشر</h2>
+          <button onclick="closeModal()" class="btn-secondary" style="padding:5px 10px">✕</button>
+        </div>
+        <form onsubmit="submitExternalOrder(event)">
+          <div class="row2">
+            <div>
+              <label>المورد (الشراء منه)</label>
+              <input type="text" id="extSupplier" required placeholder="اسم المورد">
+            </div>
+            <div>
+              <label>العميل (البيع له)</label>
+              <input type="text" id="extClient" required placeholder="اسم العميل">
+            </div>
+          </div>
+
+          <label style="margin-top:15px">الأصناف والبضائع</label>
+          <div class="item-header">
+            <span>الصنف</span>
+            <span>الكمية</span>
+            <span>سعر الشراء</span>
+            <span>سعر البيع</span>
+          </div>
+          <div id="extItemsContainer">
+            <div class="item-row" style="grid-template-columns:1fr 80px 90px 90px 38px;">
+              <select class="item-name" required>
+                ${db.productsList.map(p => `<option value="${p}">${p}</option>`).join('')}
+              </select>
+              <input type="number" class="item-qty" value="100" min="1" oninput="calcExtMerge()">
+              <input type="number" class="item-cost" value="20" min="0" oninput="calcExtMerge()">
+              <input type="number" class="item-sale" value="30" min="0" oninput="calcExtMerge()">
+              <button type="button" class="rm-btn" onclick="this.parentElement.remove(); calcExtMerge();">×</button>
+            </div>
+          </div>
+          <button type="button" class="add-item" onclick="addExtItemRow()">+ إضافة صنف آخر</button>
+
+          <div class="settle-summary" style="margin-top:15px;">
+            <div class="settle-row"><span>إجمالي تكلفة الشراء:</span><b id="extCostPreview">2,000 ج.م</b></div>
+            <div class="settle-row"><span>إجمالي قيمة البيع:</span><b id="extSalePreview">3,000 ج.م</b></div>
+            <div class="settle-row total"><span>صافي الربح التقديري:</span><b style="color:var(--pine)" id="extProfitPreview">1,000 ج.م</b></div>
+          </div>
+
+          <div style="display:flex;gap:10px;margin-top:15px;">
+            <button type="submit" class="btn-primary" style="margin:0">اعتماد وإنهاء (بدون مرور بالمخازن)</button>
+            <button type="button" class="btn-secondary" onclick="closeModal()">إلغاء</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+  calcExtMerge();
+}
+
+function addExtItemRow() {
+  const container = document.getElementById('extItemsContainer');
+  const div = document.createElement('div');
+  div.className = 'item-row';
+  div.style.gridTemplateColumns = '1fr 80px 90px 90px 38px';
+  div.innerHTML = `
+    <select class="item-name" required>
+      ${db.productsList.map(p => `<option value="${p}">${p}</option>`).join('')}
+    </select>
+    <input type="number" class="item-qty" value="100" min="1" oninput="calcExtMerge()">
+    <input type="number" class="item-cost" value="20" min="0" oninput="calcExtMerge()">
+    <input type="number" class="item-sale" value="30" min="0" oninput="calcExtMerge()">
+    <button type="button" class="rm-btn" onclick="this.parentElement.remove(); calcExtMerge();">×</button>
+  `;
+  container.appendChild(div);
+  calcExtMerge();
+}
+
+function calcExtMerge() {
+  let totalC = 0;
+  let totalS = 0;
+  document.querySelectorAll('#extItemsContainer .item-row').forEach(row => {
+    const q = parseFloat(row.querySelector('.item-qty').value) || 0;
+    const c = parseFloat(row.querySelector('.item-cost').value) || 0;
+    const s = parseFloat(row.querySelector('.item-sale').value) || 0;
+    totalC += q * c;
+    totalS += q * s;
+  });
+  document.getElementById('extCostPreview').innerText = totalC.toLocaleString() + ' ج.م';
+  document.getElementById('extSalePreview').innerText = totalS.toLocaleString() + ' ج.م';
+  document.getElementById('extProfitPreview').innerText = (totalS - totalC).toLocaleString() + ' ج.م';
+}
+
+function submitExternalOrder(e) {
+  e.preventDefault();
+  const supplierName = document.getElementById('extSupplier').value;
+  const clientName = document.getElementById('extClient').value;
+
+  let items = [];
+  let totalCost = 0;
+  let totalSale = 0;
+  document.querySelectorAll('#extItemsContainer .item-row').forEach(row => {
+    const name = row.querySelector('.item-name').value;
+    const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+    const cost = parseFloat(row.querySelector('.item-cost').value) || 0;
+    const sale = parseFloat(row.querySelector('.item-sale').value) || 0;
+    items.push({name, qty, cost, sale});
+    totalCost += qty * cost;
+    totalSale += qty * sale;
+  });
+
+  const newId = 'EXT-' + (3000 + db.externalOrders.length + 1);
+  const newOrder = {
+    id: newId,
+    supplierName,
+    clientName,
+    items,
+    totalCost,
+    totalSale,
+    stage: 'completed', // مباشر ومعتمد
+    history: [
+      {stage: 'إنشاء أمر شراء وبيع خارجي واعتماده', by: currentUser.name, date: new Date().toISOString().split('T')[0]}
+    ]
+  };
+
+  db.externalOrders.unshift(newOrder);
+  saveDB();
+  closeModal();
+  renderApp();
+  showToast('تم اعتماد أمر الشراء والبيع الخارجي بنجاح');
+}
+
+/* =========================================================
+   5. APPROVALS WORKFLOW & DETAILS MODALS
+========================================================= */
+function renderApprovals() {
+  const pendingSales = db.salesOrders.filter(o => o.stage === 'manager_approval');
+  const pendingPurchases = db.purchaseOrders.filter(o => o.stage === 'manager_approval');
+  const pendingExt = db.externalOrders.filter(o => o.stage === 'manager_approval');
+
+  return `
+    <div class="card">
+      <div class="card-title">
+        <div>
+          <h2>لوحة الاعتمادات الشاملة (المدير العام)</h2>
+          <p>اعتماد أوامر البيع، أوامر الشراء، والأوامر الخارجية</p>
+        </div>
+      </div>
+
+      <h3>أوامر البيع بانتظار الاعتماد</h3>
+      ${pendingSales.length === 0 ? '<div class="empty"><b>لا توجد أوامر بيع معلقة للاعتماد</b></div>' : pendingSales.map(o => `
+        <div class="order-item">
+          <div class="order-top">
+            <div>
+              <span class="order-id">${o.id}</span>
+              <div class="order-name">${o.clientName}</div>
+            </div>
+            <div>
+              <button class="btn-primary" style="padding:6px 12px;font-size:11px;margin:0" onclick="managerApproveSales('${o.id}')">اعتماد وأرسل للنقل</button>
+            </div>
+          </div>
+          <div class="order-meta">الإجمالي: <b>${o.total.toLocaleString()} ج.م</b></div>
+        </div>
+      `).join('')}
+
+      <h3 style="margin-top:20px">أوامر الشراء بانتظار الاعتماد</h3>
+      ${pendingPurchases.length === 0 ? '<div class="empty"><b>لا توجد أوامر شراء معلقة</b></div>' : pendingPurchases.map(o => `
+        <div class="order-item">
+          <div class="order-top">
+            <div>
+              <span class="order-id">${o.id}</span>
+              <div class="order-name">المورد: ${o.supplierName}</div>
+            </div>
+            <div>
+              <button class="btn-primary" style="padding:6px 12px;font-size:11px;margin:0" onclick="managerApprovePurchase('${o.id}')">اعتماد وأرسل للمخزن</button>
+            </div>
+          </div>
+          <div class="order-meta">التكلفة: <b>${o.total.toLocaleString()} ج.م</b></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function managerApproveSales(id) {
+  const o = db.salesOrders.find(x => x.id === id);
+  if(o) {
+    o.stage = 'logistics_review';
+    o.history.push({stage: 'اعتماد المدير العام', by: currentUser.name, date: new Date().toISOString().split('T')[0]});
+    saveDB();
+    renderApp();
+    showToast('تم اعتماد أمر البيع وتحويله لمسؤول النقل');
+  }
+}
+
+function managerApprovePurchase(id) {
+  const o = db.purchaseOrders.find(x => x.id === id);
+  if(o) {
+    o.stage = 'warehouse_receive';
+    o.history.push({stage: 'اعتماد المدير العام', by: currentUser.name, date: new Date().toISOString().split('T')[0]});
+    saveDB();
+    renderApp();
+    showToast('تم اعتماد أمر الشراء وتحويله للمخزن');
+  }
+}
+
+function viewOrderDetails(id) {
+  const o = db.salesOrders.find(x => x.id === id);
+  if(!o) return;
+
+  const modalHTML = `
+    <div id="customModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;padding:15px;">
+      <div style="background:var(--paper);width:100%;max-width:700px;border-radius:18px;padding:22px;max-height:90vh;overflow:auto;">
+        <div class="card-title">
+          <div>
+            <h2>تفاصيل أمر البيع ${o.id}</h2>
+            <p>العميل: ${o.clientName} | هاتف: ${o.clientPhone}</p>
+          </div>
+          <button onclick="closeModal()" class="btn-secondary" style="padding:5px 10px">✕</button>
+        </div>
+
+        <div style="margin-bottom:15px">${renderStagePill(o.stage)}</div>
+
+        <div class="flow">
+          ${renderFlowSteps(o.stage)}
+        </div>
+
+        <h4 style="margin:15px 0 8px">الأصناف المطلوبة</h4>
+        <div class="table-wrap">
+          <table class="report-table">
+            <thead>
+              <tr><th>الصنف</th><th>الكمية</th><th>السعر</th><th>الإجمالي</th></tr>
+            </thead>
+            <tbody>
+              ${o.items.map(i => `<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.price} ج.م</td><td>${i.qty * i.price} ج.م</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="total-box"><span>إجمالي الطلب:</span><b>${o.total.toLocaleString()} ج.م</b></div>
+
+        ${o.transport ? `
+          <div class="settle-summary" style="margin-top:15px">
+            <h4 style="margin:0 0 8px;color:var(--graphite)">بيانات النقل والشحن</h4>
+            <div class="settle-row"><span>السائق / الجهة:</span><b>${o.transport.driverName}</b></div>
+            <div class="settle-row"><span>رقم السيارة:</span><b>${o.transport.carNumber}</b></div>
+            <div class="settle-row"><span>الوجهة:</span><b>${o.transport.destination}</b></div>
+            <div class="settle-row"><span>تكلفة النقل:</span><b>${o.transport.cost} ج.م</b></div>
+            <div class="settle-row"><span>المدفوع من الحسابات:</span><b style="color:var(--pine)">${o.transport.paid} ج.م</b></div>
+            <div class="settle-row total"><span>المتبقي:</span><b style="color:var(--clay)">${o.transport.cost - o.transport.paid} ج.م</b></div>
+          </div>
+        ` : ''}
+
+        <h4 style="margin:20px 0 8px">سجل المراحل</h4>
+        <div style="font-size:11.5px;color:var(--muted)">
+          ${o.history.map(h => `• ${h.stage} بواسطة (${h.by}) بتاريخ ${h.date}<br>`).join('')}
+        </div>
+
+        <!-- Role Actions -->
+        <div style="margin-top:20px;display:flex;gap:10px;flex-wrap:wrap">
+          ${currentUser.role === 'logistics' && o.stage === 'logistics_review' ? `
+            <button class="btn-primary" style="margin:0" onclick="openLogisticsModal('${o.id}')">إدخال بيانات النقل وتحديد التكلفة</button>
+          ` : ''}
+          ${currentUser.role === 'accounts' && o.stage === 'accounts_approval' ? `
+            <button class="btn-primary" style="margin:0" onclick="approveAccountsPayment('${o.id}')">سداد نفقات النقل والاعتماد المالي</button>
+          ` : ''}
+          ${currentUser.role === 'warehouse' && o.stage === 'warehouse_release' ? `
+            <button class="btn-primary" style="margin:0" onclick="warehouseReleaseOrder('${o.id}')">إصدار إذن الصرف المخزني</button>
+          ` : ''}
+          ${currentUser.role === 'logistics' && o.stage === 'with_driver' ? `
+            <button class="btn-primary" style="margin:0" onclick="markDelivered('${o.id}')">تأكيد تسليم البضاعة للعميل</button>
+          ` : ''}
+          ${currentUser.role === 'accounts' && o.stage === 'tax_pending' ? `
+            <button class="btn-primary" style="margin:0" onclick="issueTaxInvoice('${o.id}')">إصدار الفاتورة الضريبية وإنهاء الطلب</button>
+          ` : ''}
+          <button class="btn-secondary" onclick="printOrderInvoice('${o.id}')">🖨️ طباعة الفاتورة / المستند</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function renderFlowSteps(stage) {
+  const steps = [
+    {key: 'sales_created', label: 'الإنشاء'},
+    {key: 'manager_approval', label: 'مدير عام'},
+    {key: 'logistics_review', label: 'النقل'},
+    {key: 'accounts_approval', label: 'الحسابات'},
+    {key: 'warehouse_release', label: 'المخزن'},
+    {key: 'with_driver', label: 'التوصيل'},
+    {key: 'completed', label: 'مكتمل'}
+  ];
+  let foundActive = false;
+  return steps.map((s, idx) => {
+    let cls = 'flow-step ';
+    if(stage === s.key || (stage === 'tax_pending' && s.key === 'completed')) cls += 'active';
+    else if(!foundActive) cls += 'done';
+    if(stage === s.key) foundActive = true;
+    return `
+      <div class="${cls}">
+        <div class="flow-dot">${idx+1}</div>
+        <div class="flow-label">${s.label}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function viewPurchaseDetails(id) {
+  const o = db.purchaseOrders.find(x => x.id === id);
+  if(!o) return;
+  const modalHTML = `
+    <div id="customModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;padding:15px;">
+      <div style="background:var(--paper);width:100%;max-width:650px;border-radius:18px;padding:22px;max-height:90vh;overflow:auto;">
+        <div class="card-title">
+          <div>
+            <h2>أمر شراء ${o.id}</h2>
+            <p>المورد: ${o.supplierName}</p>
+          </div>
+          <button onclick="closeModal()" class="btn-secondary" style="padding:5px 10px">✕</button>
+        </div>
+        <div style="margin-bottom:15px">${renderPurchaseStagePill(o.stage)}</div>
+        <div class="table-wrap">
+          <table class="report-table">
+            <thead><tr><th>الصنف</th><th>الكمية</th><th>السعر</th><th>الإجمالي</th></tr></thead>
+            <tbody>
+              ${o.items.map(i => `<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.price} ج.م</td><td>${i.qty * i.price} ج.م</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="total-box"><span>إجمالي أمر الشراء:</span><b>${o.total.toLocaleString()} ج.م</b></div>
+        
+        ${currentUser.role === 'warehouse' && o.stage === 'warehouse_receive' ? `
+          <div style="margin-top:20px">
+            <button class="btn-primary" onclick="receivePurchaseIntoWarehouse('${o.id}')">استلام البضاعة وإدخالها للمخزن</button>
+          </div>
+        ` : ''}
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function viewExternalDetails(id) {
+  const o = db.externalOrders.find(x => x.id === id);
+  if(!o) return;
+  const modalHTML = `
+    <div id="customModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;padding:15px;">
+      <div style="background:var(--paper);width:100%;max-width:650px;border-radius:18px;padding:22px;max-height:90vh;overflow:auto;">
+        <div class="card-title">
+          <div>
+            <h2>أمر شراء وبيع خارجي ${o.id}</h2>
+            <p>المورد: ${o.supplierName} ➔ العميل: ${o.clientName}</p>
+          </div>
+          <button onclick="closeModal()" class="btn-secondary" style="padding:5px 10px">✕</button>
+        </div>
+        <div style="margin-bottom:15px">${renderExternalStagePill(o.stage)}</div>
+        <div class="table-wrap">
+          <table class="report-table">
+            <thead><tr><th>الصنف</th><th>الكمية</th><th>تكلفة الشراء</th><th>سعر البيع</th><th>الربح</th></tr></thead>
+            <tbody>
+              ${o.items.map(i => `<tr><td>${i.name}</td><td>${i.qty}</td><td>${i.cost} ج.م</td><td>${i.sale} ج.م</td><td>${(i.sale - i.cost) * i.qty} ج.م</td></tr>`).join('')}
+            </tbody>
+          </table>
+        </div>
+        <div class="settle-summary">
+          <div class="settle-row"><span>تكلفة الشراء الكلية:</span><b>${o.totalCost.toLocaleString()} ج.م</b></div>
+          <div class="settle-row"><span>قيمة البيع الكلية:</span><b>${o.totalSale.toLocaleString()} ج.م</b></div>
+          <div class="settle-row total"><span>صافي الربح:</span><b style="color:var(--pine)">${(o.totalSale - o.totalCost).toLocaleString()} ج.م</b></div>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+/* =========================================================
+   6. TRANSPORT, PAYMENTS & ACCOUNT STATEMENT (بدون كود السائق)
+========================================================= */
+function renderTransportAndAccounts() {
+  const transportOrders = db.salesOrders.filter(o => o.transport);
+  
+  // Group transport costs by driver/responsible name
+  let driversMap = {};
+  transportOrders.forEach(o => {
+    const dName = o.transport.driverName || 'غير محدد';
+    if(!driversMap[dName]) driversMap[dName] = {tripsCount: 0, totalCost: 0, totalPaid: 0, trips: []};
+    driversMap[dName].tripsCount++;
+    driversMap[dName].totalCost += (o.transport.cost || 0);
+    driversMap[dName].totalPaid += (o.transport.paid || 0);
+    driversMap[dName].trips.push(o);
+  });
+
+  return `
+    <div class="card">
+      <div class="card-title">
+        <div>
+          <h2>إدارة النقل وسداد الدفعات وكشف الحساب</h2>
+          <p>متابعة رحلات السائقين، سداد الحسابات، والمتبقي (تم إزالة كود السائق)</p>
+        </div>
+      </div>
+
+      <div class="row2" style="margin-bottom:20px">
+        <div class="card" style="margin:0;background:var(--resin)">
+          <h3>سداد نفقات النقل (بواسطة قسم الحسابات)</h3>
+          <form onsubmit="handleAccountPayTransport(event)" style="margin-top:10px">
+            <label>اختر السائق / جهة النقل</label>
+            <select id="payDriverName" required>
+              ${Object.keys(driversMap).map(d => `<option value="${d}">${d} (المتبقي: ${(driversMap[d].totalCost - driversMap[d].totalPaid).toLocaleString()} ج.م)</option>`).join('')}
+            </select>
+            <label>المبلغ المراد سداده (ج.م)</label>
+            <input type="number" id="payAmount" required min="1" placeholder="مثال: 500">
+            <label>ملاحظات السداد</label>
+            <input type="text" id="payNotes" placeholder="دفعة نقدية / تحويل">
+            <button type="submit" class="btn-primary">تأكيد سداد المبلغ من الحسابات</button>
+          </form>
+        </div>
+
+        <div class="card" style="margin:0;background:var(--resin)">
+          <h3>عرض كشف حساب السائق / النقل</h3>
+          <form onsubmit="showDriverStatement(event)" style="margin-top:10px">
+            <label>اختر السائق</label>
+            <select id="stmtDriver" required>
+              ${Object.keys(driversMap).map(d => `<option value="${d}">${d}</option>`).join('')}
+            </select>
+            <button type="button" class="btn-primary" onclick="generateStatementModal()">عرض وطباعة كشف الحساب الاحترافي</button>
+          </form>
+        </div>
+      </div>
+
+      <h3>ملخص حسابات النقل والسائقين</h3>
+      <div class="table-wrap">
+        <table class="report-table">
+          <thead>
+            <tr>
+              <th>اسم السائق</th>
+              <th>عدد الرحلات</th>
+              <th>إجمالي المستحقات</th>
+              <th>المدفوع</th>
+              <th>المتبقي (أو صفر)</th>
+              <th>الحالة المالية</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${Object.keys(driversMap).length === 0 ? '<tr><td colspan="6">لا توجد بيانات نقل مسجلة</td></tr>' : Object.keys(driversMap).map(d => {
+              const info = driversMap[d];
+              const rem = info.totalCost - info.totalPaid;
+              return `
+                <tr>
+                  <td><b>${d}</b></td>
+                  <td>${info.tripsCount}</td>
+                  <td>${info.totalCost.toLocaleString()} ج.م</td>
+                  <td style="color:var(--pine)">${info.totalPaid.toLocaleString()} ج.م</td>
+                  <td style="color:${rem > 0 ? 'var(--clay)' : 'var(--pine)'}"><b>${rem.toLocaleString()} ج.م</b></td>
+                  <td><span class="pill ${rem === 0 ? 'stage-completed' : 'stage-accounts_approval'}">${rem === 0 ? 'متصفر / مسدد بالكامل' : 'يوجد متبقي'}</span></td>
+                </tr>
+              `;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function handleLogisticsSubmit(e, orderId) {
+  e.preventDefault();
+  const driverName = document.getElementById('logDriver').value;
+  const carNumber = document.getElementById('logCar').value;
+  const destination = document.getElementById('logDest').value;
+  const cost = parseFloat(document.getElementById('logCost').value) || 0;
+
+  const o = db.salesOrders.find(x => x.id === orderId);
+  if(o) {
+    o.transport = {
+      driverName,
+      carNumber,
+      destination,
+      cost,
+      paid: 0 // يبدأ الرصيد غير مدفوع حتى يسدده قسم الحسابات
+    };
+    o.stage = 'accounts_approval';
+    o.history.push({stage: 'تسجيل بيانات النقل وتحديد التكلفة', by: currentUser.name, date: new Date().toISOString().split('T')[0]});
+    saveDB();
+    closeModal();
+    renderApp();
+    showToast('تم حفظ بيانات النقل وإرسالها لقسم الحسابات للسداد');
+  }
+}
+
+function openLogisticsModal(orderId) {
+  const modalHTML = `
+    <div id="customModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;padding:15px;">
+      <div style="background:var(--paper);width:100%;max-width:550px;border-radius:18px;padding:22px;">
+        <div class="card-title">
+          <h2>تحديد بيانات النقل والشحن</h2>
+          <button onclick="closeModal()" class="btn-secondary" style="padding:5px 10px">✕</button>
+        </div>
+        <form onsubmit="handleLogisticsSubmit(event, '${orderId}')">
+          <label>اسم السائق</label>
+          <input type="text" id="logDriver" required placeholder="اسم السائق الثلاثي">
+          <label>رقم السيارة</label>
+          <input type="text" id="logCar" required placeholder="مثال: أ ب ج 1234">
+          <label>الوجهة / عنوان التسليم</label>
+          <input type="text" id="logDest" required placeholder="المحافظة والمدينة">
+          <label>تكلفة النقل المتفق عليها (ج.م)</label>
+          <input type="number" id="logCost" required min="0" value="1500">
+          <button type="submit" class="btn-primary" style="margin-top:15px">حفظ وتحويل للحسابات</button>
+        </form>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+function handleAccountPayTransport(e) {
+  e.preventDefault();
+  const driverName = document.getElementById('payDriverName').value;
+  const amount = parseFloat(document.getElementById('payAmount').value) || 0;
+  const notes = document.getElementById('payNotes').value;
+
+  // Find orders for this driver that have remaining transport cost
+  let remainingToPay = amount;
+  db.salesOrders.forEach(o => {
+    if(o.transport && o.transport.driverName === driverName && remainingToPay > 0) {
+      let orderRem = (o.transport.cost || 0) - (o.transport.paid || 0);
+      if(orderRem > 0) {
+        let payNow = Math.min(orderRem, remainingToPay);
+        o.transport.paid += payNow;
+        remainingToPay -= payNow;
+      }
+    }
+  });
+
+  db.transportPayments.push({
+    id: 'TR-' + (500 + db.transportPayments.length + 1),
+    driverName,
+    tripId: 'متعدد / تسوية',
+    totalCost: amount,
+    paidAmount: amount,
+    remaining: 0,
+    date: new Date().toISOString().split('T')[0],
+    notes: notes || 'سداد من قسم الحسابات'
+  });
+
+  saveDB();
+  renderApp();
+  showToast('تم تسجيل سداد مبلغ ' + amount.toLocaleString() + ' ج.م بنجاح وتحديث حساب السائق');
+}
+
+function generateStatementModal() {
+  const driverName = document.getElementById('stmtDriver').value;
+  const driverOrders = db.salesOrders.filter(o => o.transport && o.transport.driverName === driverName);
+  
+  let totalDues = 0;
+  let totalPaid = 0;
+  driverOrders.forEach(o => {
+    totalDues += o.transport.cost;
+    totalPaid += o.transport.paid;
+  });
+  let rem = totalDues - totalPaid;
+
+  const modalHTML = `
+    <div id="customModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;z-index:9999;padding:15px;">
+      <div style="background:var(--paper);width:100%;max-width:700px;border-radius:18px;padding:25px;max-height:90vh;overflow:auto;">
+        <div class="print-header">
+          <div class="ph-brand">
+            <img src="${LOGO_SRC}" alt="Logo">
+            <div>
+              <h1>RASRAS PLASTIC - كشف حساب نقل وسائقين</h1>
+              <p>تقرير معتمد ومفصل لحساب السائق: ${driverName}</p>
+            </div>
+          </div>
+          <div class="ph-meta">
+            التاريخ: ${new Date().toISOString().split('T')[0]}
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="report-table print-table">
+            <thead>
+              <tr><th>رقم الطلب</th><th>الوجهة</th><th>إجمالي التكلفة</th><th>المدفوع</th><th>المتبقي</th></tr>
+            </thead>
+            <tbody>
+              ${driverOrders.map(o => `
+                <tr>
+                  <td>${o.id}</td>
+                  <td>${o.transport.destination}</td>
+                  <td>${o.transport.cost} ج.م</td>
+                  <td>${o.transport.paid} ج.م</td>
+                  <td><b>${o.transport.cost - o.transport.paid} ج.م</b></td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="settle-summary">
+          <div class="settle-row"><span>إجمالي مستحقات النقل:</span><b>${totalDues.toLocaleString()} ج.م</b></div>
+          <div class="settle-row"><span>إجمالي المدفوع (الحسابات):</span><b style="color:var(--pine)">${totalPaid.toLocaleString()} ج.م</b></div>
+          <div class="settle-row total"><span>الرصيد المتبقي (أو متصفر):</span><b style="color:${rem > 0 ? 'var(--clay)' : 'var(--pine)'}">${rem.toLocaleString()} ج.م</b></div>
+        </div>
+
+        <div style="margin-top:25px;display:flex;gap:10px;">
+          <button class="btn-primary" onclick="window.print()">🖨️ طباعة كشف الحساب</button>
+          <button class="btn-secondary" onclick="closeModal()">إغلاق</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.insertAdjacentHTML('beforeend', modalHTML);
+}
+
+/* =========================================================
+   7. ACCOUNTS & WAREHOUSE PANELS
+========================================================= */
+function renderAccountsPanel() {
+  const pendingAcc = db.salesOrders.filter(o => o.stage === 'accounts_approval');
+  return `
+    <div class="card">
+      <div class="card-title">
+        <div>
+          <h2>لوحة الحسابات والدفعات المالية</h2>
+          <p>مراجعة وسداد نفقات النقل واعتماد الدفعة المالية لتحويل الطلب للمخزن</p>
+        </div>
+      </div>
+
+      ${pendingAcc.length === 0 ? '<div class="empty"><b>لا توجد طلبات بانتظار اعتماد الحسابات</b></div>' : pendingAcc.map(o => `
+        <div class="order-item">
+          <div class="order-top">
+            <div>
+              <span class="order-id">${o.id}</span>
+              <div class="order-name">العميل: ${o.clientName}</div>
+            </div>
+            <div>
+              <button class="btn-primary" style="padding:6px 12px;font-size:11px;margin:0" onclick="approveAccountsPayment('${o.id}')">سداد النقل واعتماد الطلب</button>
+            </div>
+          </div>
+          <div class="order-meta">
+            تكلفة النقل المطلوبة: <b>${o.transport ? o.transport.cost : 0} ج.م</b> (السائق: ${o.transport ? o.transport.driverName : '-'})
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function approveAccountsPayment(id) {
+  const o = db.salesOrders.find(x => x.id === id);
+  if(o) {
+    if(o.transport) {
+      o.transport.paid = o.transport.cost; // تم سداد المبلغ كاملاً من الحسابات أو تصفير الحساب
+    }
+    o.stage = 'warehouse_release';
+    o.history.push({stage: 'سداد نفقات النقل والاعتماد المالي', by: currentUser.name, date: new Date().toISOString().split('T')[0]});
+    saveDB();
+    renderApp();
+    showToast('تم سداد نفقات النقل وتصفير الحساب وتحويل الطلب للمخزن للصرف');
+  }
+}
+
+function renderWarehousePanel() {
+  const pendingSalesWH = db.salesOrders.filter(o => o.stage === 'warehouse_release');
+  const pendingPurchasesWH = db.purchaseOrders.filter(o => o.stage === 'warehouse_receive');
+
+  return `
+    <div class="card">
+      <div class="card-title">
+        <div>
+          <h2>إدارة المخازن (أذونات الصرف والاستلام)</h2>
+          <p>صرف البضائع للعملاء واستلام المواد الخام من الموردين</p>
+        </div>
+      </div>
+
+      <h3>أذونات الصرف للعملاء (أوامر البيع)</h3>
+      ${pendingSalesWH.length === 0 ? '<div class="empty"><b>لا توجد أذونات صرف معلقة</b></div>' : pendingSalesWH.map(o => `
+        <div class="order-item">
+          <div class="order-top">
+            <div>
+              <span class="order-id">${o.id}</span>
+              <div class="order-name">العميل: ${o.clientName}</div>
+            </div>
+            <div>
+              <button class="btn-primary" style="padding:6px 12px;font-size:11px;margin:0" onclick="warehouseReleaseOrder('${o.id}')">إصدار إذن الصرف وشحن البضاعة</button>
+            </div>
+          </div>
+          <div class="order-meta">الإجمالي: ${o.total.toLocaleString()} ج.م</div>
+        </div>
+      `).join('')}
+
+      <h3 style="margin-top:20px">أذونات الاستلام للموردين (أوامر الشراء)</h3>
+      ${pendingPurchasesWH.length === 0 ? '<div class="empty"><b>لا توجد أذونات استلام معلقة</b></div>' : pendingPurchasesWH.map(o => `
+        <div class="order-item">
+          <div class="order-top">
+            <div>
+              <span class="order-id">${o.id}</span>
+              <div class="order-name">المورد: ${o.supplierName}</div>
+            </div>
+            <div>
+              <button class="btn-primary" style="padding:6px 12px;font-size:11px;margin:0" onclick="receivePurchaseIntoWarehouse('${o.id}')">استلام بضاعة أمر الشراء بالمخزن</button>
+            </div>
+          </div>
+          <div class="order-meta">التكلفة: ${o.total.toLocaleString()} ج.م</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function warehouseReleaseOrder(id) {
+  const o = db.salesOrders.find(x => x.id === id);
+  if(o) {
+    o.stage = 'with_driver';
+    o.history.push({stage: 'صرف من المخزن وتسليم للسائق', by: currentUser.name, date: new Date().toISOString().split('T')[0]});
+    saveDB();
+    renderApp();
+    showToast('تم إصدار إذن الصرف المخزني وتسليم البضاعة للسائق');
+  }
+}
+
+function receivePurchaseIntoWarehouse(id) {
+  const o = db.purchaseOrders.find(x => x.id === id);
+  if(o) {
+    o.stage = 'completed';
+    o.warehouseReceived = true;
+    o.history.push({stage: 'الاستلام المخزني وإنهاء أمر الشراء', by: currentUser.name, date: new Date().toISOString().split('T')[0]});
+    saveDB();
+    renderApp();
+    showToast('تم استلام بضاعة أمر الشراء في المخزن بنجاح');
+  }
+}
+
+function markDelivered(id) {
+  const o = db.salesOrders.find(x => x.id === id);
+  if(o) {
+    o.stage = 'tax_pending';
+    o.history.push({stage: 'تم التسليم للعميل', by: currentUser.name, date: new Date().toISOString().split('T')[0]});
+    saveDB();
+    renderApp();
+    showToast('تم تأكيد التسليم، بانتظار الفاتورة الضريبية');
+  }
+}
+
+function renderTaxInvoices() {
+  const pendingTax = db.salesOrders.filter(o => o.stage === 'tax_pending');
+  return `
+    <div class="card">
+      <div class="card-title">
+        <div>
+          <h2>إدارة الفواتير الضريبية</h2>
+          <p>إصدار الفواتير الضريبية المعتمدة لطلبات العملاء المنتهية</p>
+        </div>
+      </div>
+
+      ${pendingTax.length === 0 ? '<div class="empty"><b>لا توجد طلبات بانتظار إصدار فاتورة ضريبية</b></div>' : pendingTax.map(o => `
+        <div class="order-item">
+          <div class="order-top">
+            <div>
+              <span class="order-id">${o.id}</span>
+              <div class="order-name">العميل: ${o.clientName} (الرقم الضريبي: ${o.clientTaxId || 'غير مسجل'})</div>
+            </div>
+            <div>
+              <button class="btn-primary" style="padding:6px 12px;font-size:11px;margin:0" onclick="issueTaxInvoice('${o.id}')">إصدار الفاتورة الضريبية وإنهاء الطلب</button>
+            </div>
+          </div>
+          <div class="order-meta">إجمالي الفاتورة: <b>${o.total.toLocaleString()} ج.م</b></div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function issueTaxInvoice(id) {
+  const o = db.salesOrders.find(x => x.id === id);
+  if(o) {
+    o.stage = 'completed';
+    o.taxInvoiceIssued = true;
+    o.history.push({stage: 'إصدار الفاتورة الضريبية واكتمال الطلب', by: currentUser.name, date: new Date().toISOString().split('T')[0]});
+    saveDB();
+    renderApp();
+    showToast('تم إصدار الفاتورة الضريبية وإغلاق الطلب بنجاح');
+  }
+}
+
+/* =========================================================
+   8. PROFESSIONAL REPORTS (التقارير الاحترافية للنقل والبيع والشراء والفواتير الضريبية)
+========================================================= */
+function renderProfessionalReports() {
+  const totalSales = db.salesOrders.reduce((a,b) => a + b.total, 0);
+  const totalPurchases = db.purchaseOrders.reduce((a,b) => a + b.total, 0);
+  const totalTransport = db.salesOrders.filter(o => o.transport).reduce((a,b) => a + (b.transport.cost || 0), 0);
+
+  return `
+    <div class="card">
+      <div class="card-title">
+        <div>
+          <h2>التقارير الاحترافية الشاملة</h2>
+          <p>تقارير تفصيلية واحترافية للمبيعات، المشتريات، النقل، والفواتير الضريبية</p>
+        </div>
+        <button class="btn-primary" style="width:auto;margin:0" onclick="window.print()">🖨️ طباعة التقارير الرسمية</button>
+      </div>
+
+      <div class="stat-grid" style="margin-bottom:20px">
+        <div class="stat"><b>${totalSales.toLocaleString()} ج.م</b><span>إجمالي المبيعات</span></div>
+        <div class="stat c-amber"><b>${totalPurchases.toLocaleString()} ج.م</b><span>إجمالي المشتريات</span></div>
+        <div class="stat c-steel"><b>${totalTransport.toLocaleString()} ج.م</b><span>إجمالي تكاليف النقل</span></div>
+        <div class="stat c-clay"><b>${db.salesOrders.filter(o=>o.taxInvoiceIssued).length}</b><span>فاتورة ضريبية مُصدرة</span></div>
+      </div>
+
+      <h3 style="margin-top:20px">1. تقرير المبيعات التفصيلي</h3>
+      <div class="table-wrap">
+        <table class="report-table">
+          <thead>
+            <tr><th>رقم الطلب</th><th>العميل</th><th>التاريخ</th><th>عدد الأصناف</th><th>الإجمالي</th><th>الحالة</th></tr>
+          </thead>
+          <tbody>
+            ${db.salesOrders.map(o => `
+              <tr>
+                <td><b>${o.id}</b></td>
+                <td>${o.clientName}</td>
+                <td>${o.history[0].date}</td>
+                <td>${o.items.length}</td>
+                <td><b>${o.total.toLocaleString()} ج.م</b></td>
+                <td>${renderStagePill(o.stage)}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top:25px">2. تقرير المشتريات والموردين</h3>
+      <div class="table-wrap">
+        <table class="report-table">
+          <thead>
+            <tr><th>رقم أمر الشراء</th><th>المورد</th><th>عدد الأصناف</th><th>الإجمالي</th><th>الحالة المخزنية</th></tr>
+          </thead>
+          <tbody>
+            ${db.purchaseOrders.length === 0 ? '<tr><td colspan="5">لا توجد أوامر شراء</td></tr>' : db.purchaseOrders.map(o => `
+              <tr>
+                <td><b>${o.id}</b></td>
+                <td>${o.supplierName}</td>
+                <td>${o.items.length}</td>
+                <td><b>${o.total.toLocaleString()} ج.م</b></td>
+                <td><span class="pill ${o.warehouseReceived ? 'stage-completed' : 'stage-warehouse_release'}">${o.warehouseReceived ? 'تم الاستلام بالمخزن' : 'معلق بالمخزن'}</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top:25px">3. تقرير النقل والشحن والمدفوعات</h3>
+      <div class="table-wrap">
+        <table class="report-table">
+          <thead>
+            <tr><th>الطلب المرتبط</th><th>السائق / المسئول</th><th>الوجهة</th><th>التكلفة</th><th>المدفوع من الحسابات</th><th>المتبقي</th></tr>
+          </thead>
+          <tbody>
+            ${db.salesOrders.filter(o => o.transport).length === 0 ? '<tr><td colspan="6">لا توجد رحلات نقل مسجلة</td></tr>' : db.salesOrders.filter(o => o.transport).map(o => `
+              <tr>
+                <td>${o.id}</td>
+                <td><b>${o.transport.driverName}</b></td>
+                <td>${o.transport.destination}</td>
+                <td>${o.transport.cost} ج.م</td>
+                <td style="color:var(--pine)">${o.transport.paid} ج.م</td>
+                <td style="color:${(o.transport.cost - o.transport.paid) > 0 ? 'var(--clay)' : 'var(--pine)'}"><b>${o.transport.cost - o.transport.paid} ج.م</b></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <h3 style="margin-top:25px">4. سجل الفواتير الضريبية المعتمدة</h3>
+      <div class="table-wrap">
+        <table class="report-table">
+          <thead>
+            <tr><th>رقم الطلب</th><th>العميل</th><th>الرقم الضريبي للعميل</th><th>قيمة الفاتورة</th><th>حالة الفاتورة</th></tr>
+          </thead>
+          <tbody>
+            ${db.salesOrders.filter(o => o.taxInvoiceIssued).length === 0 ? '<tr><td colspan="5">لا توجد فواتير ضريبية مُصدرة بعد</td></tr>' : db.salesOrders.filter(o => o.taxInvoiceIssued).map(o => `
+              <tr>
+                <td><b>${o.id}</b></td>
+                <td>${o.clientName}</td>
+                <td>${o.clientTaxId || 'غير مسجل'}</td>
+                <td><b>${o.total.toLocaleString()} ج.م</b></td>
+                <td><span class="pill stage-completed">معتمدة وضريبية</span></td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `;
+}
+
+function printOrderInvoice(id) {
+  const o = db.salesOrders.find(x => x.id === id);
+  if(!o) return;
+
+  const printArea = document.getElementById('printArea');
+  printArea.innerHTML = `
+    <div class="print-header">
+      <div class="ph-brand">
+        <img src="${LOGO_SRC}" alt="Logo">
+        <div>
+          <h1>RASRAS PLASTIC - فاتورة / مستند رسمي</h1>
+          <p>رقم المستند: ${o.id} | التاريخ: ${o.history[0].date}</p>
+        </div>
+      </div>
+      <div class="ph-meta">
+        <div>العميل: <b>${o.clientName}</b></div>
+        <div>هاتف: ${o.clientPhone}</div>
+        <div>الرقم الضريبي: ${o.clientTaxId || 'غير مسجل'}</div>
+      </div>
+    </div>
+
+    <div class="print-docnum">حالة الطلب: ${o.stage}</div>
+
+    <table class="print-table">
+      <thead>
+        <tr><th>#</th><th>اسم الصنف</th><th>الكمية</th><th>السعر الفردي</th><th>الإجمالي</th></tr>
+      </thead>
+      <tbody>
+        ${o.items.map((i, idx) => `
+          <tr>
+            <td>${idx+1}</td>
+            <td>${i.name}</td>
+            <td>${i.qty}</td>
+            <td>${i.price} ج.م</td>
+            <td>${i.qty * i.price} ج.م</td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+
+    ${o.transport ? `
+      <div style="margin-top:15px;font-size:11.5px">
+        <b>بيانات النقل والشحن:</b> السائق: ${o.transport.driverName} | السيارة: ${o.transport.carNumber} | الوجهة: ${o.transport.destination} | تكلفة النقل: ${o.transport.cost} ج.م (المدفوع: ${o.transport.paid} ج.م)
+      </div>
+    ` : ''}
+
+    <div class="print-balance">
+      <span>إجمالي الفاتورة النهائية:</span>
+      <span>${o.total.toLocaleString()} ج.م</span>
+    </div>
+
+    <div class="print-signatures">
+      <div>توقيع المسؤول</div>
+      <div>ختم الشركة / المبيعات</div>
+      <div>استلام العميل</div>
+    </div>
+
+    <div class="print-footer">
+      جميع الحقوق محفوظة © 2026 RASRAS PLASTIC - نظام ERP المتطور
+    </div>
+  `;
+  window.print();
+}
+
+// Initial render call
+renderApp();
+
+</script>
+</body>
+</html>
