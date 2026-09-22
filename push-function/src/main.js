@@ -63,7 +63,7 @@ module.exports = async ({ req, res, log, error }) => {
 
     }catch(e){
 
-      log("مفيش حالة محفوظة قبل كده - أول تشغيل للفانكشن دي. تفاصيل الخطأ: " + e.message + " | code: " + (e.code||"—") + " | type: " + (e.type||"—"));
+      log("مفيش حالة محفوظة قبل كده - أول تشغيل للفانكشن دي. تفاصيل الخطأ: " + e.message + " | code: " + (e.code||"—") + " | type: " + (e.type||"—") + " | cause: " + (e.cause?JSON.stringify(e.cause,Object.getOwnPropertyNames(e.cause)):"—"));
 
     }
 
@@ -164,7 +164,7 @@ module.exports = async ({ req, res, log, error }) => {
 
   }catch(e){
 
-    error("خطأ في الفانكشن: " + e.message);
+    error("خطأ في الفانكشن: " + e.message + " | stack: " + (e.stack||"—") + " | cause: " + (e.cause?JSON.stringify(e.cause,Object.getOwnPropertyNames(e.cause)):"—"));
 
     return res.json({ ok:false, error:e.message }, 500);
 
