@@ -4,14 +4,17 @@
   الفانكشن دي بتشتغل تلقائيًا كل مرة بيانات النظام تتحدّث على
   Appwrite، وبتبعت إشعار فوري (Firebase Cloud Messaging) لكل
   الأجهزة المسجّلة، لو لقت إشعارات جديدة ماتبعتش لسه.
+
+  ملحوظة: مش بنستخدم مكتبة node-appwrite هنا - بنكلم الـ REST API
+  بتاع Appwrite مباشرة بـ fetch العادي، عشان تفادي باغ داخلي في
+  مكتبة الاتصال بتاعتها (node-fetch-native-with-agent).
 */
 
-const { Client, Databases } = require("node-appwrite");
 const admin = require("firebase-admin");
 
 let firebaseReady = false;
 
-function ensureFirebase(log){
+function ensureFirebase(){
 
   if(firebaseReady) return;
 
@@ -31,18 +34,84 @@ function ensureFirebase(log){
 
 }
 
+function appwriteHeaders(){
+
+  return {
+    "Content-Type": "application/json",
+    "X-Appwrite-Project": process.env.APPWRITE_FUNCTION_PROJECT_ID || process.env.APPWRITE_PROJECT_ID,
+    "X-Appwrite-Key": process.env.APPWRITE_API_KEY
+  };
+
+}
+
+function appwriteBase(){
+
+  const ep = process.env.APPWRITE_FUNCTION_API_ENDPOINT || process.env.APPWRITE_ENDPOINT;
+
+  return ep.replace(/\/+$/, "");
+
+}
+
+async function getDoc(databaseId, collectionId, docId){
+
+  const url = `${appwriteBase()}/databases/${databaseId}/collections/${collectionId}/documents/${docId}`;
+
+  const res = await fetch(url, { headers: appwriteHeaders() });
+
+  if(!res.ok){
+
+    const body = await res.text();
+
+    const err = new Error(`Appwrite GET فشل (${res.status}): ${body}`);
+
+    err.status = res.status;
+
+    throw err;
+
+  }
+
+  return res.json();
+
+}
+
+async function upsertDoc(databaseId, collectionId, docId, data){
+
+  const updateUrl = `${appwriteBase()}/databases/${databaseId}/collections/${collectionId}/documents/${docId}`;
+
+  const patchRes = await fetch(updateUrl, {
+    method: "PATCH",
+    headers: appwriteHeaders(),
+    body: JSON.stringify({ data })
+  });
+
+  if(patchRes.ok) return patchRes.json();
+
+  // مش موجود أصلاً - نعمله
+  const createUrl = `${appwriteBase()}/databases/${databaseId}/collections/${collectionId}/documents`;
+
+  const createRes = await fetch(createUrl, {
+    method: "POST",
+    headers: appwriteHeaders(),
+    body: JSON.stringify({ documentId: docId, data })
+  });
+
+  if(!createRes.ok){
+
+    const body = await createRes.text();
+
+    throw new Error(`Appwrite CREATE فشل: ${body}`);
+
+  }
+
+  return createRes.json();
+
+}
+
 module.exports = async ({ req, res, log, error }) => {
 
   try{
 
-    ensureFirebase(log);
-
-    const client = new Client()
-      .setEndpoint(process.env.APPWRITE_FUNCTION_API_ENDPOINT || process.env.APPWRITE_ENDPOINT)
-      .setProject(process.env.APPWRITE_FUNCTION_PROJECT_ID || process.env.APPWRITE_PROJECT_ID)
-      .setKey(process.env.APPWRITE_API_KEY);
-
-    const databases = new Databases(client);
+    ensureFirebase();
 
     const DATABASE_ID = process.env.RASRAS_DATABASE_ID;
     const STATE_COLLECTION_ID = process.env.FCM_STATE_COLLECTION_ID || "6ab268620008f8da80e7";
@@ -55,22 +124,20 @@ module.exports = async ({ req, res, log, error }) => {
 
     try{
 
-      const stateDoc = await databases.getDocument(
-        DATABASE_ID, STATE_COLLECTION_ID, STATE_DOC_ID
-      );
+      const stateDoc = await getDoc(DATABASE_ID, STATE_COLLECTION_ID, STATE_DOC_ID);
 
       lastNotifiedId = stateDoc.lastNotifiedId || null;
 
+      log("آخر إشعار اتبعت قبل كده: " + (lastNotifiedId || "مفيش"));
+
     }catch(e){
 
-      log("مفيش حالة محفوظة قبل كده - أول تشغيل للفانكشن دي. تفاصيل الخطأ: " + e.message + " | code: " + (e.code||"—") + " | type: " + (e.type||"—") + " | cause: " + (e.cause?JSON.stringify(e.cause,Object.getOwnPropertyNames(e.cause)):"—"));
+      log("مفيش حالة محفوظة قبل كده - أول تشغيل للفانكشن دي. (" + e.message + ")");
 
     }
 
     // 2) اقرأ بيانات النظام الحالية
-    const appDoc = await databases.getDocument(
-      DATABASE_ID, APP_COLLECTION_ID, APP_DOC_ID
-    );
+    const appDoc = await getDoc(DATABASE_ID, APP_COLLECTION_ID, APP_DOC_ID);
 
     const data = JSON.parse(appDoc.payload || "{}");
 
@@ -79,6 +146,8 @@ module.exports = async ({ req, res, log, error }) => {
     const tokens = (data.fcmTokens || [])
       .map(t => t.token)
       .filter(Boolean);
+
+    log(`لقيت ${notifications.length} إشعار و${tokens.length} جهاز مسجّل`);
 
     if(!notifications.length || !tokens.length){
 
@@ -142,21 +211,9 @@ module.exports = async ({ req, res, log, error }) => {
     // 4) سجّل آخر إشعار اتبعت عشان مانكررش نفس الإشعار تاني
     if(notifications[0]){
 
-      try{
-
-        await databases.updateDocument(
-          DATABASE_ID, STATE_COLLECTION_ID, STATE_DOC_ID,
-          { lastNotifiedId: notifications[0].id }
-        );
-
-      }catch(updateErr){
-
-        await databases.createDocument(
-          DATABASE_ID, STATE_COLLECTION_ID, STATE_DOC_ID,
-          { lastNotifiedId: notifications[0].id }
-        );
-
-      }
+      await upsertDoc(DATABASE_ID, STATE_COLLECTION_ID, STATE_DOC_ID, {
+        lastNotifiedId: notifications[0].id
+      });
 
     }
 
@@ -164,7 +221,7 @@ module.exports = async ({ req, res, log, error }) => {
 
   }catch(e){
 
-    error("خطأ في الفانكشن: " + e.message + " | stack: " + (e.stack||"—") + " | cause: " + (e.cause?JSON.stringify(e.cause,Object.getOwnPropertyNames(e.cause)):"—"));
+    error("خطأ في الفانكشن: " + e.message + " | stack: " + (e.stack||"—"));
 
     return res.json({ ok:false, error:e.message }, 500);
 
