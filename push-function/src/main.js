@@ -45,7 +45,7 @@ module.exports = async ({ req, res, log, error }) => {
     const databases = new Databases(client);
 
     const DATABASE_ID = process.env.RASRAS_DATABASE_ID;
-    const STATE_COLLECTION_ID = "fcm_state";
+    const STATE_COLLECTION_ID = process.env.FCM_STATE_COLLECTION_ID || "6ab268620008f8da80e7";
     const STATE_DOC_ID = "main";
     const APP_COLLECTION_ID = "app_state";
     const APP_DOC_ID = "main";
