@@ -10,6 +10,7 @@
   "theme_color": "#1b2420",
   "dir": "rtl",
   "lang": "ar",
+  "gcm_sender_id": "103068105680",
   "icons": [
     {
       "src": "icon-192.png",
