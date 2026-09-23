@@ -38,8 +38,8 @@ messaging.onBackgroundMessage((payload) => {
 
   const options = {
     body: body,
-    icon: "./icon-192.png",
-    badge: "./icon-192.png",
+    icon: "./icon-notification.png",
+    badge: "./icon-notification.png",
     dir: "rtl",
     lang: "ar",
     data: payload.data || {}
